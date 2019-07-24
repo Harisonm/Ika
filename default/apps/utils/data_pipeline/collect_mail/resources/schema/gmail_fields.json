@@ -1,0 +1,206 @@
+[
+  {
+    "type": "STRING",
+    "name": "idMail",
+    "mode": "NULLABLE",
+    "description": ""
+  },
+  {
+    "type": "STRING",
+    "name": "threadId",
+    "mode": "NULLABLE",
+    "description": ""
+  },
+  {
+    "type": "STRING",
+    "name": "historyId",
+    "mode": "NULLABLE",
+    "description": ""
+  },
+  {
+    "type": "STRING",
+    "name": "labelIds",
+    "mode": "NULLABLE",
+    "description": ""
+  },
+  {
+    "type": "STRING",
+    "name": "snippet",
+    "mode": "NULLABLE",
+    "description": ""
+  },
+  {
+    "type": "STRING",
+    "name": "payloadPartId",
+    "mode": "NULLABLE",
+    "description": ""
+  },
+  {
+    "type": "STRING",
+    "name": "payloadMimeType",
+    "mode": "NULLABLE",
+    "description": ""
+  },
+  {
+    "type": "STRING",
+    "name": "deliveredTo",
+    "mode": "NULLABLE",
+    "description": ""
+  },
+  {
+    "type": "STRING",
+    "name": "received",
+    "mode": "NULLABLE",
+    "description": ""
+  },
+  {
+    "type": "STRING",
+    "name": "xGoogleSmtpSource",
+    "mode": "NULLABLE",
+    "description": ""
+  },
+    {
+    "type": "STRING",
+    "name": "xReceived",
+    "mode": "NULLABLE",
+    "description": ""
+  },
+  {
+    "type": "STRING",
+    "name": "arcMessageSignature",
+    "mode": "NULLABLE",
+    "description": ""
+  },
+  {
+    "type": "STRING",
+    "name": "arcAuthenticationResults",
+    "mode": "NULLABLE",
+    "description": ""
+  },
+  {
+    "type": "STRING",
+    "name": "returnPath",
+    "mode": "NULLABLE",
+    "description": ""
+  },
+  {
+    "type": "STRING",
+    "name": "receivedSPF",
+    "mode": "NULLABLE",
+    "description": ""
+  },
+  {
+    "type": "STRING",
+    "name": "authenticationResults",
+    "mode": "NULLABLE",
+    "description": ""
+  },
+  {
+    "type": "STRING",
+    "name": "dKimsSignature",
+    "mode": "NULLABLE",
+    "description": ""
+  },
+  {
+    "type": "STRING",
+    "name": "headersMessageId",
+    "mode": "NULLABLE",
+    "description": ""
+  },
+  {
+    "type": "STRING",
+    "name": "mimeVersion",
+    "mode": "NULLABLE",
+    "description": ""
+  },
+  {
+    "type": "STRING",
+    "name": "from",
+    "mode": "NULLABLE",
+    "description": ""
+  },
+  {
+    "type": "STRING",
+    "name": "to",
+    "mode": "NULLABLE",
+    "description": ""
+  },
+  {
+    "type": "STRING",
+    "name": "subject",
+    "mode": "NULLABLE",
+    "description": ""
+  },
+  {
+    "type": "STRING",
+    "name": "date",
+    "mode": "NULLABLE",
+    "description": ""
+  },
+  {
+    "type": "STRING",
+    "name": "headersListId",
+    "mode": "NULLABLE",
+    "description": ""
+  },
+  {
+    "type": "STRING",
+    "name": "headersListUnsubscribe",
+    "mode": "NULLABLE",
+    "description": ""
+  },
+  {
+    "type": "STRING",
+    "name": "precedence",
+    "mode": "NULLABLE",
+    "description": ""
+  },
+  {
+    "type": "STRING",
+    "name": "xCsaComplaints",
+    "mode": "NULLABLE",
+    "description": ""
+  },
+  {
+    "type": "STRING",
+    "name": "xMjMid",
+    "mode": "NULLABLE",
+    "description": ""
+  },
+  {
+    "type": "STRING",
+    "name": "xMjMimeMessageStructure",
+    "mode": "NULLABLE",
+    "description": ""
+  },
+  {
+    "type": "STRING",
+    "name": "feedbackId",
+    "mode": "NULLABLE",
+    "description": ""
+  },
+  {
+    "type": "STRING",
+    "name": "contentType",
+    "mode": "NULLABLE",
+    "description": ""
+  },
+  {
+    "type": "STRING",
+    "name": "size",
+    "mode": "NULLABLE",
+    "description": ""
+  },
+  {
+    "type": "STRING",
+    "name": "body",
+    "mode": "NULLABLE",
+    "description": ""
+  },
+  {
+    "type": "STRING",
+    "name": "mimeType",
+    "mode": "NULLABLE",
+    "description": ""
+  }
+]
