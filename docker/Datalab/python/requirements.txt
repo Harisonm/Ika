@@ -107,7 +107,7 @@ tabulate==0.8.3
 talos==0.4.8
 tenacity==5.0.3
 tensorboard==1.13.1
-tensorflow==1.13.1
+tensorflow==1.15.2
 tensorflow-estimator==1.13.0
 termcolor==1.1.0
 tqdm==4.31.1
