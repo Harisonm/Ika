@@ -1,7 +1,5 @@
 # Importing required libraries
-from components.cloud_storage_manager.client.CloudStorageClient import CloudStorageClient
 from src.components.gmail_manager.factory.GmailDataFactory import GmailDataFactory
-from components.big_query_manager.client.BigQueryClient import BigQueryClient
 from src.app.collect_mail.manager.CollectManager import CollectManager
 from dotenv import load_dotenv
 import flask
@@ -42,10 +40,6 @@ def collect_mail():
     name_file_csv = name_file + '.csv'
 
     load_dotenv(dotenv_path=env_path)
-    project_id = os.getenv("PROJECT_ID")
-    dataset_id = os.getenv("DATASET_ID")
-    table_id = os.getenv("TABLE_ID") + name_user
-    bucket_id = os.getenv("BUCKET_ID")
 
     schema = {}
     with open(SCHEMA) as json_file:
@@ -67,15 +61,5 @@ def collect_mail():
         fc = csv.DictWriter(output_file, fieldnames=fieldnames)
         fc.writeheader()
         fc.writerows(reader)
-
-    # Send Csv into cloud storage
-    object_name = PATH_SAVE + name_file + '.csv'
-    gs_path = 'gs://' + bucket_id + '/' + object_name
-
-    # Test 1 : Insert data into GS
-    CloudStorageClient(SERVICE_ACCOUNT, bucket_id).buckets().insert(object_name)
-
-    # From cloud storage insert data into big query
-    BigQueryClient(SERVICE_ACCOUNT, project_id).job().load(dataset_id, table_id, gs_path, schema)
 
     return flask.redirect(flask.url_for('b_transform_gmail.transform_mail', name_file=name_file_csv, code=302))

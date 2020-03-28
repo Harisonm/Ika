@@ -1,7 +1,5 @@
 # Importing required libraries
-from components.cloud_storage_manager.client.CloudStorageClient import CloudStorageClient
 from src.components.gmail_manager.factory.GmailDataFactory import GmailDataFactory
-from components.big_query_manager.client.BigQueryClient import BigQueryClient
 from src.app.collect_mail.manager.CollectManager import CollectManager
 from dotenv import load_dotenv
 from pathlib import Path
@@ -32,10 +30,6 @@ def main():
     name_user = name_file_dict['emailAddress']
 
     load_dotenv(dotenv_path=env_path)
-    project_id = os.getenv("PROJECT_ID")
-    dataset_id = os.getenv("DATASET_ID")
-    table_id = os.getenv("TABLE_ID") + name_user
-    bucket_id = os.getenv("BUCKET_ID")
 
     schema = {}
     with open(SCHEMA) as json_file:
@@ -58,17 +52,6 @@ def main():
         fc = csv.DictWriter(output_file, fieldnames=fieldnames)
         fc.writeheader()
         fc.writerows(reader)
-
-    # Send Csv into cloud storage
-    object_name = PATH_SAVE + name_file
-    gs_path = 'gs://' + bucket_id + '/' + object_name + '.csv'
-
-    # Test 1 : Insert data into GS
-    CloudStorageClient(SERVICE_ACCOUNT, bucket_id).buckets().insert(object_name)
-
-    # From cloud storage insert data into big query
-    BigQueryClient(SERVICE_ACCOUNT, project_id).job().load(dataset_id, table_id, gs_path, schema)
-
 
 if __name__ == '__main__':
     main()
