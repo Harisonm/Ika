@@ -1,14 +1,8 @@
 from src.components.gmail_manager.factory.GmailDataFactory import GmailDataFactory
-# from google.cloud.exceptions import ServiceUnavailable
 from concurrent.futures import ThreadPoolExecutor as PoolExecutor
 from traceback import print_exc
 import concurrent.futures
 import base64
-
-CLIENT_SECRET = "default/app/utils/data_pipeline/collect_mail/resources/credentials/gmail_credentials.json"
-
-
-# CLIENT_SECRET = "default/components/big_query_manager/resources/credentiel_big_query_neomail.json"
 
 
 class CollectManager(object):

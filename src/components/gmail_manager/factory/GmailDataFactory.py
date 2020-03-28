@@ -13,8 +13,7 @@ import googleapiclient.discovery
 import flask
 from pathlib import Path  # python3 only
 
-CLIENT_SECRET_PATH = "resources/gmail_credential/gmail_credentials.json"
-env_path = Path('default/components/gmail_manager/.env')
+CLIENT_SECRET_PATH = os.environ.get("CLIENT_SECRET", default=False)
 '''
 Reading GMAIL using API GMAIL for Python
 '''

@@ -7,9 +7,9 @@ import csv
 import time
 import sys
 
-SERVICE_ACCOUNT = "resources/gcp_credential/service_account.json"
-SCHEMA = "default/app/utils/data_pipeline/transform_mail/resources/schema/gmail_fields.json"
-PATH_SAVE = "b_transform_gmail/"
+SCHEMA = os.environ.get("SCHEMA_TRANSFORM", default=False)
+PATH_SAVE = os.environ.get("PATH_SAVE_TRANSFORM", default=False)
+HOME_URI = os.environ.get("HOME_URI", default=False)
 
 """
 Usage:

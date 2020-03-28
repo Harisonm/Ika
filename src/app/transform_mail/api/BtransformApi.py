@@ -7,10 +7,10 @@ import csv
 import flask
 import re
 
-SERVICE_ACCOUNT = os.environ.get("SERVICE_ACCOUNT_GCP", default=False) 
-SCHEMA = "default/app/utils/data_pipeline/transform_mail/resources/schema/gmail_fields.json"
-PATH_SAVE = "b_transform_gmail/"
-HOME_URI = '/home'
+SCHEMA = os.environ.get("SCHEMA_TRANSFORM", default=False)
+PATH_SAVE = os.environ.get("PATH_SAVE_TRANSFORM", default=False)
+HOME_URI = os.environ.get("HOME_URI", default=False)
+
 """
 Usage: transform data mails
 GET host:port/transform/{name_file}

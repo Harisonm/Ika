@@ -6,7 +6,7 @@ export FLASK_APP=default/components/web_server/app.py
 export FLASK_DEBUG=1
 export FLASK_ENV=production
 export FN_FLASK_SECRET_KEY=SOMETHING RANDOM AND SECRET
-export CLIENT_SECRETS_FILE=resources/api_gcp_credential/client_secret.json
+export CLIENT_SECRETS_FILE=resources/api_gcp_credential/client_secret_localhost.json
 export SERVICE_ACCOUNT_GCP=resources/gcp_credential/service_account.json
 
 python -m flask run -p 8080 --host=0.0.0.0

@@ -4,8 +4,9 @@ from src.components.gmail_manager.factory.GmailDataFactory import GmailDataFacto
 import pandas as pd
 import nltk
 import sys
+import os
 
-PATH = './b_transform_gmail/'
+PATH = os.environ.get("PATH_SAVE_TRANSFORM", default=False)
 
 nltk.download('punkt')
 nltk.download("stopwords")

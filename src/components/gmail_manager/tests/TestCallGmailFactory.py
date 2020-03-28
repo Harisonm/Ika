@@ -1,9 +1,8 @@
 # Importing required libraries
 from src.components.gmail_manager.factory.GmailDataFactory import GmailDataFactory
-
+import os
 # Creating a storage.JSON file with authentication details
-# if you using gmail Quickstart Google
-CLIENT_SECRET = "resources/gmail_credential/gmail_credentials.json"
+CLIENT_SECRET = os.environ.get("CLIENT_SECRET", default=False)
 
 # if you using Gmail API from Google Cloud Plateform
 
@@ -18,7 +17,7 @@ This script does the following:
 '''
 Before running this script, the user should get the authentication by following 
 the link: https://developers.google.com/gmail/api/quickstart/python
-Also, client_secret.json.dist should be saved in the same client as this file
+Also, client_secret_localhost.json.dist should be saved in the same client as this file
 '''
 
 '''

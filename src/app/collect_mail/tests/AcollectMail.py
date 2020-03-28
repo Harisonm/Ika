@@ -1,33 +1,20 @@
-# Importing required libraries
 from src.components.gmail_manager.factory.GmailDataFactory import GmailDataFactory
 from src.app.collect_mail.manager.CollectManager import CollectManager
-from pathlib import Path
 import json
 import csv
 import os
 import time
 
-SERVICE_ACCOUNT = "resources/gcp_credential/service_account.json"
-CLIENT_SECRET = "resources/gmail_credential/gmail_credentials.json"
-SCHEMA = "default/app/utils/data_pipeline/collect_mail/resources/schema/gmail_fields.json"
-PATH_SAVE = "a_collect_gmail/"
-"""
-Usage: Insert data in BigQuery into dataset
-python -m default.app.utils.data_pipeline.collect_mail.AcollectMail
-"""
+CLIENT_SECRET = os.environ.get("SCHEMA_COLLECT", default=False)
+SCHEMA = os.environ.get("SCHEMA_COLLECT", default=False)
+PATH_SAVE = os.environ.get("PATH_SAVE_COLLECT", default=False)
 
 
 def main():
-    """
-    Returns:
-    """
     begin_time = time.time()
-    env_path = Path('default/app/utils/data_pipeline/collect_mail/.env')
 
     name_file_dict = GmailDataFactory('dev').get_user().execute()
     name_file = name_file_dict['emailAddress'] + str(int(begin_time))
-    name_user = name_file_dict['emailAddress']
-
 
     schema = {}
     with open(SCHEMA) as json_file:
@@ -37,7 +24,6 @@ def main():
     for field in schema['fields']:
         fieldnames.append(field['name'])
 
-    # Collect mail
     message_id = GmailDataFactory('dev').get_message_id('me',
                                                         include_spam_trash=True,
                                                         max_results=10000,
@@ -50,6 +36,7 @@ def main():
         fc = csv.DictWriter(output_file, fieldnames=fieldnames)
         fc.writeheader()
         fc.writerows(reader)
+
 
 if __name__ == '__main__':
     main()

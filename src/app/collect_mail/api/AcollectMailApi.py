@@ -9,9 +9,8 @@ import os
 import re
 import time
 
-SERVICE_ACCOUNT = os.environ.get("SERVICE_ACCOUNT_GCP", default=False)
-SCHEMA = "default/app/utils/data_pipeline/collect_mail/resources/schema/gmail_fields.json"
-PATH_SAVE = "a_collect_gmail/"
+PATH_SAVE = os.environ.get("PATH_SAVE_COLLECT", default=False)
+SCHEMA = os.environ.get("SCHEMA_COLLECT", default=False)
 
 """
 Usage: collect data from Gmail
@@ -28,14 +27,13 @@ def collect_mail():
     if 'credentials' not in flask.session:
         return flask.redirect('authorize')
     begin_time = time.time()
-    env_path = Path('default/app/utils/data_pipeline/collect_mail/.env')
 
     name_file_dict = GmailDataFactory('prod').get_user().execute()
     name_file = name_file_dict['emailAddress'] + str(int(begin_time))
-    name_user = re.search(r'(.*[^@]?)@', name_file_dict['emailAddress'])
-    name_user = str(name_user.group(0).replace('@', '')).replace('.', '_')
 
-    # transform_uri = os.environ.get("FN_BASE_URI", default=False) + '/transform/' + name_file + '.csv'
+    # name_user = re.search(r'(.*[^@]?)@', name_file_dict['emailAddress'])
+    # name_user = str(name_user.group(0).replace('@', '')).replace('.', '_')
+
     name_file_csv = name_file + '.csv'
 
     schema = {}

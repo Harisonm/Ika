@@ -1,7 +1,8 @@
 from src.components.gmail_manager.factory.GmailDataFactory import GmailDataFactory
 import flask
+import os
 
-HOME_URI = '/home'
+HOME_URI = os.environ.get("HOME_URI", default=False)
 
 """
 Usage: delete labels in mails

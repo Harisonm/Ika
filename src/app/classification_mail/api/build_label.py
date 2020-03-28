@@ -6,10 +6,10 @@ import flask
 import nltk
 import os
 
-PATH = 'b_transform_gmail/'
+PATH = os.environ.get("PATH_SAVE_TRANSFORM", default=False)
+ENV = os.environ.get("FLASK_ENV", default=False)
 nltk.download('punkt')
 nltk.download("stopwords")
-ENV = os.environ.get("FLASK_ENV", default=False)
 GOOGLE_GMAIL_URI = 'https://mail.google.com/mail/u/0/#inbox'
 """
 Usage: build labels in mails from clustering Model
