@@ -10,15 +10,15 @@ export FLASK_ENV=development
 export FN_FLASK_SECRET_KEY=SOMETHING RANDOM AND SECRET
 
 export CLIENT_SECRETS_FILE=resources/api_gcp_credential/client_secret_localhost.json
-
 export CLIENT_SECRET=resources/gmail_credential/gmail_credentials.json
 export SERVICE_ACCOUNT_GCP=resources/gcp_credential/service_account.json
 
 # code
-export SCHEMA_COLLECT=src/app/collect_mail/resources/schema/gmail_fields.json
-export PATH_SAVE_COLLECT=a_collect_gmail/
-export SCHEMA_TRANSFORM=src/app/transform_mail/resources/schema/gmail_fields.json
-export PATH_SAVE_TRANSFORM=b_transform_gmail/
+export PATH_FILE=temp/
 export HOME_URI=/home
+
+# schema
+export SCHEMA_COLLECT=src/api/collect_mail/resources/schema/gmail_fields.json
+export SCHEMA_TRANSFORM=src/api/transform_mail/resources/schema/gmail_fields.json
 
 python -m flask run -p 8040 --host=127.0.0.1

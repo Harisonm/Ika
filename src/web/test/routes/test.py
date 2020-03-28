@@ -7,6 +7,7 @@ app = flask.Blueprint('test', __name__)
 
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly',
           'https://www.googleapis.com/auth/gmail.labels',
+          'https://www.googleapis.com/auth/gmail.send',
           'https://www.googleapis.com/auth/gmail.compose',
           'https://www.googleapis.com/auth/gmail.insert',
           'https://www.googleapis.com/auth/gmail.modify',
