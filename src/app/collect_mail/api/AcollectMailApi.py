@@ -1,7 +1,6 @@
 # Importing required libraries
 from src.components.gmail_manager.factory.GmailDataFactory import GmailDataFactory
 from src.app.collect_mail.manager.CollectManager import CollectManager
-from dotenv import load_dotenv
 import flask
 from pathlib import Path
 import json
@@ -38,8 +37,6 @@ def collect_mail():
 
     # transform_uri = os.environ.get("FN_BASE_URI", default=False) + '/transform/' + name_file + '.csv'
     name_file_csv = name_file + '.csv'
-
-    load_dotenv(dotenv_path=env_path)
 
     schema = {}
     with open(SCHEMA) as json_file:

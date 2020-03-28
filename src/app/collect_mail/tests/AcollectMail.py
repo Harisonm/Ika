@@ -1,7 +1,6 @@
 # Importing required libraries
 from src.components.gmail_manager.factory.GmailDataFactory import GmailDataFactory
 from src.app.collect_mail.manager.CollectManager import CollectManager
-from dotenv import load_dotenv
 from pathlib import Path
 import json
 import csv
@@ -29,7 +28,6 @@ def main():
     name_file = name_file_dict['emailAddress'] + str(int(begin_time))
     name_user = name_file_dict['emailAddress']
 
-    load_dotenv(dotenv_path=env_path)
 
     schema = {}
     with open(SCHEMA) as json_file:
