@@ -2,7 +2,7 @@
 export FN_AUTH_REDIRECT_URI=http://127.0.0.1:8040/google/auth
 export FN_BASE_URI=http://127.0.0.1:8040
 export OAUTHLIB_INSECURE_TRANSPORT=1
-export FLASK_APP=default/components/o_auth2_web_server/app.py
+export FLASK_APP=src/web/app.py
 export FLASK_DEBUG=1
 export FLASK_ENV=development
 # development

@@ -4,7 +4,7 @@ Icon
 __pycache__
 .vscode
 _config.yml
-app/notebooks/logs/
+src/app/notebooks/logs/
 mlruns/
 default/notebooks/aclImdb
 default/notebooks/corpus/
@@ -18,7 +18,7 @@ default/utils/GmailManager/resources/credentials.json
 *credentials.json
 *service_account.json
 *gmail_credentials.json
-components/outlook_manager/resources/psswrd.txt
+src/components/outlook_manager/resources/psswrd.txt
 *__pycache__
 python_37/*
 *.env

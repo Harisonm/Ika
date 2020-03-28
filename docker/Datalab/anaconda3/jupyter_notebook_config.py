@@ -1,4 +1,4 @@
-# Configuration file for jupyter-notebook.
+# Configuration file for jupyter-notebooks.
 
 #------------------------------------------------------------------------------
 # Application(SingletonConfigurable) configuration
@@ -58,9 +58,9 @@
 #  Ignored if allow_origin is set.
 #c.NotebookApp.allow_origin_pat = ''
 
-## Allow password to be changed at login for the notebook server.
+## Allow password to be changed at login for the notebooks server.
 #
-#  While loggin in with a token, the notebook server UI will give the opportunity
+#  While loggin in with a token, the notebooks server UI will give the opportunity
 #  to the user to enter a new password at the same time that will replace the
 #  token login mechanism.
 #
@@ -81,18 +81,18 @@
 #  with hostnames configured in local_hostnames.
 c.NotebookApp.allow_remote_access = True
 
-## Whether to allow the user to run the notebook as root.
+## Whether to allow the user to run the notebooks as root.
 #c.NotebookApp.allow_root = False
 
 ## DEPRECATED use base_url
 #c.NotebookApp.base_project_url = '/'
 
-## The base URL for the notebook server.
+## The base URL for the notebooks server.
 #
 #  Leading and trailing slashes can be omitted, and will automatically be added.
 #c.NotebookApp.base_url = '/'
 
-## Specify what command to use to invoke a web browser when opening the notebook.
+## Specify what command to use to invoke a web browser when opening the notebooks.
 #  If not specified, the default browser will be determined by the `webbrowser`
 #  standard library module, which allows setting of the BROWSER environment
 #  variable to override it.
@@ -106,10 +106,10 @@ c.NotebookApp.allow_remote_access = True
 #c.NotebookApp.client_ca = ''
 
 ## The config manager class to use
-#c.NotebookApp.config_manager_class = 'notebook.services.config.manager.ConfigManager'
+#c.NotebookApp.config_manager_class = 'notebooks.services.config.manager.ConfigManager'
 
-## The notebook manager class to use.
-#c.NotebookApp.contents_manager_class = 'notebook.services.contents.largefilemanager.LargeFileManager'
+## The notebooks manager class to use.
+#c.NotebookApp.contents_manager_class = 'notebooks.services.contents.largefilemanager.LargeFileManager'
 
 ## Extra keyword arguments to pass to `set_secure_cookie`. See tornado's
 #  set_secure_cookie docs for details.
@@ -134,7 +134,7 @@ c.NotebookApp.allow_remote_access = True
 #  custom URL automatically.
 #
 #  This option is intended to be used when the URL to display to the user cannot
-#  be determined reliably by the Jupyter notebook server (proxified or
+#  be determined reliably by the Jupyter notebooks server (proxified or
 #  containerized setups for example).
 #c.NotebookApp.custom_display_url = ''
 
@@ -143,7 +143,7 @@ c.NotebookApp.allow_remote_access = True
 
 ## Disable cross-site-request-forgery protection
 #
-#  Jupyter notebook 4.3.1 introduces protection from cross-site request
+#  Jupyter notebooks 4.3.1 introduces protection from cross-site request
 #  forgeries, requiring API requests to either:
 #
 #  - originate from pages served by this server (validated with XSRF cookie and
@@ -159,12 +159,12 @@ c.NotebookApp.allow_remote_access = True
 #
 #  MathJax is the javascript library Jupyter uses to render math/LaTeX. It is
 #  very large, so you may want to disable it if you have a slow internet
-#  connection, or for offline use of the notebook.
+#  connection, or for offline use of the notebooks.
 #
 #  When disabled, equations etc. will appear as their untransformed TeX source.
 #c.NotebookApp.enable_mathjax = True
 
-## extra paths to look for Javascript notebook extensions
+## extra paths to look for Javascript notebooks extensions
 #c.NotebookApp.extra_nbextensions_path = []
 
 ## handlers that should be loaded at higher priority than the default services
@@ -172,13 +172,13 @@ c.NotebookApp.allow_remote_access = True
 
 ## Extra paths to search for serving static files.
 #
-#  This allows adding javascript/css to be available from the notebook server
+#  This allows adding javascript/css to be available from the notebooks server
 #  machine, or overriding individual files in the IPython
 #c.NotebookApp.extra_static_paths = []
 
 ## Extra paths to search for serving jinja templates.
 #
-#  Can be used to override templates from notebook.templates.
+#  Can be used to override templates from notebooks.templates.
 #c.NotebookApp.extra_template_paths = []
 
 ##
@@ -200,7 +200,7 @@ c.NotebookApp.allow_remote_access = True
 #  limited.
 #c.NotebookApp.iopub_msg_rate_limit = 1000
 
-## The IP address the notebook server will listen on.
+## The IP address the notebooks server will listen on.
 c.NotebookApp.ip =  '*'
 
 ## Supply extra arguments that will be passed to Jinja environment.
@@ -210,7 +210,7 @@ c.NotebookApp.ip =  '*'
 #c.NotebookApp.jinja_template_vars = {}
 
 ## The kernel manager class to use.
-#c.NotebookApp.kernel_manager_class = 'notebook.services.kernels.kernelmanager.MappingKernelManager'
+#c.NotebookApp.kernel_manager_class = 'notebooks.services.kernels.kernelmanager.MappingKernelManager'
 
 ## The kernel spec manager class to use. Should be a subclass of
 #  `jupyter_client.kernelspec.KernelSpecManager`.
@@ -229,10 +229,10 @@ c.NotebookApp.ip =  '*'
 #c.NotebookApp.local_hostnames = ['localhost']
 
 ## The login handler class to use.
-#c.NotebookApp.login_handler_class = 'notebook.auth.login.LoginHandler'
+#c.NotebookApp.login_handler_class = 'notebooks.auth.login.LoginHandler'
 
 ## The logout handler class to use.
-#c.NotebookApp.logout_handler_class = 'notebook.auth.logout.LogoutHandler'
+#c.NotebookApp.logout_handler_class = 'notebooks.auth.logout.LogoutHandler'
 
 ## The MathJax.js configuration file that is to be used.
 #c.NotebookApp.mathjax_config = 'TeX-AMS-MML_HTMLorMML-full,Safe'
@@ -252,7 +252,7 @@ c.NotebookApp.ip =  '*'
 #  use by the buffer manager.
 #c.NotebookApp.max_buffer_size = 536870912
 
-## Dict of Python modules to load as notebook server extensions.Entry values can
+## Dict of Python modules to load as notebooks server extensions.Entry values can
 #  be used to enable and disable the loading ofthe extensions. The extensions
 #  will be loaded in alphabetical order.
 #c.NotebookApp.nbserver_extensions = {}
@@ -270,7 +270,7 @@ c.NotebookApp.ip =  '*'
 #
 #  To generate, type in a python/IPython shell:
 #
-#    from notebook.auth import passwd; passwd()
+#    from notebooks.auth import passwd; passwd()
 #
 #  The string should be of the form type:salt:hashed-password.
 #c.NotebookApp.password = ''
@@ -279,20 +279,20 @@ c.NotebookApp.ip =  '*'
 #  multi user environment, for instance when everybody in the LAN can access each
 #  other's machine through ssh.
 #
-#  In such a case, server the notebook server on localhost is not secure since
-#  any user can connect to the notebook server via ssh.
+#  In such a case, server the notebooks server on localhost is not secure since
+#  any user can connect to the notebooks server via ssh.
 #c.NotebookApp.password_required = False
 
-## The port the notebook server will listen on.
+## The port the notebooks server will listen on.
 #c.NotebookApp.port = 8888
 
 ## The number of additional ports to try if the specified port is not available.
 #c.NotebookApp.port_retries = 50
 
-## DISABLED: use %pylab or %matplotlib in the notebook to enable matplotlib.
+## DISABLED: use %pylab or %matplotlib in the notebooks to enable matplotlib.
 #c.NotebookApp.pylab = 'disabled'
 
-## If True, display a button in the dashboard to quit (shutdown the notebook
+## If True, display a button in the dashboard to quit (shutdown the notebooks
 #  server).
 #c.NotebookApp.quit_button = True
 
@@ -306,11 +306,11 @@ c.NotebookApp.ip =  '*'
 #c.NotebookApp.server_extensions = []
 
 ## The session manager class to use.
-#c.NotebookApp.session_manager_class = 'notebook.services.sessions.sessionmanager.SessionManager'
+#c.NotebookApp.session_manager_class = 'notebooks.services.sessions.sessionmanager.SessionManager'
 
 ## Shut down the server after N seconds with no kernels or terminals running and
 #  no activity. This can be used together with culling idle kernels
-#  (MappingKernelManager.cull_idle_timeout) to shutdown the notebook server when
+#  (MappingKernelManager.cull_idle_timeout) to shutdown the notebooks server when
 #  it's not in use. This is not precisely timed: it may shut down up to a minute
 #  later. 0 (the default) disables this automatic shutdown.
 #c.NotebookApp.shutdown_no_activity_timeout = 0
@@ -324,8 +324,8 @@ c.NotebookApp.ip =  '*'
 
 ## Set to False to disable terminals.
 #
-#  This does *not* make the notebook server more secure by itself. Anything the
-#  user can in a terminal, they can also do in a notebook.
+#  This does *not* make the notebooks server more secure by itself. Anything the
+#  user can in a terminal, they can also do in a notebooks.
 #
 #  Terminals may also be automatically disabled if the terminado package is not
 #  available.
@@ -339,7 +339,7 @@ c.NotebookApp.ip =  '*'
 #  RECOMMENDED.
 #c.NotebookApp.token = '<generated>'
 
-## Supply overrides for the tornado.web.Application that the Jupyter notebook
+## Supply overrides for the tornado.web.Application that the Jupyter notebooks
 #  uses.
 #c.NotebookApp.tornado_settings = {}
 
@@ -351,7 +351,7 @@ c.NotebookApp.ip =  '*'
 ## DEPRECATED, use tornado_settings
 #c.NotebookApp.webapp_settings = {}
 
-## Specify Where to open the notebook on startup. This is the `new` argument
+## Specify Where to open the notebooks on startup. This is the `new` argument
 #  passed to the standard library method `webbrowser.open`. The behaviour is not
 #  guaranteed, but depends on browser support. Valid values are:
 #
@@ -585,7 +585,7 @@ c.NotebookApp.ip =  '*'
 # MappingKernelManager(MultiKernelManager) configuration
 #------------------------------------------------------------------------------
 
-## A KernelManager that handles notebook mapping and HTTP error handling
+## A KernelManager that handles notebooks mapping and HTTP error handling
 
 ## Whether messages from kernels whose frontends have disconnected should be
 #  buffered in-memory.
@@ -633,7 +633,7 @@ c.NotebookApp.ip =  '*'
 ## Base class for serving files and directories.
 #
 #  This serves any text or binary file, as well as directories, with special
-#  handling for JSON notebook documents.
+#  handling for JSON notebooks documents.
 #
 #  Most APIs take a path argument, which is always an API-style unicode path, and
 #  always refers to a directory.
@@ -651,7 +651,7 @@ c.NotebookApp.ip =  '*'
 #c.ContentsManager.checkpoints = None
 
 ##
-#c.ContentsManager.checkpoints_class = 'notebook.services.contents.checkpoints.Checkpoints'
+#c.ContentsManager.checkpoints_class = 'notebooks.services.contents.checkpoints.Checkpoints'
 
 ##
 #c.ContentsManager.checkpoints_kwargs = {}
@@ -665,7 +665,7 @@ c.NotebookApp.ip =  '*'
 #  will be much more efficient.
 #
 #  Access to these files should be Authenticated.
-#c.ContentsManager.files_handler_class = 'notebook.files.handlers.FilesHandler'
+#c.ContentsManager.files_handler_class = 'notebooks.files.handlers.FilesHandler'
 
 ## Extra parameters to pass to files_handler_class.
 #
@@ -680,7 +680,7 @@ c.NotebookApp.ip =  '*'
 #
 #  To be called on a contents model prior to save.
 #
-#  This can be used to process the structure, such as removing notebook outputs
+#  This can be used to process the structure, such as removing notebooks outputs
 #  or other side effects that should not be saved.
 #
 #  It will be called as (all arguments passed by keyword)::
@@ -726,7 +726,7 @@ c.NotebookApp.ip =  '*'
 ## By default notebooks are saved on disk on a temporary file and then if
 #  succefully written, it replaces the old ones. This procedure, namely
 #  'atomic_writing', causes some bugs on file system whitout operation order
-#  enforcement (like some networked fs). If set to False, the new notebook is
+#  enforcement (like some networked fs). If set to False, the new notebooks is
 #  written directly on the old one which could fail (eg: full filesystem or quota
 #  )
 #c.FileManagerMixin.use_atomic_writing = True
@@ -744,7 +744,7 @@ c.NotebookApp.ip =  '*'
 #
 #  to be called on the path of a file just saved.
 #
-#  This can be used to process the file on disk, such as converting the notebook
+#  This can be used to process the file on disk, such as converting the notebooks
 #  to a script or HTML via nbconvert.
 #
 #  It will be called as (all arguments passed by keyword)::
@@ -765,12 +765,12 @@ c.NotebookApp.ip =  '*'
 # NotebookNotary(LoggingConfigurable) configuration
 #------------------------------------------------------------------------------
 
-## A class for computing and verifying notebook signatures.
+## A class for computing and verifying notebooks signatures.
 
 ## The hashing algorithm used to sign notebooks.
 #c.NotebookNotary.algorithm = 'sha256'
 
-## The sqlite file in which to store notebook signatures. By default, this will
+## The sqlite file in which to store notebooks signatures. By default, this will
 #  be in your Jupyter data directory. You can set it to ':memory:' to disable
 #  sqlite writing to the filesystem.
 #c.NotebookNotary.db_file = ''
@@ -781,7 +781,7 @@ c.NotebookApp.ip =  '*'
 ## The file where the secret key is stored.
 #c.NotebookNotary.secret_file = ''
 
-## A callable returning the storage backend for notebook signatures. The default
+## A callable returning the storage backend for notebooks signatures. The default
 #  uses an SQLite database.
 #c.NotebookNotary.store_factory = traitlets.Undefined
 

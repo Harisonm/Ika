@@ -2,7 +2,7 @@
 export FN_AUTH_REDIRECT_URI=http://beta.neomail.online:8080/google/auth
 export FN_BASE_URI=http://beta.neomail.online:8080
 export OAUTHLIB_INSECURE_TRANSPORT=1
-export FLASK_APP=default/components/o_auth2_web_server/app.py
+export FLASK_APP=default/components/web_server/app.py
 export FLASK_DEBUG=1
 export FLASK_ENV=production
 export FN_FLASK_SECRET_KEY=SOMETHING RANDOM AND SECRET
