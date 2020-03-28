@@ -7,6 +7,7 @@ def optimal_number_of_clusters(wcss):
 
     """
     from math import sqrt
+
     x1, y1 = 2, wcss[0]
     x2, y2 = 20, wcss[len(wcss) - 1]
 
@@ -30,6 +31,7 @@ def calculate_wcss(data):
 
     """
     from sklearn.cluster import KMeans
+
     wcss = []
     for n in range(2, 21):
         kmeans = KMeans(n_clusters=n)

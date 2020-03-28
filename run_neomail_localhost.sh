@@ -18,7 +18,7 @@ export PATH_FILE=temp/
 export HOME_URI=/home
 
 # schema
-export SCHEMA_COLLECT=src/api/collect_mail/resources/schema/gmail_fields.json
-export SCHEMA_TRANSFORM=src/api/transform_mail/resources/schema/gmail_fields.json
+export SCHEMA_COLLECT=src/api/collecter_mail/resources/schema/gmail_fields.json
+export SCHEMA_TRANSFORM=src/api/transformer_mail/resources/schema/gmail_fields.json
 
 python -m flask run -p 8040 --host=127.0.0.1

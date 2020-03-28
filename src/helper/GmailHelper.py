@@ -14,27 +14,27 @@ import flask
 from pathlib import Path  # python3 only
 
 CLIENT_SECRET_PATH = os.environ.get("CLIENT_SECRET", default=False)
-'''
+"""
 Reading GMAIL using API GMAIL for Python
-'''
+"""
 
 # If modifying these scopes, delete the file token.pickle.
-SCOPES = ['https://www.googleapis.com/auth/gmail.readonly',
-          'https://www.googleapis.com/auth/gmail.labels',
-          'https://www.googleapis.com/auth/gmail.send',
-          'https://www.googleapis.com/auth/gmail.compose',
-          'https://www.googleapis.com/auth/gmail.insert',
-          'https://www.googleapis.com/auth/gmail.modify',
-          'https://www.googleapis.com/auth/gmail.metadata',
-          'https://www.googleapis.com/auth/gmail.settings.basic',
-          'https://www.googleapis.com/auth/gmail.settings.sharing']
-PATH_TOKEN = 'resources/gmail_credential/'
-API_SERVICE_NAME = 'gmail'
-API_VERSION = 'v1'
+SCOPES = [
+    "https://www.googleapis.com/auth/gmail.readonly",
+    "https://www.googleapis.com/auth/gmail.labels",
+    "https://www.googleapis.com/auth/gmail.compose",
+    "https://www.googleapis.com/auth/gmail.insert",
+    "https://www.googleapis.com/auth/gmail.modify",
+    "https://www.googleapis.com/auth/gmail.metadata",
+    "https://www.googleapis.com/auth/gmail.settings.basic",
+    "https://www.googleapis.com/auth/gmail.settings.sharing",
+]
+PATH_TOKEN = "resources/gmail_credential/"
+API_SERVICE_NAME = "gmail"
+API_VERSION = "v1"
 
 
 class GmailDataFactory(object):
-
     def __init__(self, env):
         """function to init GmailDataFactory Class .
         Args:
@@ -42,8 +42,11 @@ class GmailDataFactory(object):
         Returns:
             None
         """
-        self.__service = self.__build_service(
-            CLIENT_SECRET_PATH) if env == 'dev' else self.build_gmail_credential_api_v1()
+        self.__service = (
+            self.__build_service(CLIENT_SECRET_PATH)
+            if env == "dev"
+            else self.build_gmail_credential_api_v1()
+        )
 
     @staticmethod
     def __build_service(client_secret):
@@ -58,25 +61,22 @@ class GmailDataFactory(object):
         """
         credentials = None
 
-        if os.path.exists(PATH_TOKEN + 'token.pickle'):
-            with open(PATH_TOKEN + 'token.pickle', 'rb') as token:
+        if os.path.exists(PATH_TOKEN + "token.pickle"):
+            with open(PATH_TOKEN + "token.pickle", "rb") as token:
                 credentials = pickle.load(token)
         # If there are no (valid) credentials available, let the user log in.
         if not credentials or not credentials.valid:
             if credentials and credentials.expired and credentials.refresh_token:
                 credentials.refresh(Request())
             else:
-                flow = InstalledAppFlow.from_client_secrets_file(
-                    client_secret, SCOPES)
+                flow = InstalledAppFlow.from_client_secrets_file(client_secret, SCOPES)
                 credentials = flow.run_local_server()
             # Save the credentials for the next run
-            with open(PATH_TOKEN + 'token.pickle', 'wb') as token:
+            with open(PATH_TOKEN + "token.pickle", "wb") as token:
                 pickle.dump(credentials, token)
 
-        service = build('gmail',
-                        'v1',
-                        credentials=credentials)
-        print('SERVICE', service)
+        service = build("gmail", "v1", credentials=credentials)
+        print("SERVICE", service)
         return service
 
     @staticmethod
@@ -87,25 +87,28 @@ class GmailDataFactory(object):
         Returns :
             Return service building.
         """
-        if 'credentials' not in flask.session:
-            return flask.redirect('authorize')
+        if "credentials" not in flask.session:
+            return flask.redirect("authorize")
 
         # Load credentials from the session.
         credentials = google.oauth2.credentials.Credentials(
-            **flask.session['credentials'])
+            **flask.session["credentials"]
+        )
 
         # Save credentials back to session in case access token was refreshed.
         # ACTION ITEM: In a production app, you likely want to save these
         #              credentials in a persistent database instead.
-        flask.session['credentials'] = google_auth.credentials_to_dict(
-            credentials)
+        flask.session["credentials"] = google_auth.credentials_to_dict(credentials)
 
         service = googleapiclient.discovery.build(
-            API_SERVICE_NAME, API_VERSION, credentials=credentials)
+            API_SERVICE_NAME, API_VERSION, credentials=credentials
+        )
 
         return service
 
-    def get_message_id(self, user_id, include_spam_trash=False, max_results=10, batch_using=False):
+    def get_message_id(
+        self, user_id, include_spam_trash=False, max_results=10, batch_using=False
+    ):
         """Get a Message and return List of Id Message.
         Args:
             self : Authorized GMail API service instance.
@@ -120,25 +123,38 @@ class GmailDataFactory(object):
         """
         try:
             messages = []
-            response = self.__service.users().messages().list(userId=user_id,
-                                                              maxResults=max_results,
-                                                              includeSpamTrash=include_spam_trash).execute()
-            if 'messages' in response:
-                messages.extend(response['messages'])
+            response = (
+                self.__service.users()
+                .messages()
+                .list(
+                    userId=user_id,
+                    maxResults=max_results,
+                    includeSpamTrash=include_spam_trash,
+                )
+                .execute()
+            )
+            if "messages" in response:
+                messages.extend(response["messages"])
 
             if batch_using:
-                while 'nextPageToken' in response:
-                    page_token = response['nextPageToken']
-                    response = self.__service.users().messages().list(userId=user_id,
-                                                                      maxResults=max_results,
-                                                                      pageToken=page_token,
-                                                                      includeSpamTrash=include_spam_trash
-                                                                      ).execute()
-                    messages.extend(response['messages'])
+                while "nextPageToken" in response:
+                    page_token = response["nextPageToken"]
+                    response = (
+                        self.__service.users()
+                        .messages()
+                        .list(
+                            userId=user_id,
+                            maxResults=max_results,
+                            pageToken=page_token,
+                            includeSpamTrash=include_spam_trash,
+                        )
+                        .execute()
+                    )
+                    messages.extend(response["messages"])
             return messages
 
         except errors.HttpError as error:
-            print('An error occurred: %s' % error)
+            print("An error occurred: %s" % error)
 
     def delete_label_from_id(self, user_id, label_id):
         """Delete a label.
@@ -150,10 +166,12 @@ class GmailDataFactory(object):
           label_id: string id of the label.
         """
         try:
-            self.__service.users().labels().delete(userId=user_id, id=label_id).execute()
-            print('Label with id: %s deleted successfully.' % label_id)
+            self.__service.users().labels().delete(
+                userId=user_id, id=label_id
+            ).execute()
+            print("Label with id: %s deleted successfully." % label_id)
         except errors.HttpError as error:
-            print('An error occurred: %s' % error)
+            print("An error occurred: %s" % error)
 
     def found_label_id(self):
         """Found label Id from label name.
@@ -161,7 +179,7 @@ class GmailDataFactory(object):
 
         """
 
-    def get_message(self, user_id, mail_id, format='full'):
+    def get_message(self, user_id, mail_id, format="full"):
         """Get a Message with given ID.
 
         Args:
@@ -181,14 +199,17 @@ class GmailDataFactory(object):
           A Message.
         """
         try:
-            messages = self.__service.users().messages().get(userId=user_id,
-                                                             id=mail_id,
-                                                             format=format).execute()
+            messages = (
+                self.__service.users()
+                .messages()
+                .get(userId=user_id, id=mail_id, format=format)
+                .execute()
+            )
             print(messages)
             return messages
 
         except errors.HttpError as error:
-            print('An error occurred: %s' % error)
+            print("An error occurred: %s" % error)
 
     def get_message_by_thread(self, user_id, max_results=10, include_spam_trash=False):
         """Get a Message with given Thread ID.
@@ -205,17 +226,28 @@ class GmailDataFactory(object):
             mail_box : A Message.
             """
         try:
-            threads = self.__service.users().threads().list(userId=user_id,
-                                                            maxResults=max_results,
-                                                            includeSpamTrash=include_spam_trash
-                                                            ).execute().get('threads', [])
+            threads = (
+                self.__service.users()
+                .threads()
+                .list(
+                    userId=user_id,
+                    maxResults=max_results,
+                    includeSpamTrash=include_spam_trash,
+                )
+                .execute()
+                .get("threads", [])
+            )
             for thread in threads:
-                messages = self.__service.users().threads().get(userId=user_id,
-                                                                id=thread['id']).execute()
+                messages = (
+                    self.__service.users()
+                    .threads()
+                    .get(userId=user_id, id=thread["id"])
+                    .execute()
+                )
                 return messages
 
         except errors.HttpError as error:
-            print('An error occurred: %s' % error)
+            print("An error occurred: %s" % error)
 
     def send_mail(self, user_id, message_body):
         """Send Mail
@@ -231,27 +263,36 @@ class GmailDataFactory(object):
         A Message.
         """
         try:
-            message = (self.__service.users().messages().send(userId=user_id,
-                                                              body=message_body).execute())
+            message = (
+                self.__service.users()
+                .messages()
+                .send(userId=user_id, body=message_body)
+                .execute()
+            )
             return message
 
         except errors.HttpError as error:
             print(error)
 
     def get_spam_mails(self, user_id, label_id):
-        spams = self.__service.users().labels().get(user_id,
-                                                    label_id)
+        spams = self.__service.users().labels().get(user_id, label_id)
         return spams
 
     def get_user(self):
-        user = self.__service.users().getProfile(userId='me')
+        user = self.__service.users().getProfile(userId="me")
         return user
 
     """
     PART OF LABEL
     """
 
-    def create_label(self, user_id, name_label="", label_list_visibility="labelShow", message_list_visibility="show"):
+    def create_label(
+        self,
+        user_id,
+        name_label="",
+        label_list_visibility="labelShow",
+        message_list_visibility="show",
+    ):
         """function to creates a new label
 
         Args:
@@ -265,23 +306,139 @@ class GmailDataFactory(object):
         Returns:
             labels (list): return mail label.
         """
-        background_color = ["#000000e", "#434343", "#666666", "#999999", "#cccccc", "#efefef", "#f3f3f3", "#ffffff",
-                            "#fb4c2f", "#ffad47", "#fad165", "#16a766", "#43d692", "#4a86e8", "#a479e2", "#f691b3",
-                            "#f6c5be", "#ffe6c7", "#fef1d1", "#b9e4d0", "#c6f3de", "#c9daf8", "#e4d7f5", "#fcdee8",
-                            "#efa093", "#ffd6a2", "#fce8b3", "#89d3b2", "#a0eac9", "#a4c2f4", "#d0bcf1", "#fbc8d9",
-                            "#e66550", "#ffbc6b", "#fcda83", "#44b984", "#68dfa9", "#6d9eeb", "#b694e8", "#f7a7c0",
-                            "#cc3a21", "#eaa041", "#f2c960", "#149e60", "#3dc789", "#3c78d8", "#8e63ce", "#e07798",
-                            "#ac2b16", "#cf8933", "#d5ae49", "#0b804b", "#2a9c68", "#285bac", "#653e9b", "#b65775",
-                            "#822111", "#a46a21", "#aa8831", "#076239", "#1a764d", "#1c4587", "#41236d", "#83334c"]
+        background_color = [
+            "#000000e",
+            "#434343",
+            "#666666",
+            "#999999",
+            "#cccccc",
+            "#efefef",
+            "#f3f3f3",
+            "#ffffff",
+            "#fb4c2f",
+            "#ffad47",
+            "#fad165",
+            "#16a766",
+            "#43d692",
+            "#4a86e8",
+            "#a479e2",
+            "#f691b3",
+            "#f6c5be",
+            "#ffe6c7",
+            "#fef1d1",
+            "#b9e4d0",
+            "#c6f3de",
+            "#c9daf8",
+            "#e4d7f5",
+            "#fcdee8",
+            "#efa093",
+            "#ffd6a2",
+            "#fce8b3",
+            "#89d3b2",
+            "#a0eac9",
+            "#a4c2f4",
+            "#d0bcf1",
+            "#fbc8d9",
+            "#e66550",
+            "#ffbc6b",
+            "#fcda83",
+            "#44b984",
+            "#68dfa9",
+            "#6d9eeb",
+            "#b694e8",
+            "#f7a7c0",
+            "#cc3a21",
+            "#eaa041",
+            "#f2c960",
+            "#149e60",
+            "#3dc789",
+            "#3c78d8",
+            "#8e63ce",
+            "#e07798",
+            "#ac2b16",
+            "#cf8933",
+            "#d5ae49",
+            "#0b804b",
+            "#2a9c68",
+            "#285bac",
+            "#653e9b",
+            "#b65775",
+            "#822111",
+            "#a46a21",
+            "#aa8831",
+            "#076239",
+            "#1a764d",
+            "#1c4587",
+            "#41236d",
+            "#83334c",
+        ]
 
-        text_color = ["#000000", "#434343", "#666666", "#999999", "#cccccc", "#efefef", "#f3f3f3", "#ffffff",
-                      "#fb4c2f", "#ffad47", "#fad165", "#16a766", "#43d692", "#4a86e8", "#a479e2", "#f691b3",
-                      "#f6c5be", "#ffe6c7", "#fef1d1", "#b9e4d0", "#c6f3de", "#c9daf8", "#e4d7f5", "#fcdee8",
-                      "#efa093", "#ffd6a2", "#fce8b3", "#89d3b2", "#a0eac9", "#a4c2f4", "#d0bcf1", "#fbc8d9",
-                      "#e66550", "#ffbc6b", "#fcda83", "#44b984", "#68dfa9", "#6d9eeb", "#b694e8", "#f7a7c0",
-                      "#cc3a21", "#eaa041", "#f2c960", "#149e60", "#3dc789", "#3c78d8", "#8e63ce", "#e07798",
-                      "#ac2b16", "#cf8933", "#d5ae49", "#0b804b", "#2a9c68", "#285bac", "#653e9b", "#b65775",
-                      "#822111", "#a46a21", "#aa8831", "#076239", "#1a764d", "#1c4587", "#41236d", "#83334c"]
+        text_color = [
+            "#000000",
+            "#434343",
+            "#666666",
+            "#999999",
+            "#cccccc",
+            "#efefef",
+            "#f3f3f3",
+            "#ffffff",
+            "#fb4c2f",
+            "#ffad47",
+            "#fad165",
+            "#16a766",
+            "#43d692",
+            "#4a86e8",
+            "#a479e2",
+            "#f691b3",
+            "#f6c5be",
+            "#ffe6c7",
+            "#fef1d1",
+            "#b9e4d0",
+            "#c6f3de",
+            "#c9daf8",
+            "#e4d7f5",
+            "#fcdee8",
+            "#efa093",
+            "#ffd6a2",
+            "#fce8b3",
+            "#89d3b2",
+            "#a0eac9",
+            "#a4c2f4",
+            "#d0bcf1",
+            "#fbc8d9",
+            "#e66550",
+            "#ffbc6b",
+            "#fcda83",
+            "#44b984",
+            "#68dfa9",
+            "#6d9eeb",
+            "#b694e8",
+            "#f7a7c0",
+            "#cc3a21",
+            "#eaa041",
+            "#f2c960",
+            "#149e60",
+            "#3dc789",
+            "#3c78d8",
+            "#8e63ce",
+            "#e07798",
+            "#ac2b16",
+            "#cf8933",
+            "#d5ae49",
+            "#0b804b",
+            "#2a9c68",
+            "#285bac",
+            "#653e9b",
+            "#b65775",
+            "#822111",
+            "#a46a21",
+            "#aa8831",
+            "#076239",
+            "#1a764d",
+            "#1c4587",
+            "#41236d",
+            "#83334c",
+        ]
         try:
             body = {
                 "labelListVisibility": label_list_visibility,
@@ -289,14 +446,18 @@ class GmailDataFactory(object):
                 "name": name_label,
                 "color": {
                     "backgroundColor": random.choice(background_color),
-                    "textColor": random.choice(text_color)
-                }
+                    "textColor": random.choice(text_color),
+                },
             }
-            label = self.__service.users().labels().create(userId=user_id,
-                                                           body=body).execute()
+            label = (
+                self.__service.users()
+                .labels()
+                .create(userId=user_id, body=body)
+                .execute()
+            )
             return label
         except errors.HttpError as error:
-            print('An error occurred: %s' % error)
+            print("An error occurred: %s" % error)
 
     def get_label_ids(self, user_id, labels_in):
         """function to list of label Id using in users Gmail
@@ -314,19 +475,19 @@ class GmailDataFactory(object):
         try:
             result = []
             results = self.__service.users().labels().list(userId=user_id).execute()
-            labels = results.get('labels', [])
+            labels = results.get("labels", [])
 
             if not labels:
-                print('No labels found.')
+                print("No labels found.")
             for label_in in labels_in:
                 for label in labels:
-                    if label['name'] == label_in:
-                        result.append(label['id'])
+                    if label["name"] == label_in:
+                        result.append(label["id"])
                         break
             return result
 
         except errors.HttpError as error:
-            print('An error occurred: %s' % error)
+            print("An error occurred: %s" % error)
 
     def list_label(self, user_id):
         """function to list of label using in users Gmail
@@ -341,18 +502,18 @@ class GmailDataFactory(object):
         """
         try:
             results = self.__service.users().labels().list(userId=user_id).execute()
-            labels = results.get('labels', [])
+            labels = results.get("labels", [])
 
             if not labels:
-                print('No labels found.')
+                print("No labels found.")
             else:
-                print('Labels:')
+                print("Labels:")
                 for label in labels:
-                    print(label['name'])
+                    print(label["name"])
 
             return labels
         except errors.HttpError as error:
-            print('An error occurred: %s' % error)
+            print("An error occurred: %s" % error)
 
     def get_label(self, user_id, mail_id):
         """Creates a new label within user's mailbox, also prints Label ID.
@@ -366,11 +527,15 @@ class GmailDataFactory(object):
             Created Label.
         """
         try:
-            labels = self.__service.users().labels().get(userId=user_id,
-                                                         id=mail_id).execute()
+            labels = (
+                self.__service.users()
+                .labels()
+                .get(userId=user_id, id=mail_id)
+                .execute()
+            )
             return labels
         except errors.HttpError as error:
-            print('An error occurred: %s' % error)
+            print("An error occurred: %s" % error)
 
     def modify_message(self, user_id, mail_id, mail_labels):
 
@@ -387,16 +552,19 @@ class GmailDataFactory(object):
             Modified message, containing updated labelIds, id and threadId.
         """
         try:
-            message = self.__service.users().messages().modify(userId=user_id,
-                                                               id=mail_id,
-                                                               body=mail_labels).execute()
+            message = (
+                self.__service.users()
+                .messages()
+                .modify(userId=user_id, id=mail_id, body=mail_labels)
+                .execute()
+            )
 
-            label_ids = message['labelIds']
+            label_ids = message["labelIds"]
 
-            print('Message ID: %s - With Label IDs %s' % (mail_id, label_ids))
+            print("Message ID: %s - With Label IDs %s" % (mail_id, label_ids))
             return message
         except errors.HttpError as error:
-            print('An error occurred: %s' % error)
+            print("An error occurred: %s" % error)
 
     # @staticmethod
     # def createMessage(sender, to, subject, message):

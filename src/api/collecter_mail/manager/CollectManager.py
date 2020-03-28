@@ -1,4 +1,4 @@
-from src.components.gmail_manager.factory.GmailDataFactory import GmailDataFactory
+from src.helper.GmailHelper import GmailDataFactory
 from concurrent.futures import ThreadPoolExecutor as PoolExecutor
 from traceback import print_exc
 import concurrent.futures
@@ -6,7 +6,6 @@ import base64
 
 
 class CollectManager(object):
-
     def __init__(self, env):
         """function to init GmailDataFactory Class .
         Args:
@@ -70,155 +69,177 @@ class CollectManager(object):
         """
         temp_dict = {}
         for key, mail in kwargs.items():
-            temp_tab = self.get_headers_value(mail['payload']['headers'])
+            temp_tab = self.get_headers_value(mail["payload"]["headers"])
 
             # First part of mail
             try:
-                temp_dict['idMail'] = mail['id']
+                temp_dict["idMail"] = mail["id"]
             except KeyError:
-                temp_dict['idMail'] = ''
+                temp_dict["idMail"] = ""
 
             try:
-                temp_dict['threadId'] = mail['threadId']
+                temp_dict["threadId"] = mail["threadId"]
             except KeyError:
-                temp_dict['threadId'] = ''
+                temp_dict["threadId"] = ""
             try:
-                temp_dict['historyId'] = mail['historyId']
+                temp_dict["historyId"] = mail["historyId"]
             except KeyError:
-                temp_dict['historyId'] = ''
+                temp_dict["historyId"] = ""
             try:
-                temp_dict['labelIds'] = str(mail['labelIds'])
+                temp_dict["labelIds"] = str(mail["labelIds"])
             except KeyError:
-                temp_dict['labelIds'] = ''
+                temp_dict["labelIds"] = ""
             try:
-                temp_dict['snippet'] = mail['snippet']
+                temp_dict["snippet"] = mail["snippet"]
             except KeyError:
-                temp_dict['snippet'] = ''
+                temp_dict["snippet"] = ""
             try:
-                temp_dict['payloadPartId'] = mail['payload']['partId']
+                temp_dict["payloadPartId"] = mail["payload"]["partId"]
             except KeyError:
-                temp_dict['payloadPartId'] = ''
+                temp_dict["payloadPartId"] = ""
             try:
-                temp_dict['payloadMimeType'] = mail['payload']['mimeType']
+                temp_dict["payloadMimeType"] = mail["payload"]["mimeType"]
             except KeyError:
-                temp_dict['payloadMimeType'] = ''
+                temp_dict["payloadMimeType"] = ""
 
             # seconde partie
             try:
-                temp_dict['deliveredTo'] = temp_tab['Delivered-To']
+                temp_dict["deliveredTo"] = temp_tab["Delivered-To"]
             except KeyError:
-                temp_dict['deliveredTo'] = ''
+                temp_dict["deliveredTo"] = ""
             try:
-                temp_dict['received'] = temp_tab['Received']
+                temp_dict["received"] = temp_tab["Received"]
             except KeyError:
-                temp_dict['received'] = ''
+                temp_dict["received"] = ""
             try:
-                temp_dict['xGoogleSmtpSource'] = temp_tab['X-Google-Smtp-Source']
+                temp_dict["xGoogleSmtpSource"] = temp_tab["X-Google-Smtp-Source"]
             except KeyError:
-                temp_dict['xGoogleSmtpSource'] = ''
+                temp_dict["xGoogleSmtpSource"] = ""
             try:
-                temp_dict['xReceived'] = temp_tab['X-Received']
+                temp_dict["xReceived"] = temp_tab["X-Received"]
             except KeyError:
-                temp_dict['xReceived'] = ''
+                temp_dict["xReceived"] = ""
             try:
-                temp_dict['arcMessageSignature'] = temp_tab['ARC-Message-Signature']
+                temp_dict["arcMessageSignature"] = temp_tab["ARC-Message-Signature"]
             except KeyError:
-                temp_dict['arcMessageSignature'] = ''
+                temp_dict["arcMessageSignature"] = ""
             try:
-                temp_dict['arcAuthenticationResults'] = temp_tab['ARC-Authentication-Results']
+                temp_dict["arcAuthenticationResults"] = temp_tab[
+                    "ARC-Authentication-Results"
+                ]
             except KeyError:
-                temp_dict['arcAuthenticationResults'] = ''
+                temp_dict["arcAuthenticationResults"] = ""
             try:
-                temp_dict['returnPath'] = temp_tab['Return-Path']
+                temp_dict["returnPath"] = temp_tab["Return-Path"]
             except KeyError:
-                temp_dict['returnPath'] = ''
+                temp_dict["returnPath"] = ""
             try:
-                temp_dict['receivedSPF'] = temp_tab['Received-SPF']
+                temp_dict["receivedSPF"] = temp_tab["Received-SPF"]
             except KeyError:
-                temp_dict['receivedSPF'] = ''
+                temp_dict["receivedSPF"] = ""
             try:
-                temp_dict['authenticationResults'] = temp_tab['Authentication-Results']
+                temp_dict["authenticationResults"] = temp_tab["Authentication-Results"]
             except KeyError:
-                temp_dict['authenticationResults'] = ''
+                temp_dict["authenticationResults"] = ""
             try:
-                temp_dict['dKimsSignature'] = temp_tab['DKIM-Signature']
+                temp_dict["dKimsSignature"] = temp_tab["DKIM-Signature"]
             except KeyError:
-                temp_dict['dKimsSignature'] = ''
+                temp_dict["dKimsSignature"] = ""
             try:
-                temp_dict['headersMessageId'] = temp_tab['Message-Id']
+                temp_dict["headersMessageId"] = temp_tab["Message-Id"]
             except KeyError:
-                temp_dict['headersMessageId'] = ''
+                temp_dict["headersMessageId"] = ""
             try:
-                temp_dict['mimeVersion'] = temp_tab['MIME-Version']
+                temp_dict["mimeVersion"] = temp_tab["MIME-Version"]
             except KeyError:
-                temp_dict['mimeVersion'] = ''
+                temp_dict["mimeVersion"] = ""
             try:
-                temp_dict['from'] = temp_tab['From']
+                temp_dict["from"] = temp_tab["From"]
             except KeyError:
-                temp_dict['from'] = ''
+                temp_dict["from"] = ""
             try:
-                temp_dict['to'] = temp_tab['To']
+                temp_dict["to"] = temp_tab["To"]
             except KeyError:
-                temp_dict['to'] = ''
+                temp_dict["to"] = ""
             try:
-                temp_dict['subject'] = temp_tab['Subject']
+                temp_dict["subject"] = temp_tab["Subject"]
             except KeyError:
-                temp_dict['subject'] = ''
+                temp_dict["subject"] = ""
             try:
-                temp_dict['date'] = temp_tab['Date']
+                temp_dict["date"] = temp_tab["Date"]
             except KeyError:
-                temp_dict['date'] = ''
+                temp_dict["date"] = ""
             try:
-                temp_dict['headersListId'] = temp_tab['List-Id']
+                temp_dict["headersListId"] = temp_tab["List-Id"]
             except KeyError:
-                temp_dict['headersListId'] = ''
+                temp_dict["headersListId"] = ""
             try:
-                temp_dict['headersListUnsubscribe'] = temp_tab['List-Unsubscribe']
+                temp_dict["headersListUnsubscribe"] = temp_tab["List-Unsubscribe"]
             except KeyError:
-                temp_dict['headersListUnsubscribe'] = ''
+                temp_dict["headersListUnsubscribe"] = ""
             try:
-                temp_dict['precedence'] = temp_tab['Precedence']
+                temp_dict["precedence"] = temp_tab["Precedence"]
             except KeyError:
-                temp_dict['precedence'] = ''
+                temp_dict["precedence"] = ""
             try:
-                temp_dict['xCsaComplaints'] = temp_tab['X-CSA-Complaints']
+                temp_dict["xCsaComplaints"] = temp_tab["X-CSA-Complaints"]
             except KeyError:
-                temp_dict['xCsaComplaints'] = ''
+                temp_dict["xCsaComplaints"] = ""
             try:
-                temp_dict['xMjMid'] = temp_tab['X-MJ-Mid']
+                temp_dict["xMjMid"] = temp_tab["X-MJ-Mid"]
             except KeyError:
-                temp_dict['xMjMid'] = ''
+                temp_dict["xMjMid"] = ""
             try:
-                temp_dict['xMjMimeMessageStructure'] = temp_tab['X-MJ-MIMEMessageStructure']
+                temp_dict["xMjMimeMessageStructure"] = temp_tab[
+                    "X-MJ-MIMEMessageStructure"
+                ]
             except KeyError:
-                temp_dict['xMjMimeMessageStructure'] = ''
+                temp_dict["xMjMimeMessageStructure"] = ""
             try:
-                temp_dict['feedbackId'] = temp_tab['Feedback-Id']
+                temp_dict["feedbackId"] = temp_tab["Feedback-Id"]
             except KeyError:
-                temp_dict['feedbackId'] = ''
+                temp_dict["feedbackId"] = ""
             try:
-                temp_dict['contentType'] = temp_tab['Content-Type']
+                temp_dict["contentType"] = temp_tab["Content-Type"]
             except KeyError:
-                temp_dict['contentType'] = ''
+                temp_dict["contentType"] = ""
 
             # third part of mail
             try:
-                if 'parts' in mail['payload']:
-                    payload_parts = self.get_part(mail['payload']['parts'])
-                    temp_dict['size'] = payload_parts['size'] if 'size' in payload_parts else ''
-                    temp_dict['body'] = self.__transform_mail_body(
-                        payload_parts['body']) if 'body' in payload_parts else ''
-                    temp_dict['mimeType'] = str(payload_parts['mimeType']) if 'mimeType' in payload_parts else ''
+                if "parts" in mail["payload"]:
+                    payload_parts = self.get_part(mail["payload"]["parts"])
+                    temp_dict["size"] = (
+                        payload_parts["size"] if "size" in payload_parts else ""
+                    )
+                    temp_dict["body"] = (
+                        self.__transform_mail_body(payload_parts["body"])
+                        if "body" in payload_parts
+                        else ""
+                    )
+                    temp_dict["mimeType"] = (
+                        str(payload_parts["mimeType"])
+                        if "mimeType" in payload_parts
+                        else ""
+                    )
 
-                elif 'body' in mail['payload']:
-                    temp_dict['size'] = mail['payload']['size'] if 'size' in mail['payload'] else ''
-                    temp_dict['body'] = self.__transform_mail_body(mail['payload']['body']['data']) if 'body' in mail[
-                        'payload'] else ''
-                    temp_dict['mimeType'] = mail['payload']['mimeType'] if 'mimeType' in mail['payload'] else ''
+                elif "body" in mail["payload"]:
+                    temp_dict["size"] = (
+                        mail["payload"]["size"] if "size" in mail["payload"] else ""
+                    )
+                    temp_dict["body"] = (
+                        self.__transform_mail_body(mail["payload"]["body"]["data"])
+                        if "body" in mail["payload"]
+                        else ""
+                    )
+                    temp_dict["mimeType"] = (
+                        mail["payload"]["mimeType"]
+                        if "mimeType" in mail["payload"]
+                        else ""
+                    )
                 else:
-                    temp_dict['size'] = ''
-                    temp_dict['body'] = ''
-                    temp_dict['mimeType'] = ''
+                    temp_dict["size"] = ""
+                    temp_dict["body"] = ""
+                    temp_dict["mimeType"] = ""
             except Exception as inst:
                 print(type(inst))
                 print(inst.args)
@@ -230,7 +251,7 @@ class CollectManager(object):
         try:
             text = base64.urlsafe_b64decode(mail).decode("UTF-8")
         except KeyError:
-            text = ''
+            text = ""
         return str(text)
 
     @staticmethod
@@ -247,11 +268,13 @@ class CollectManager(object):
             'mimeType' (str): 'Lorem ipsum dolor sit ametLorem ipsum dolor sit amet'
             }
         """
-        parts_conc = {'size': 0, 'body': '', 'mimeType': ''}
+        parts_conc = {"size": 0, "body": "", "mimeType": ""}
         for one in mail:
-            parts_conc['size'] += one['body']['size'] if 'size' in one['body'] else 0
-            parts_conc['body'] += one['body']['data'] + ';' if 'data' in one['body'] else ''
-            parts_conc['mimeType'] += one['mimeType'] + ';' if 'mimeType' in one else ''
+            parts_conc["size"] += one["body"]["size"] if "size" in one["body"] else 0
+            parts_conc["body"] += (
+                one["body"]["data"] + ";" if "data" in one["body"] else ""
+            )
+            parts_conc["mimeType"] += one["mimeType"] + ";" if "mimeType" in one else ""
         return parts_conc
 
     @staticmethod
@@ -269,7 +292,7 @@ class CollectManager(object):
         temp_dict = {}
         try:
             for one in mail:  # getting the Subject
-                temp_dict[one['name']] = one['value']
+                temp_dict[one["name"]] = one["value"]
             return temp_dict
         except Exception as inst:
             print(type(inst))
@@ -294,8 +317,14 @@ class CollectManager(object):
 
         with concurrent.futures.ProcessPoolExecutor(max_workers=5) as executor:
             future_results = [
-                executor.submit(self.build_data, mails=(self.__service.get_message(user_id, mail['id'], format='full'))) for
-                mail in message_id]
+                executor.submit(
+                    self.build_data,
+                    mails=(
+                        self.__service.get_message(user_id, mail["id"], format="full")
+                    ),
+                )
+                for mail in message_id
+            ]
             print(future_results)
             for future in future_results:
                 try:
