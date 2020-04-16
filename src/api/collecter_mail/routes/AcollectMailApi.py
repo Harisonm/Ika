@@ -44,7 +44,7 @@ def collect_mail():
 
     # Collect mail
     message_id = GmailDataFactory("prod").get_message_id(
-        "me", include_spam_trash=False, max_results=25, batch_using=False
+        "me", include_spam_trash=False, max_results=25, batch_using=True
     )
     print(message_id)
 
@@ -57,9 +57,6 @@ def collect_mail():
         fc = csv.DictWriter(output_file, fieldnames=fieldnames)
         fc.writeheader()
         fc.writerows(reader)
-
-    return flask.redirect(
-        flask.url_for(
-            "b_transform_gmail.transformer_mail", name_file=name_file_csv, code=302
-        )
-    )
+ 
+    return flask.redirect(flask.url_for("b_transform_gmail.transformer_mail", name_file=name_file_csv, code=302))
+    # return flask.redirect(flask.url_for('labelling.build_label_mail', name_file=name_file, code=302))

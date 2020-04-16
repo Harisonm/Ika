@@ -8,7 +8,7 @@ import googleapiclient.discovery
 
 # This variable specifies the name of a file that contains the OAuth 2.0
 # information for this application, including its client_id and client_secret.
-CLIENT_SECRETS_FILE = os.environ.get("CLIENT_SECRETS_FILE", default=False)
+CLIENT_SECRET = os.environ.get("CLIENT_SECRET", default=False)
 
 # This OAuth 2.0 access scope allows for full read/write access to the
 # authenticated user's account and requires requests to use an SSL connection.
@@ -48,7 +48,7 @@ def authorize():
     """
     # Create flow instance to manage the OAuth 2.0 Authorization Grant Flow steps.
     flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
-        CLIENT_SECRETS_FILE, scopes=SCOPES
+        CLIENT_SECRET, scopes=SCOPES
     )
 
     # The URI created here must exactly match one of the authorized redirect URIs
@@ -83,7 +83,7 @@ def auth():
     state = flask.session["state"]
 
     flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
-        CLIENT_SECRETS_FILE, scopes=None, state=state
+        CLIENT_SECRET, scopes=None, state=state
     )
     flow.redirect_uri = flask.url_for("google_auth.auth", _external=True)
 

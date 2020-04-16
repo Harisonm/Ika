@@ -20,11 +20,7 @@ app = flask.Blueprint("b_transform_gmail", __name__)
 @app.route("/transform/<name_file>", methods=["GET", "POST"])
 def transform_mail(name_file):
     # labelling_uri = os.environ.get("FN_BASE_URI", default=False) + '/labelling/' + name_file
-
-    name_user_dict = GmailDataFactory("prod").get_user().execute()
-    name_user = re.search(r"(.*[^@]?)@", name_user_dict["emailAddress"])
-    name_user = str(name_user.group(0).replace("@", "")).replace(".", "_")
-
+    
     schema = {}
     with open(SCHEMA) as json_file:
         schema["fields"] = json.load(json_file)

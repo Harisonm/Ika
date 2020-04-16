@@ -1,51 +1,41 @@
 # Projet neomail
 
 # Présentation du projet
-Le projet neomail est un outil qui permet de trier/classé vos mails grace à des labels construit par un modèle de clustering
+Le projet neomail est un outil qui permet de trier/classer vos mails grace à des labels construit par un modèle de clustering.
 
 neomail project can to classify your mail from labels. labelling is build from clustering model.
 
-# Présentation du repository
+# Lancer le projet en local
 
-Le projet neomail englobe 3 environnement :
-- environnement  dev : 
-Vous pouvez lancer les différents fichiers '.py' des dossiers 'tests' sans passer par flask.
+Vous devez d'abord vous rendre au lien suivant afin de générer votre compte de service :
 
-Docker de dev:
-
-
-- environnement datalab
-Des notebooks sont disponible pour faire des tests de modele. 
-
-docker datalab:
-
-- environnement production
-Vous trouverez diverses APIs dans chaque block que vous pourrez lancer via flask.
-
-Docker de production:
-
-
-
-
-
-
-
-
-
-
-
-Chaque brique des components a besoin d'un compote de service de type .json pour fonctionner.
-
-Les comptes de service et fichier d'env :
-
-.env : Spécifie tout les paramètre lié à vôtre environnement global (ici GCP)
-
-service_account.json : Fichier qui permet d'accèder aux service lié à GCP
-
-gmail_service.jon : Fichier d'autorisation pour l'API Gmail. Ce fichier est propre à votre mail 
-pour le généré : 
 1 . https://developers.google.com/gmail/api/quickstart/python
-2 . cliquer sur "ENABLE THE GMAIL API"
-3 . renommé le en gmail_service.json et placé le dans dossier "resources" lié à votre cas d'usage.
 
-chaque credential en .json se trouve dans resources
+![Python Quickstart](docs/images/python_quickstart.png)
+
+cliquer sur "Enable the Gmail API"
+
+2 . Choisir "Desktop app" et cliquer sur "CREATE"
+![Generate Json](docs/images/python_quickstart_generate_json.png)
+
+3 . renommé le en client_secret_localhost.json et placé le dans dossier "resources".
+
+Information : client_secret_localhost.json : Fichier d'autorisation pour l'API Gmail. Ce fichier est propre à votre mail.
+
+## Lancer à partir d'un environnement virtual python
+
+1. Installer les libraries dont vous avez besoin
+```
+pip install -r requirements.txt
+```
+
+2. Lancer le programme
+
+```
+bash run_neomail_localhost.sh
+```
+
+## Lancer à partir du docker-compose
+
+
+

@@ -5,7 +5,7 @@ import csv
 import os
 import time
 
-CLIENT_SECRET = os.environ.get("SCHEMA_COLLECT", default=False)
+CLIENT_SECRET = os.environ.get("CLIENT_SECRET", default=False)
 SCHEMA = os.environ.get("SCHEMA_COLLECT", default=False)
 PATH_SAVE = os.environ.get("PATH_FILE", default=False)
 
