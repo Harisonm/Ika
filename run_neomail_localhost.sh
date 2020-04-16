@@ -9,9 +9,7 @@ export FLASK_ENV=development
 # development
 export FN_FLASK_SECRET_KEY=SOMETHING RANDOM AND SECRET
 
-export CLIENT_SECRETS_FILE=resources/api_gcp_credential/client_secret_localhost.json
-export CLIENT_SECRET=resources/gmail_credential/gmail_credentials.json
-export SERVICE_ACCOUNT_GCP=resources/gcp_credential/service_account.json
+export CLIENT_SECRET=resources/client_secret_localhost.json
 
 # code
 export PATH_FILE=temp/
