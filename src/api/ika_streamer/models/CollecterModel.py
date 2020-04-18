@@ -46,7 +46,7 @@ class CollecterModel(object):
                 'dKimsSignature' (str):'v=1; a=rsa-sha256; c=',
                 'headersMessageId' (str):'  <483b1eb3.AGgAACiDSnMAASm_j0QAAGVfN8EAAP-Oa4IAF2BzAAk3swBcrD-9@mailjet.com>'
                 'mimeVersion' (str):'1.0',
-                'from' (str):'Name <name@domaine-mail.com>' ,
+                'From' (str):'Name <name@domaine-mail.com>' ,
                 'to' (str):'Name <name@domaine-mail.com>',
                 'subject' (str):'Lorem ipsum dolor sit ametLorem ipsum dolor sit amet',
                 'date' (str):'Tue, 23 Apr 2019 18:30:46 +0200',
@@ -154,9 +154,9 @@ class CollecterModel(object):
             except KeyError:
                 temp_dict["mimeVersion"] = ""
             try:
-                temp_dict["from"] = temp_tab["From"]
+                temp_dict["From"] = temp_tab["From"]
             except KeyError:
-                temp_dict["from"] = ""
+                temp_dict["From"] = ""
             try:
                 temp_dict["to"] = temp_tab["To"]
             except KeyError:
@@ -329,6 +329,5 @@ class CollecterModel(object):
             for future in future_results:
                 try:
                     yield future.result()
-                    print(future.result())
                 except:
                     print_exc()

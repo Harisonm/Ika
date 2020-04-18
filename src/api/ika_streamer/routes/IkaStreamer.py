@@ -2,7 +2,8 @@
 from src.helper.GmailHelper import GmailDataFactory
 from src.api.ika_streamer.models.CollecterModel import CollecterModel
 from src.api.ika_streamer.models.TransformerModel import TransformerModel
-
+from src.api.ika_streamer.database.models import Mail
+from src.api.ika_streamer.models.StreamArray import StreamArray
 import flask
 import json
 import csv
@@ -23,7 +24,6 @@ example :
 
 app = flask.Blueprint("ika_streamer", __name__)
 
-
 @app.route("/collect", methods=["GET"])
 def collect_mail():
     if "credentials" not in flask.session:
@@ -38,29 +38,34 @@ def collect_mail():
 
 
     schema = {}
-    with open(SCHEMA_TRANSFORM) as json_file:
+    with open(SCHEMA_COLLECT) as json_file:
         schema["fields"] = json.load(json_file)
 
     fieldnames = []
     for field in schema["fields"]:
         fieldnames.append(field["name"])
-        
+    
     message_id = GmailDataFactory("prod").get_message_id(
-        "me", include_spam_trash=False, max_results=25, batch_using=False
+        "me", include_spam_trash=False, max_results=25, batch_using=True
     )
     print(message_id)
-
-    reader = csv.mail = CollecterModel("prod").collect_mail("me", message_id)
-    print(reader)
     
-    reader_clean = csv.mails_transform = TransformerModel(reader).transform_mail()
-    print(reader_clean)
-
-    with open(PATH_SAVE + name_file, 'w', encoding='utf8', newline='') as output_file:
-        fc = csv.DictWriter(output_file, fieldnames=fieldnames)
-        fc.writeheader()
-        fc.writerows(reader_clean)
+    #Write the contents to file:
+    with open(PATH_SAVE + 'streamed_write.json', 'w') as outfile:
+        large_generator_handle = CollecterModel("prod").collect_mail("me", message_id)
+        stream_array = StreamArray(large_generator_handle)
+        for chunk in json.JSONEncoder().iterencode(stream_array):
+            print('Writing chunk: ',chunk)
+            outfile.write(chunk)
     
+    # reader_clean = csv.mails_transform = TransformerModel(reader).transform_mail()
+    # next(reader_clean)
+    # print(reader_clean)
+    # for mail in mails:
+    #     mail =  Mail(**mail).save()
+
+    # return {'id': str(id)}, 200
+
     return flask.redirect('/you_were_redirected',code=302)
     
 @app.route("/you_were_redirected")
