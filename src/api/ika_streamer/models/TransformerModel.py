@@ -5,7 +5,7 @@ import re
 import unicodedata
 
 
-class TransformMailManager(object):
+class TransformerModel(object):
     def __init__(self, mail):
         """Get a Data from table in BigQuery
         Args:

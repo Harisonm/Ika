@@ -5,7 +5,7 @@ import concurrent.futures
 import base64
 
 
-class CollectManager(object):
+class CollecterModel(object):
     def __init__(self, env):
         """function to init GmailDataFactory Class .
         Args:
