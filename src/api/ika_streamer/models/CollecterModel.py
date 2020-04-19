@@ -12,6 +12,7 @@ class CollecterModel(object):
         """function to init GmailDataFactory Class .
         Args:
             client_secret: credential to call GMAIL API.
+            transform_flag: flag to using transformerModel to clean data
 
         Returns:
             None
