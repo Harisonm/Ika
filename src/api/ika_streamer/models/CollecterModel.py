@@ -1,4 +1,6 @@
 from src.helper.GmailHelper import GmailDataFactory
+from src.api.ika_streamer.models.TransformerModel import TransformerModel
+
 from concurrent.futures import ThreadPoolExecutor as PoolExecutor
 from traceback import print_exc
 import concurrent.futures
@@ -6,7 +8,7 @@ import base64
 
 
 class CollecterModel(object):
-    def __init__(self, env):
+    def __init__(self, env,transform_flag=False):
         """function to init GmailDataFactory Class .
         Args:
             client_secret: credential to call GMAIL API.
@@ -15,6 +17,7 @@ class CollecterModel(object):
             None
         """
         self.__service = GmailDataFactory(env)
+        self.__transform_flag = transform_flag
 
     def build_data(self, **kwargs):
         """
@@ -154,9 +157,9 @@ class CollecterModel(object):
             except KeyError:
                 temp_dict["mimeVersion"] = ""
             try:
-                temp_dict["From"] = temp_tab["From"]
+                temp_dict["from"] = temp_tab["from"]
             except KeyError:
-                temp_dict["From"] = ""
+                temp_dict["from"] = ""
             try:
                 temp_dict["to"] = temp_tab["To"]
             except KeyError:
@@ -244,7 +247,7 @@ class CollecterModel(object):
                 print(type(inst))
                 print(inst.args)
                 print(inst)
-            return temp_dict
+            return TransformerModel(temp_dict).transform_mail() if self.__transform_flag is True else temp_dict
 
     @staticmethod
     def __transform_mail_body(mail):

@@ -14,47 +14,45 @@ class TransformerModel(object):
             project_id:
         Returns:
         """
-        self.__mail = mail
-        self.__mails_collected = []
+        self.__mails_collected = mail
 
     def transform_mail(self):
         mail = {}
+        
+        if self.__mails_collected["body"] is not None:
+            mail["idMail"] = self.__mails_collected["idMail"]
+            mail["threadId"] = self.__mails_collected["threadId"]
+            mail["historyId"] = self.__mails_collected["historyId"]
+            mail["from"] = self.__mails_collected["from"]
+            mail["to"] = self.__mails_collected["to"]
+            mail["date"] = self.__mails_collected["date"]
+            mail["labelIds"] = (
+                str((self.__mails_collected["labelIds"]))
+                .replace("[", "")
+                .replace("]", "")
+                .replace("'", "")
+            )
+            mail["spam"] = 1 if "SPAM" in self.__mails_collected["labelIds"] else 0
+            mail["body"] = self.__html_to_text(self.__mails_collected["body"])
 
-        for data in self.__mails_collected:
-            if data["body"] is not None:
-                mail["idMail"] = data["idMail"]
-                mail["threadId"] = data["threadId"]
-                mail["historyId"] = data["historyId"]
-                mail["from"] = data["from"]
-                mail["to"] = data["to"]
-                mail["date"] = data["date"]
-                mail["labelIds"] = (
-                    str((data["labelIds"]))
-                    .replace("[", "")
-                    .replace("]", "")
-                    .replace("'", "")
-                )
-                mail["spam"] = 1 if "SPAM" in data["labelIds"] else 0
-                mail["body"] = self.__html_to_text(data["body"])
-
-                mail["mimeType"] = data["mimeType"]
-                yield mail
-            elif data["snippet"] is not None:
-                mail["idMail"] = data["idMail"]
-                mail["threadId"] = data["threadId"]
-                mail["historyId"] = data["historyId"]
-                mail["from"] = data["from"]
-                mail["to"] = data["to"]
-                mail["date"] = data["date"]
-                mail["labelIds"] = (
-                    str((data["labelIds"]))
-                    .replace("[", "")
-                    .replace("]", "")
-                    .replace("'", "")
-                )
-                mail["spam"] = 1 if "SPAM" in data["labelIds"] else 0
-                mail["body"] = self.__html_to_text(data["snippet"])
-                yield mail
+            mail["mimeType"] = self.__mails_collected["mimeType"]
+            return mail
+        elif self.__mails_collected["snippet"] is not None:
+            mail["idMail"] = self.__mails_collected["idMail"]
+            mail["threadId"] = self.__mails_collected["threadId"]
+            mail["historyId"] = self.__mails_collected["historyId"]
+            mail["from"] = self.__mails_collected["from"]
+            mail["to"] = self.__mails_collected["to"]
+            mail["date"] = self.__mails_collected["date"]
+            mail["labelIds"] = (
+                str((self.__mails_collected["labelIds"]))
+                .replace("[", "")
+                .replace("]", "")
+                .replace("'", "")
+            )
+            mail["spam"] = 1 if "SPAM" in self.__mails_collected["labelIds"] else 0
+            mail["body"] = self.__html_to_text(self.__mails_collected["snippet"])
+            return mail
 
     def __split_sender_mail(self):
         pass
@@ -65,7 +63,7 @@ class TransformerModel(object):
         try:
             name_sender, mail_sender = part_sender.split("<")
             mail_sender = mail_sender.replace(">", "")
-            yield name_sender, mail_sender
+            return name_sender, mail_sender
 
         except Exception as exception:
             print(exception)
@@ -102,8 +100,8 @@ class TransformerModel(object):
         new_string = self.strip_accents(v_text.lower())
         new_string = new_string.replace("&gt", "")
         text = re.sub("<[^<]+?>", "", new_string)
-        text1 = " ".join([w for w in text.split() if ((len(w) > 3) and (len(w) < 23))])
-        return text1
+        url = " ".join([w for w in text.split() if ((len(w) > 3) and (len(w) < 23))])
+        return url
 
     @staticmethod
     def strip_accents(text):
