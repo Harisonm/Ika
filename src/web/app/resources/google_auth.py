@@ -102,8 +102,7 @@ def auth():
     credentials = flow.credentials
     # flask.session["credentials"] = credentials_to_dict(credentials)
     credential =  Credential(**credentials_to_dict(credentials)).save()
-
-    # return flask.redirect(flask.url_for('a_collect_gmail.collecter_mail'))
+    
     return flask.redirect("/loading_page")
 
 
