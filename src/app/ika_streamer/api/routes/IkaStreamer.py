@@ -1,7 +1,6 @@
 # Importing required libraries
 from src.helper.GmailHelper import GmailDataFactory
 from src.api.ika_streamer.models.CollecterModel import CollecterModel
-
 from src.api.ika_streamer.database.models import Mail
 from src.api.ika_streamer.models.StreamArray import StreamArray
 from src.api.ika_streamer.database.mongo import mdb

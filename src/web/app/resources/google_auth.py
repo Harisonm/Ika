@@ -5,6 +5,7 @@ import time
 import google.oauth2.credentials
 import google_auth_oauthlib.flow
 import googleapiclient.discovery
+from src.web.database.models import Credential
 
 # This variable specifies the name of a file that contains the OAuth 2.0
 # information for this application, including its client_id and client_secret.
@@ -35,16 +36,22 @@ app.secret_key = "REPLACE ME - this value is here as a placeholder."
 
 # NOTE A LIRE  : Il serai bien de mettre les tokens pour la sécurité de nos mails (Voir avec Bernard)
 @app.route("/")
-def index():
-    return login_page()
+def login_page():
+    """
+    Returns:
+    """
+    flask.flash("You were successfully logged in")
+
+    return flask.render_template(
+        "login.html",
+        redirect_url=os.environ.get("FN_BASE_URI", default=False) + "/authorize",
+    )
 
 
 @app.route("/authorize")
 def authorize():
     """
-
     Returns:
-
     """
     # Create flow instance to manage the OAuth 2.0 Authorization Grant Flow steps.
     flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
@@ -74,9 +81,7 @@ def authorize():
 @app.route("/auth")
 def auth():
     """
-
     Returns:
-
     """
     # Specify the state when creating the flow in the callback so that it can
     # verified in the authorization server response.
@@ -95,7 +100,8 @@ def auth():
     # ACTION ITEM: In a production app, you likely want to save these
     #              credentials in a persistent database instead.
     credentials = flow.credentials
-    flask.session["credentials"] = credentials_to_dict(credentials)
+    # flask.session["credentials"] = credentials_to_dict(credentials)
+    credential =  Credential(**credentials_to_dict(credentials)).save()
 
     # return flask.redirect(flask.url_for('a_collect_gmail.collecter_mail'))
     return flask.redirect("/loading_page")
@@ -105,7 +111,6 @@ def auth():
 def revoke():
     """
     Returns:
-
     """
     if "credentials" not in flask.session:
         return (
@@ -132,7 +137,6 @@ def revoke():
 def clear_credentials():
     """
     Returns:
-
     """
     if "credentials" in flask.session:
         del flask.session["credentials"]
@@ -150,25 +154,10 @@ def credentials_to_dict(credentials):
     }
 
 
-def login_page():
-    """
-
-    Returns:
-
-    """
-    flask.flash("You were successfully logged in")
-    return flask.render_template(
-        "login.html",
-        redirect_url=os.environ.get("FN_BASE_URI", default=False) + "/authorize",
-    )
-
-
 @app.route("/home")
 def home_page():
     """
-
     Returns:
-
     """
     return flask.render_template("home.html")
 
@@ -176,8 +165,6 @@ def home_page():
 @app.route("/loading_page")
 def loading_page():
     """
-
     Returns:
-
     """
     return flask.render_template("loading_page.html")
