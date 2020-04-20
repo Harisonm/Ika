@@ -13,7 +13,8 @@ import googleapiclient.discovery
 import flask
 from pathlib import Path  # python3 only
 
-CLIENT_SECRET_PATH = os.environ.get("CLIENT_SECRET", default=False)
+# CLIENT_SECRET_PATH = os.environ.get("CLIENT_SECRET", default=False)
+CLIENT_SECRET_PATH="resources/client_secret_localhost.json"
 """
 Reading GMAIL using API GMAIL for Python
 """

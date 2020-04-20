@@ -1,20 +1,24 @@
 from src.helper.GmailHelper import GmailDataFactory
+from src.api.ika_streamer.models.TransformerModel import TransformerModel
+
 from concurrent.futures import ThreadPoolExecutor as PoolExecutor
 from traceback import print_exc
 import concurrent.futures
 import base64
 
 
-class CollectManager(object):
-    def __init__(self, env):
+class CollecterModel(object):
+    def __init__(self, env,transform_flag=False):
         """function to init GmailDataFactory Class .
         Args:
             client_secret: credential to call GMAIL API.
+            transform_flag: flag to using transformerModel to clean data
 
         Returns:
             None
         """
         self.__service = GmailDataFactory(env)
+        self.__transform_flag = transform_flag
 
     def build_data(self, **kwargs):
         """
@@ -46,7 +50,7 @@ class CollectManager(object):
                 'dKimsSignature' (str):'v=1; a=rsa-sha256; c=',
                 'headersMessageId' (str):'  <483b1eb3.AGgAACiDSnMAASm_j0QAAGVfN8EAAP-Oa4IAF2BzAAk3swBcrD-9@mailjet.com>'
                 'mimeVersion' (str):'1.0',
-                'from' (str):'Name <name@domaine-mail.com>' ,
+                'From' (str):'Name <name@domaine-mail.com>' ,
                 'to' (str):'Name <name@domaine-mail.com>',
                 'subject' (str):'Lorem ipsum dolor sit ametLorem ipsum dolor sit amet',
                 'date' (str):'Tue, 23 Apr 2019 18:30:46 +0200',
@@ -154,7 +158,7 @@ class CollectManager(object):
             except KeyError:
                 temp_dict["mimeVersion"] = ""
             try:
-                temp_dict["from"] = temp_tab["From"]
+                temp_dict["from"] = temp_tab["from"]
             except KeyError:
                 temp_dict["from"] = ""
             try:
@@ -244,7 +248,7 @@ class CollectManager(object):
                 print(type(inst))
                 print(inst.args)
                 print(inst)
-            return temp_dict
+            return TransformerModel(temp_dict).transform_mail() if self.__transform_flag is True else temp_dict
 
     @staticmethod
     def __transform_mail_body(mail):
@@ -329,6 +333,5 @@ class CollectManager(object):
             for future in future_results:
                 try:
                     yield future.result()
-                    print(future.result())
                 except:
                     print_exc()

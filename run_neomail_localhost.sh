@@ -16,8 +16,11 @@ export PATH_FILE=temp/
 export HOME_URI=/home
 
 # schema
-export SCHEMA_COLLECT=src/api/collecter_mail/resources/schema/gmail_fields.json
-export SCHEMA_TRANSFORM=src/api/transformer_mail/resources/schema/gmail_fields.json
+export SCHEMA_COLLECT=src/api/ika_streamer/resources/collecter/gmail_fields.json
+export SCHEMA_TRANSFORM=src/api/ika_streamer/resources/transformer/gmail_fields.json
+
+# Database
+export MONGO_URI=mongodb://localhost:27017/
 
 python -m flask run -p 8040 --host=127.0.0.1
 # python -m flask run -p 8080 --host=0.0.0.0
