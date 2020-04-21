@@ -28,7 +28,7 @@ class LoginApi(Resource):
         return {'token': access_token}, 200
 
 # Class pour le credential
-class Auth(Resource):
+class CredentialsApi(Resource):
     def get(self):
         query = Credential.objects()
         credentials = Credential.objects().to_json()
@@ -46,3 +46,22 @@ class Auth(Resource):
         id = credential.id
         return {'id': str(id)}, 200
 
+class CredentialApi(Resource):
+    @jwt_required
+    def put(self, id):
+        user_id = get_jwt_identity()
+        credential = Credential.objects.get(id=id, added_by=user_id)
+        body = request.get_json()
+        Credential.objects.get(id=id).update(**body)
+        return '', 200
+    
+    @jwt_required
+    def delete(self, id):
+        user_id = get_jwt_identity()
+        credential = Credential.objects.get(id=id, added_by=user_id)
+        credential.delete()
+        return '', 200
+
+    def get(self, id):
+        credentials = Credential.objects.get(id=id).to_json()
+        return Response(credentials, mimetype="application/json", status=200)
