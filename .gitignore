@@ -34,3 +34,5 @@ client_secret\.json
 client_secret_localhost\.json
 */client_secret_localhost.json
 */__pycache__
+python_37_classifier/*
+python_37_stream/*
