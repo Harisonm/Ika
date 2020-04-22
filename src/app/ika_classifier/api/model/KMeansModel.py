@@ -421,7 +421,7 @@ def build_label_mails(
         cluster_label = []
         for ind in order_centroids[cluster, :n_clusters]:
             label_name = (
-                vocab_frame.iloc[terms[ind].split(" ")]
+                vocab_frame.loc[terms[ind].split(" ")]
                 .values.tolist()[0][0]
                 .encode("utf-8", "ignore")
             )

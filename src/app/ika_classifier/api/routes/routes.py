@@ -9,6 +9,7 @@ import os
 
 PATH = os.environ.get("PATH_FILE", default=False)
 ENV = os.environ.get("FLASK_ENV", default=False)
+HOME_URI = os.environ.get("HOME_URI", default=False)
 GOOGLE_GMAIL_URI = os.environ.get("GOOGLE_GMAIL_URI", default=False)
 
 nltk.download("punkt")
@@ -87,6 +88,18 @@ def build_label_mail():
             )
 
         return flask.redirect(flask.url_for("google_auth.home_page", code=302))
+
+@app.route("/api/v1/labelling/deleteAll/")
+def delete_all_label():
+    """Delete all labels.
+    Args:
+    """
+    labels = GmailDataFactory("prod").list_label("me")
+    for label in labels:
+        if label["type"] == "user":
+            GmailDataFactory("prod").delete_label_from_id("me", label["id"])
+
+    return flask.redirect(HOME_URI, code=302)
 
 
 @app.route("/labelling/create/", methods=["POST"])
