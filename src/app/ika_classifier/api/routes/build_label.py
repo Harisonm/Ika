@@ -23,7 +23,7 @@ example :
 app = flask.Blueprint("labelling", __name__)
 
 
-@app.route("/labelling/", methods=["GET", "POST"])
+@app.route("/api/v1/labelling/", methods=["GET", "POST"])
 def build_label_mail():
     """method to build label from clustering Model
     this function take word, convert its to vector, calculate distance between vector from elbow method and using Kmeans.

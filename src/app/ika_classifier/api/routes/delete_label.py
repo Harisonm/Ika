@@ -14,7 +14,7 @@ example :
 app = flask.Blueprint("delete_label_util", __name__)
 
 
-@app.route("/labelling/deleteAll/")
+@app.route("/api/v1/labelling/deleteAll/")
 def delete_all_label():
     """Delete all labels.
     Args:

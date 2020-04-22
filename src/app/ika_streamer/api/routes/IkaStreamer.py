@@ -22,7 +22,7 @@ example :
 
 app = flask.Blueprint("ika_streamer", __name__)
 
-@app.route("/collect", methods=["GET"])
+@app.route("/api/v1/ika_streamer", methods=["GET"])
 def collect_mail():
     
     message_id = GmailDataFactory("prod").get_message_id(
