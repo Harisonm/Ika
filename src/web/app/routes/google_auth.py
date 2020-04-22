@@ -1,11 +1,9 @@
 import os
 import flask
 import requests
-import time
 import google.oauth2.credentials
 import google_auth_oauthlib.flow
-import googleapiclient.discovery
-from src.web.database.models import Credential
+from src.web.app.database.models import Credential
 
 # This variable specifies the name of a file that contains the OAuth 2.0
 # information for this application, including its client_id and client_secret.
@@ -33,8 +31,6 @@ app = flask.Blueprint("google_auth", __name__)
 # key. See http://flask.pocoo.org/docs/0.12/quickstart/#sessions.
 app.secret_key = "REPLACE ME - this value is here as a placeholder."
 
-
-# NOTE A LIRE  : Il serai bien de mettre les tokens pour la sécurité de nos mails (Voir avec Bernard)
 @app.route("/")
 def login_page():
     """
@@ -99,9 +95,8 @@ def auth():
     # Store credentials in the session.
     # ACTION ITEM: In a production app, you likely want to save these
     #              credentials in a persistent database instead.
-    credentials = flow.credentials
     # flask.session["credentials"] = credentials_to_dict(credentials)
-    credential =  Credential(**credentials_to_dict(credentials)).save()
+    credential = Credential(**credentials_to_dict(flow.credentials)).save()
     
     return flask.redirect("/loading_page")
 

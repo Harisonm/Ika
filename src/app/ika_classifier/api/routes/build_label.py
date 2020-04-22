@@ -1,6 +1,7 @@
-from src.api.classifier_mail.model.KMeansModel import *
-from src.api.classifier_mail.model.Metrics import *
-from src.helper.GmailHelper import GmailDataFactory
+from src.app.ika_classifier.api.model.KMeansModel import *
+from src.app.ika_classifier.api.model.Metrics import *
+from src.app.ika_classifier.api.helper.GmailHelper import GmailDataFactory
+from src.app.ika_classifier.api.database.mongo import mdb
 import pandas as pd
 import flask
 import nltk
@@ -8,9 +9,10 @@ import os
 
 PATH = os.environ.get("PATH_FILE", default=False)
 ENV = os.environ.get("FLASK_ENV", default=False)
+GOOGLE_GMAIL_URI = os.environ.get("GOOGLE_GMAIL_URI", default=False)
+
 nltk.download("punkt")
 nltk.download("stopwords")
-GOOGLE_GMAIL_URI = "https://mail.google.com/mail/u/0/#inbox"
 """
 Usage: build labels in mails from clustering Model
 GET host:port/labelling/gmail/{name_file}
@@ -21,8 +23,8 @@ example :
 app = flask.Blueprint("labelling", __name__)
 
 
-@app.route("/labelling/<name_file>", methods=["GET", "POST"])
-def build_label_mail(name_file):
+@app.route("/labelling/", methods=["GET", "POST"])
+def build_label_mail():
     """method to build label from clustering Model
     this function take word, convert its to vector, calculate distance between vector from elbow method and using Kmeans.
     Args:
@@ -31,8 +33,9 @@ def build_label_mail(name_file):
     Returns:
 
     """
-    train = pd.read_csv(str(PATH) + name_file, encoding="utf-8")
-
+    mycol = mdb["collect"]
+    train = pd.DataFrame(list(mycol.find()))
+    
     clean_train_reviews = pre_processing_dataset(train)
 
     vocab_frame = build_vocab_frame(clean_train_reviews)

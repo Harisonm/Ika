@@ -1,4 +1,5 @@
-from src.web.app.resources.auth import SignupApi, LoginApi, CredentialsApi, CredentialApi
+from src.web.app.resources.login import SignupApi, LoginApi
+from src.web.app.resources.credential import CredentialsApi, CredentialApi
 
 def initialize_routes(api):
     api.add_resource(CredentialsApi, '/api/credentials')

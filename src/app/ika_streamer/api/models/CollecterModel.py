@@ -1,5 +1,5 @@
-from src.helper.GmailHelper import GmailDataFactory
-from src.api.ika_streamer.models.TransformerModel import TransformerModel
+from src.app.ika_streamer.api.helper.GmailHelper import GmailDataFactory
+from src.app.ika_streamer.api.models.TransformerModel import TransformerModel
 
 from concurrent.futures import ThreadPoolExecutor as PoolExecutor
 from traceback import print_exc

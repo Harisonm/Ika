@@ -3,8 +3,7 @@ from __future__ import print_function
 from googleapiclient.discovery import build
 from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
-from src.app.ika_streamer.api.helper.database.mongo import mdb
-# from src.web import google_auth
+from src.app.ika_classifier.api.database.mongo import mdb
 from apiclient import errors
 import pickle
 import os.path
@@ -12,7 +11,7 @@ import random
 import google.oauth2.credentials
 import googleapiclient.discovery
 import flask
-from pathlib import Path  # python3 only
+from pathlib import Path
 
 # CLIENT_SECRET_PATH = os.environ.get("CLIENT_SECRET", default=False)
 CLIENT_SECRET_PATH="resources/client_secret_localhost.json"

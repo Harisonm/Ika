@@ -8,19 +8,15 @@ export FLASK_DEBUG=1
 export FLASK_ENV=development
 # development
 export FN_FLASK_SECRET_KEY=SOMETHING RANDOM AND SECRET
-
 export CLIENT_SECRET=resources/client_secret_localhost.json
 
 # code
 export PATH_FILE=temp/
 export HOME_URI=/home
 
-# schema
-# export SCHEMA_COLLECT=src/api/ika_streamer/resources/collecter/gmail_fields.json
-# export SCHEMA_TRANSFORM=src/api/ika_streamer/resources/transformer/gmail_fields.json
-
 # Database
 export MONGO_URI=mongodb://localhost:27017/
+export ENV_FILE_LOCATION=./.env
 
 python -m flask run -p 8040 --host=127.0.0.1
 
