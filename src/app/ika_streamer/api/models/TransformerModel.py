@@ -23,7 +23,7 @@ class TransformerModel(object):
             mail["idMail"] = self.__mails_collected["idMail"]
             mail["threadId"] = self.__mails_collected["threadId"]
             mail["historyId"] = self.__mails_collected["historyId"]
-            mail["from"] = self.__mails_collected["from"]
+            mail["From"] = self.__mails_collected["From"]
             mail["to"] = self.__mails_collected["to"]
             mail["date"] = self.__mails_collected["date"]
             mail["labelIds"] = (
