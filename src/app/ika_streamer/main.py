@@ -8,10 +8,10 @@ app = FastAPI(openapi_url="/api/v1/streamers/openapi.json", docs_url="/api/v1/st
 
 # @app.on_event("startup")
 # async def startup():
-#     await database.connect()
+#     pass
 
 # @app.on_event("shutdown")
 # async def shutdown():
-#     await database.disconnect()
+#     pass
 
 app.include_router(streamers, prefix='/api/v1/streamers', tags=['streamers'])

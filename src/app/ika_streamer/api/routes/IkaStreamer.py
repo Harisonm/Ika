@@ -1,4 +1,3 @@
-
 from src.app.ika_streamer.api.helper.GmailHelper import GmailDataFactory
 from src.app.ika_streamer.api.models.CollecterModel import CollecterModel
 from src.app.ika_streamer.api.database.mongo import mdb
@@ -21,13 +20,19 @@ streamers = APIRouter()
 async def create_streamer():
     
     message_id = GmailDataFactory("prod").get_message_id(
-        "me", include_spam_trash=False, max_results=25, batch_using=False
+        "me",
+        include_spam_trash=False,
+        max_results=25,
+        batch_using=False
     )
-    mycol = mdb["streamer"]
-    large_generator_handle = CollecterModel("prod",transform_flag=True).collect_mail("me", message_id)
-
-    mycol.insert(large_generator_handle)
     
+    mycol = mdb["streamer"]
+    large_generator_handle = CollecterModel("prod",
+                                            transform_flag=True).collect_mail(user_id="me",
+                                                                              message_id=message_id,
+                                                                              max_workers=25)
+                                            
+    mycol.insert(large_generator_handle)
     response = mycol.find_one()
     
     if not response:

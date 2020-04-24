@@ -48,8 +48,7 @@ def build_label_mail(data):
     )
 
     for mail in clean_train_reviews:
-        # print(mail)
-        # print(mail['idMail'])
+ 
         for lbl in mail["label"][:1]:
             GmailDataFactory("dev").create_label(
                 "me",

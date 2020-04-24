@@ -303,7 +303,7 @@ class CollecterModel(object):
             print(inst.args)
             print(inst)
 
-    def collect_mail(self, user_id, message_id):
+    def collect_mail(self, user_id, message_id,max_workers=5):
         """function collect data from list send by API Gmail.
         Args:
             user_id :
@@ -319,7 +319,7 @@ class CollecterModel(object):
         """
         print("Total  messages collect in inbox: ", str(len(message_id)))
 
-        with concurrent.futures.ProcessPoolExecutor(max_workers=5) as executor:
+        with concurrent.futures.ProcessPoolExecutor(max_workers=max_workers) as executor:
             future_results = [
                 executor.submit(
                     self.build_data,
