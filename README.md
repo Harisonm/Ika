@@ -54,3 +54,5 @@ http://localhost:8040/api/auth/login
 {
     "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1ODc1MDExNTAsIm5iZiI6MTU4NzUwMTE1MCwianRpIjoiOTlkMTU1YjYtZjg1Yy00ZmU0LWE5ZGYtYTVjNDJmZTkxZjRlIiwiZXhwIjoxNTg4MTA1OTUwLCJpZGVudGl0eSI6IjVlOWY1N2RhMmQwNDBjMmE3OTE0NDg2ZCIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.dkIwfZ78zMxYVJkKk3CaKNLUSpmjPZZEYFDyPrahnPU"
 }
+
+uvicorn src.app.ika_streamer.main:app --reload

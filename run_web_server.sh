@@ -15,7 +15,7 @@ export PATH_FILE=temp/
 export HOME_URI=/home
 
 # Database
-export MONGO_URI=mongodb://localhost:27017/
+export MONGO_URI=
 export ENV_FILE_LOCATION=./.env
 
 python -m flask run -p 8040 --host=127.0.0.1

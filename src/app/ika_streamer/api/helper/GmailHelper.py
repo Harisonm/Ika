@@ -201,7 +201,6 @@ class GmailDataFactory(object):
                 .get(userId=user_id, id=mail_id, format=format)
                 .execute()
             )
-            print(messages)
             return messages
 
         except errors.HttpError as error:
