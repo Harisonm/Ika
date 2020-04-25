@@ -4,7 +4,7 @@ export PORT_APP=5000
 export OAUTHLIB_INSECURE_TRANSPORT=1
 export FLASK_APP=src/app/ika_classifier/app.py
 export FLASK_DEBUG=1
-export FLASK_ENV=production
+export FLASK_ENV=development
 # development
 export FN_FLASK_SECRET_KEY=SOMETHING RANDOM AND SECRET
 

@@ -12,7 +12,6 @@ class CredentialsApi(Resource):
         credentials = Credential.objects().to_json()
         return Response(credentials, mimetype="application/json", status=200)
 
-    @jwt_required
     def post(self):
         user_id = get_jwt_identity()
         body = request.get_json()
@@ -26,7 +25,7 @@ class CredentialsApi(Resource):
 
 
 class CredentialApi(Resource):
-    @jwt_required
+    
     def put(self, id):
         user_id = get_jwt_identity()
         credential = Credential.objects.get(id=id, added_by=user_id)

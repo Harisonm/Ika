@@ -21,6 +21,7 @@ SCOPES = [
     "https://www.googleapis.com/auth/gmail.modify",
     "https://www.googleapis.com/auth/gmail.settings.basic",
     "https://www.googleapis.com/auth/gmail.settings.sharing",
+
 ]
 API_SERVICE_NAME = "gmail"
 API_VERSION = "v1"
@@ -92,10 +93,6 @@ def auth():
     authorization_response = flask.request.url
     flow.fetch_token(authorization_response=authorization_response)
 
-    # Store credentials in the session.
-    # ACTION ITEM: In a production app, you likely want to save these
-    #              credentials in a persistent database instead.
-    # flask.session["credentials"] = credentials_to_dict(credentials)
     credential = Credential(**credentials_to_dict(flow.credentials)).save()
     
     return flask.redirect("/loading_page")

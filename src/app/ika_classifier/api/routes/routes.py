@@ -34,7 +34,7 @@ def build_label_mail():
     Returns:
 
     """
-    mycol = mdb["collect"]
+    mycol = mdb["streamer"]
     train = pd.DataFrame(list(mycol.find()))
     
     clean_train_reviews = pre_processing_dataset(train)
