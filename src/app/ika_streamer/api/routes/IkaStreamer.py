@@ -2,6 +2,7 @@ from src.app.ika_streamer.api.helper.GmailHelper import GmailDataFactory
 from src.app.ika_streamer.api.models.CollecterModel import CollecterModel
 from src.app.ika_streamer.api.database.mongo import mdb
 from fastapi import APIRouter, HTTPException
+from fastapi.responses import RedirectResponse
 from src.app.ika_streamer.api.models.Gmail import Gmail
 from typing import List
 import json
@@ -30,14 +31,16 @@ async def create_streamer():
     large_generator_handle = CollecterModel("prod",
                                             transform_flag=True).collect_mail(user_id="me",
                                                                               message_id=message_id,
-                                                                              max_workers=25)
+                                                                              max_workers=10)
                                             
     mycol.insert(large_generator_handle)
     response = mycol.find_one()
     
     if not response:
         raise HTTPException(status_code=404, detail="Cast not found")
-    return response
+    
+    # Test
+    return RedirectResponse("http://127.0.0.1:5000/api/v1/labelling/")
     
 
 
