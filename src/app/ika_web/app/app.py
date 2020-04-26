@@ -5,8 +5,9 @@ import src.app.ika_web.app.api.routes.google_auth
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
 from flask_restful import Api
+from flask_mail import Mail
 from src.app.ika_web.app.api.database.db import initialize_db
-from src.app.ika_web.app.api.routes.routes import initialize_routes
+# from src.app.ika_web.app.api.routes.routes import initialize_routes
 from src.app.ika_web.app.api.resources.errors import errors
 
 app = flask.Flask(__name__,
@@ -17,10 +18,13 @@ app.config.from_envvar('ENV_FILE_LOCATION')
 
 app.secret_key = os.environ.get("FN_FLASK_SECRET_KEY", default=False)
 
-api = Api(app)
+mail = Mail(app)
+from src.app.ika_web.app.api.routes.routes import initialize_routes
+
 api = Api(app, errors=errors)
 bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
+# mail = Mail(app)
 
 app.config['MONGODB_SETTINGS'] = {
     'host': 'mongodb://localhost/google-auth-bag'
