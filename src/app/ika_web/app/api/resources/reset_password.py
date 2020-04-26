@@ -9,6 +9,7 @@ from src.app.ika_web.app.api.database.models import User
 from src.app.ika_web.app.api.resources.errors import SchemaValidationError, InternalServerError, \
     EmailDoesnotExistsError, BadTokenError
 from src.app.ika_web.app.api.services.mail_service import send_email
+from pathlib import Path
 
 class ForgotPassword(Resource):
     def post(self):
@@ -25,13 +26,14 @@ class ForgotPassword(Resource):
 
             expires = datetime.timedelta(hours=24)
             reset_token = create_access_token(str(user.id), expires_delta=expires)
-
-            return send_email('[Credential-bag] Reset Your Password',
-                              sender='support@credential-ika-bag.com',
+            in_file_1 = Path.cwd()
+            print('PATH',in_file_1)
+            return send_email('[Credential] Reset Your Password',
+                              sender='support@credential-ika.com',
                               recipients=[user.email],
-                              text_body=render_template('email/reset_password.txt',
+                              text_body=render_template('reset_password.txt',
                                                         url=url + reset_token),
-                              html_body=render_template('email/reset_password.html',
+                              html_body=render_template('reset_password.html',
                                                         url=url + reset_token))
         except SchemaValidationError:
             raise SchemaValidationError
@@ -60,8 +62,8 @@ class ResetPassword(Resource):
             user.hash_password()
             user.save()
 
-            return send_email('[Movie-bag] Password reset successful',
-                              sender='support@movie-bag.com',
+            return send_email('[Credential] Password reset successful',
+                              sender='support@credential-ika.com',
                               recipients=[user.email],
                               text_body='Password reset was successful',
                               html_body='<p>Password reset was successful</p>')

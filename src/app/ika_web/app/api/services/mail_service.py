@@ -1,7 +1,7 @@
 from threading import Thread
 from flask_mail import Message
 from src.app.ika_web.app.app import app,mail
-
+from src.app.ika_web.app.api.resources.errors import InternalServerError
 
 def send_async_email(app, msg):
     with app.app_context():

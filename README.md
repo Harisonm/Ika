@@ -56,10 +56,14 @@ http://127.0.0.1:8040/api/v1/auth/login
 	"email":"manitra@me.fr",
 	"password":"test"
 }
+```
 Cc le Token obtenu
 
 Obtenir le credential Google propre à se compte
+
+```
 http://127.0.0.1:8040/api/v1/credentials
+```
 
 Sur postman :
 Get
@@ -67,9 +71,18 @@ Get
 2. Type : Bearer Token
 3. Coller le Token
 
+```json
 {
     "token": "XXX"
 }
+```
 
-
+## Lautch Streamer
+```
 uvicorn src.app.ika_streamer.main:app --reload
+```
+
+Lancer serveur SMTP : 
+```bash
+python -m smtpd -n -c DebuggingServer localhost:1025 
+```
