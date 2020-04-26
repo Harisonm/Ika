@@ -15,7 +15,6 @@ app = flask.Flask(__name__,
                   static_folder="./web/static")
 
 app.config.from_envvar('ENV_FILE_LOCATION')
-
 app.secret_key = os.environ.get("FN_FLASK_SECRET_KEY", default=False)
 
 mail = Mail(app)
