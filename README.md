@@ -38,21 +38,38 @@ bash run_neomail_localhost.sh
 ## Lancer à partir du docker-compose
 
 
+Creer un Compte
+http://127.0.0.1:8040/api/v1/auth/signup
 
-http://localhost:8040/api/auth/signup
-
+```json
 {
 	"email":"manitra@me.fr",
 	"password":"test"
 }
+```
 
-http://localhost:8040/api/auth/login
+Se connecter
+http://127.0.0.1:8040/api/v1/auth/login
+
+```json
 {
 	"email":"manitra@me.fr",
 	"password":"test"
 }
+Cc le Token obtenu
+
+Obtenir le credential Google propre à se compte
+http://127.0.0.1:8040/api/v1/credentials
+
+Sur postman :
+Get
+1. Authorization
+2. Type : Bearer Token
+3. Coller le Token
+
 {
-    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1ODc1MDExNTAsIm5iZiI6MTU4NzUwMTE1MCwianRpIjoiOTlkMTU1YjYtZjg1Yy00ZmU0LWE5ZGYtYTVjNDJmZTkxZjRlIiwiZXhwIjoxNTg4MTA1OTUwLCJpZGVudGl0eSI6IjVlOWY1N2RhMmQwNDBjMmE3OTE0NDg2ZCIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.dkIwfZ78zMxYVJkKk3CaKNLUSpmjPZZEYFDyPrahnPU"
+    "token": "XXX"
 }
+
 
 uvicorn src.app.ika_streamer.main:app --reload
