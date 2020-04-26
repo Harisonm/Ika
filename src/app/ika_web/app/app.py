@@ -1,5 +1,6 @@
 import os
 import flask
+import src.app.ika_web.app.api.routes.page
 import src.app.ika_web.app.api.routes.google_auth
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
@@ -25,7 +26,7 @@ app.config['MONGODB_SETTINGS'] = {
 
 initialize_db(app)
 initialize_routes(api)
-
+app.register_blueprint(src.app.ika_web.app.api.routes.page.app)
 app.register_blueprint(src.app.ika_web.app.api.routes.google_auth.app)
 # http_server = WSGIServer(('0.0.0.0', int(os.environ['PORT_APP'])), app)
 # http_server.serve_forever()

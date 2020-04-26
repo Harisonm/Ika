@@ -33,19 +33,6 @@ app = flask.Blueprint("google_auth", __name__)
 app.secret_key = "REPLACE ME - this value is here as a placeholder."
 
 
-@app.route("/")
-def login_page():
-    """
-    Returns:
-    """
-    flask.flash("You were successfully logged in")
-
-    return flask.render_template(
-        "login.html",
-        redirect_url=os.environ.get("FN_BASE_URI", default=False) + "/authorize",
-    )
-
-
 @app.route("/authorize")
 def authorize():
     """
@@ -120,9 +107,9 @@ def revoke():
 
     status_code = getattr(revoke, "status_code")
     if status_code == 200:
-        return "Credentials successfully revoked." + login_page()
+        return "Credentials successfully revoked."
     else:
-        return "An error occurred." + login_page()
+        return "An error occurred."
 
 
 @app.route("/clear")
@@ -132,7 +119,7 @@ def clear_credentials():
     """
     if "credentials" in flask.session:
         del flask.session["credentials"]
-    return "Credentials have been cleared.<br><br>" + login_page()
+    return "Credentials have been cleared.<br><br>" 
 
 
 def credentials_to_dict(credentials):
@@ -144,19 +131,3 @@ def credentials_to_dict(credentials):
         "client_secret": credentials.client_secret,
         "scopes": credentials.scopes,
     }
-
-
-@app.route("/home")
-def home_page():
-    """
-    Returns:
-    """
-    return flask.render_template("home.html")
-
-
-@app.route("/loading_page")
-def loading_page():
-    """
-    Returns:
-    """
-    return flask.render_template("loading_page.html")
