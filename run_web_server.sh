@@ -3,7 +3,7 @@ export FN_AUTH_REDIRECT_URI=http://127.0.0.1:8040/google/auth
 export FN_BASE_URI=http://127.0.0.1:8040
 export PORT_APP=8040
 export OAUTHLIB_INSECURE_TRANSPORT=1
-export FLASK_APP=src/web/app/app.py
+export FLASK_APP=src/app/ika_web/app/app.py
 export FLASK_DEBUG=1
 export FLASK_ENV=development
 # development

@@ -1,7 +1,6 @@
 import flask
 import google.oauth2.credentials
 import googleapiclient.discovery
-from src.web.google_auth import *
 
 app = flask.Blueprint("test", __name__)
 

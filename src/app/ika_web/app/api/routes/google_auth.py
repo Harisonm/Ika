@@ -3,7 +3,7 @@ import flask
 import requests
 import google.oauth2.credentials
 import google_auth_oauthlib.flow
-from src.web.app.database.models import Credential
+from src.app.ika_web.app.api.database.models import Credential
 
 # This variable specifies the name of a file that contains the OAuth 2.0
 # information for this application, including its client_id and client_secret.
@@ -31,6 +31,7 @@ app = flask.Blueprint("google_auth", __name__)
 # If you use this code in your application, replace this with a truly secret
 # key. See http://flask.pocoo.org/docs/0.12/quickstart/#sessions.
 app.secret_key = "REPLACE ME - this value is here as a placeholder."
+
 
 @app.route("/")
 def login_page():
@@ -94,7 +95,7 @@ def auth():
     flow.fetch_token(authorization_response=authorization_response)
 
     credential = Credential(**credentials_to_dict(flow.credentials)).save()
-    
+
     return flask.redirect("/loading_page")
 
 
@@ -105,8 +106,8 @@ def revoke():
     """
     if "credentials" not in flask.session:
         return (
-            'You need to <a href="/authorize">authorize</a> before '
-            + "testing the code to revoke credentials."
+                'You need to <a href="/authorize">authorize</a> before '
+                + "testing the code to revoke credentials."
         )
 
     credentials = google.oauth2.credentials.Credentials(**flask.session["credentials"])
