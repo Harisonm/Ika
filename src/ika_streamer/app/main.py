@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from src.ika_streamer.app.api.routes.IkaStreamer import streamers
+from app.api.routes.IkaStreamer import streamers
 # from app.api.db import metadata, database, engine
 
 # metadata.create_all(engine)

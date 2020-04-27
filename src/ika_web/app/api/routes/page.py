@@ -13,7 +13,7 @@ def login_page():
 
     return flask.render_template(
         "login.html",
-        redirect_url=os.environ.get("FN_BASE_URI", default=False) + "/authorize",
+        redirect_url=os.environ.get("FN_BASE_URI", default=False) + "/api/v1/google/authorize",
     )
     
 @app.route("/home")
