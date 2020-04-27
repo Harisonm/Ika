@@ -6,13 +6,6 @@ import google_auth_oauthlib.flow
 from flask_restful import Resource
 from src.ika_web.app.api.database.models import Credential
 
-# This variable specifies the name of a file that contains the OAuth 2.0
-# information for this application, including its client_id and client_secret.
-CLIENT_SECRET = os.environ.get("CLIENT_SECRET", default=False)
-
-# This OAuth 2.0 access scope allows for full read/write access to the
-# authenticated user's account and requires requests to use an SSL connection.
-
 SCOPES = [
     "https://www.googleapis.com/auth/gmail.readonly",
     "https://www.googleapis.com/auth/gmail.labels",
@@ -26,11 +19,11 @@ SCOPES = [
 ]
 
 class AuthorizeGoogle(Resource):
-# @app.route("/authorize")
     def get(self):
         """
         Returns:
         """
+        CLIENT_SECRET = os.environ.get("CLIENT_SECRET", default=False)
         # Create flow instance to manage the OAuth 2.0 Authorization Grant Flow steps.
         flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
             CLIENT_SECRET, scopes=SCOPES
@@ -56,7 +49,6 @@ class AuthorizeGoogle(Resource):
         return flask.redirect(authorization_url)
 
 class AuthentificationGoogle(Resource):
-# @app.route("/auth")
     def get(self):
         """
         Returns:
@@ -65,6 +57,8 @@ class AuthentificationGoogle(Resource):
         # verified in the authorization server response.
         state = flask.session["state"]
 
+        CLIENT_SECRET = os.environ.get("CLIENT_SECRET", default=False)
+        
         flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
             CLIENT_SECRET, scopes=None, state=state
         )
