@@ -1,8 +1,20 @@
 version: '3.7'
 
 services:
+  ika_streamer:
+    build: ./src/ika_streamer
+    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+    volumes:
+      - ./src/ika_streamer/:/app/
+    ports:
+      - 8002:8000
+    environment:
+      - MONGO_URI=mongodb://localhost:27017/
+    depends_on:
+      - ika_db
+
   ika_web:
-    build: src/ika_web
+    build: ./src/ika_web
     command: python -m flask run -p 8001 --host=127.0.0.1
     volumes:
       - ./src/ika_web/:/app/
@@ -29,18 +41,6 @@ services:
     image : mongo:latest
     ports :
         - "27017:27017"
-
-  ika_streamer:
-    build: src/ika_streamer
-    command: python -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
-    volumes:
-      - ./src/ika_streamer/:/app/
-    ports:
-      - 8002:8000
-    environment:
-      - MONGO_URI=mongodb://localhost:27017/
-    depends_on:
-      - ika_db
 
   nginx:
     image: nginx:latest
