@@ -79,7 +79,7 @@ Get
 
 ## Lautch Streamer
 ```
-uvicorn src.app.ika_streamer.main:app --reload
+uvicorn src.ika_streamer.main:app --reload
 ```
 
 Lancer serveur SMTP : 
