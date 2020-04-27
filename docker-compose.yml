@@ -1,0 +1,53 @@
+version: '3.7'
+
+services:
+  ika_web:
+    build: src/ika_web
+    command: python -m flask run -p 8001 --host=127.0.0.1
+    volumes:
+      - ./src/ika_web/:/app/
+    ports:
+      - 8001:8000
+    environment:
+      - FN_AUTH_REDIRECT_URI=http://127.0.0.1:8040/google/auth
+      - FN_BASE_URI=http://127.0.0.1:8040
+      - PORT_APP=8040
+      - OAUTHLIB_INSECURE_TRANSPORT=1
+      - FLASK_APP=src/app/ika_web/app/app.py
+      - FLASK_DEBUG=1
+      - FLASK_ENV=development
+      - FN_FLASK_SECRET_KEY=SOMETHING RANDOM AND SECRET
+      - CLIENT_SECRET=resources/client_secret_localhost.json
+      - PATH_FILE=temp/
+      - HOME_URI=/home
+      - ENV_FILE_LOCATION=./.env
+    depends_on:
+      - ika_db
+
+  ika_db:
+    container_name: ika_mongodb
+    image : mongo:latest
+    ports :
+        - "27017:27017"
+
+  ika_streamer:
+    build: src/ika_streamer
+    command: python -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+    volumes:
+      - ./src/ika_streamer/:/app/
+    ports:
+      - 8002:8000
+    environment:
+      - MONGO_URI=mongodb://localhost:27017/
+    depends_on:
+      - ika_db
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./nginx_config.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - ika_web
+      - ika_streamer
