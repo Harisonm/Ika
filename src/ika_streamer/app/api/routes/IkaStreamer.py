@@ -1,9 +1,9 @@
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import RedirectResponse
-from src.ika_streamer.app.api.helper.GmailHelper import GmailDataFactory
-from src.ika_streamer.app.api.models.CollecterModel import CollecterModel
-from src.ika_streamer.app.api.database.mongo import mdb
-from src.ika_streamer.app.api.models.Gmail import Gmail
+from app.api.helper.GmailHelper import GmailDataFactory
+from app.api.models.CollecterModel import CollecterModel
+from app.api.database.mongo import mdb
+from app.api.models.Gmail import Gmail
 
 # SCHEMA_TRANSFORM = os.environ.get("SCHEMA_TRANSFORM", default=False)
 # SCHEMA_COLLECT = os.environ.get("SCHEMA_COLLECT", default=False)

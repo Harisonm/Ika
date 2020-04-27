@@ -1,6 +1,5 @@
 import os
 import src.ika_web.app.api.routes.page
-import src.ika_web.app.api.routes.google_auth
 from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
@@ -32,4 +31,3 @@ initialize_db(app)
 initialize_routes(api)
 
 app.register_blueprint(src.ika_web.app.api.routes.page.app)
-app.register_blueprint(src.ika_web.app.api.routes.google_auth.app)

@@ -12,8 +12,8 @@ def login_page():
     flask.flash("You were successfully logged in")
 
     return flask.render_template(
-        "login.html",
-        redirect_url=os.environ.get("FN_BASE_URI", default=False) + "/authorize",
+        "index.html",
+        redirect_url=os.environ.get("FN_BASE_URI", default=False) + "/api/v1/google/authorize",
     )
     
 @app.route("/home")
