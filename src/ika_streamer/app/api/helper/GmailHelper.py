@@ -3,7 +3,8 @@ from __future__ import print_function
 from googleapiclient.discovery import build
 from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
-from app.api.helper.database.mongo import mdb
+# from app.api.helper.database.mongo import mdb
+from src.ika_streamer.app.api.database.mongo import mdb
 # from src.web import google_auth
 from apiclient import errors
 import pickle

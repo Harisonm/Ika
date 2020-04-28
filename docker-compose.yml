@@ -10,6 +10,9 @@ services:
       - 8002:8000
     depends_on:
       - ika_db
+    networks:
+      vpcbr:
+        ipv4_address: 10.5.0.7
 
   ika_web:
     build: ./src/ika_web
@@ -20,7 +23,7 @@ services:
     environment:
       - FN_AUTH_REDIRECT_URI=http://127.0.0.1:8000/google/auth
       - FN_BASE_URI=http://127.0.0.1:8000
-      - MONGO_URI=mongodb://localhost:27017/
+      - MONGO_URI=mongodb:27017/
       - PORT_APP=8000
       - OAUTHLIB_INSECURE_TRANSPORT=1
       - FLASK_APP=app/app.py
@@ -34,12 +37,19 @@ services:
     command: python -m flask run -p 8000 --host=0.0.0.0
     depends_on:
       - ika_db
+    networks:
+      vpcbr:
+        ipv4_address: 10.5.0.6
 
   ika_db:
     container_name: ika_mongodb
     image : mongo:latest
     ports :
         - "27017:27017"
+    networks:
+      vpcbr:
+        ipv4_address: 10.5.0.5
+
 
   nginx:
     image: nginx:latest
@@ -50,3 +60,11 @@ services:
     depends_on:
       - ika_streamer
       - ika_web
+
+  networks:
+    vpcbr:
+      driver: bridge
+      ipam:
+        driver: default
+        config:
+          - subnet: 10.5.0.0/16

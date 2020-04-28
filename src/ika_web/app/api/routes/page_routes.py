@@ -12,7 +12,7 @@ def login_page():
     flask.flash("You were successfully logged in")
 
     return flask.render_template(
-        "index.html",
+        "login.html",
         redirect_url=os.environ.get("FN_BASE_URI", default=False) + "/api/v1/google/authorize",
     )
     

@@ -29,7 +29,7 @@ default/notebooks/.movie_data.csv.icloud
 *nltk*
 python37*
 python3*
-resources/api_gcp_credential/client_secret_localhost.json
+src/ika_web/resources/api_gcp_credential/client_secret_localhost.json
 client_secret\.json
 client_secret_localhost\.json
 */client_secret_localhost.json
