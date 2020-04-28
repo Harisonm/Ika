@@ -1,9 +1,9 @@
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask import Response, request
-from src.ika_web.app.api.database.models import Credential, User
+from ika_web.app.api.database.models import Credential, User
 from flask_restful import Resource
 from mongoengine.errors import FieldDoesNotExist, NotUniqueError, DoesNotExist, ValidationError, InvalidQueryError
-from src.ika_web.app.api.resources.errors import SchemaValidationError, CredentialAlreadyExistsError, InternalServerError, \
+from ika_web.app.api.resources.errors import SchemaValidationError, CredentialAlreadyExistsError, InternalServerError, \
 UpdatingCredentialError, DeletingCredentialError, CredentialNotExistsError
 
 

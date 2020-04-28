@@ -4,7 +4,7 @@ import requests
 import google.oauth2.credentials
 import google_auth_oauthlib.flow
 from flask_restful import Resource
-from src.ika_web.app.api.database.models import Credential
+from ika_web.app.api.database.models import Credential
 
 SCOPES = [
     "https://www.googleapis.com/auth/gmail.readonly",
