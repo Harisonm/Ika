@@ -1,5 +1,5 @@
 import os
-import src.ika_web.app.api.routes.page
+import src.ika_web.app.api.routes.page_routes
 from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
@@ -17,9 +17,10 @@ app.config.from_envvar('ENV_FILE_LOCATION')
 app.secret_key = os.environ.get("FN_FLASK_SECRET_KEY", default=False)
 
 mail = Mail(app)
-from src.ika_web.app.api.routes.routes import initialize_routes
 
+from src.ika_web.app.api.routes.api_routes import initialize_routes
 api = Api(app, errors=errors)
+
 bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 
@@ -30,4 +31,4 @@ app.config['MONGODB_SETTINGS'] = {
 initialize_db(app)
 initialize_routes(api)
 
-app.register_blueprint(src.ika_web.app.api.routes.page.app)
+app.register_blueprint(src.ika_web.app.api.routes.page_routes.app)
