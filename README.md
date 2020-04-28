@@ -22,67 +22,7 @@ cliquer sur "Enable the Gmail API"
 
 Information : client_secret_localhost.json : Fichier d'autorisation pour l'API Gmail. Ce fichier est propre à votre mail.
 
-## Lancer à partir d'un environnement virtual python
-
-1. Installer les libraries dont vous avez besoin
-```
-pip install -r requirements.txt
-```
-
-2. Lancer le programme
-
-```
-bash run_neomail_localhost.sh
-```
-
-## Lancer à partir du docker-compose
-
-
-Creer un Compte
-http://127.0.0.1:8040/api/v1/auth/signup
-
-```json
-{
-	"email":"manitra@me.fr",
-	"password":"test"
-}
-```
-
-Se connecter
-http://127.0.0.1:8040/api/v1/auth/login
-
-```json
-{
-	"email":"manitra@me.fr",
-	"password":"test"
-}
-```
-Cc le Token obtenu
-
-Obtenir le credential Google propre à se compte
-
-```
-http://127.0.0.1:8040/api/v1/credentials
-```
-
-Sur postman :
-Get
-1. Authorization
-2. Type : Bearer Token
-3. Coller le Token
-
-```json
-{
-    "token": "XXX"
-}
-```
-
-## Lautch Streamer
-```
-uvicorn src.ika_streamer.main:app --reload
-```
-
-Lancer serveur SMTP : 
+## Lancer le projet
 ```bash
-python -m smtpd -n -c DebuggingServer localhost:1025 
+docker-compose up --build -d
 ```
