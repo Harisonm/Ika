@@ -1,14 +1,14 @@
 FROM python:3.8-slim
 
-WORKDIR /app
+WORKDIR /ika_web
 
-COPY requirements.txt /app/requirements.txt
+COPY requirements.txt /ika_web/requirements.txt
 
 RUN apt-get update \
     && apt-get install gcc -y \
     && apt-get clean
 
-RUN pip install -r /app/requirements.txt \
+RUN pip install -r /ika_web/requirements.txt \
     && rm -rf /root/.cache/pip
 
-COPY . /app/
+COPY . /ika_web/

@@ -5,10 +5,10 @@ from flask_restful import Resource
 from flask_jwt_extended import create_access_token, decode_token
 from jwt.exceptions import ExpiredSignatureError, DecodeError, \
     InvalidTokenError
-from src.ika_web.app.api.database.models import User
-from src.ika_web.app.api.resources.errors import SchemaValidationError, InternalServerError, \
+from ika_web.app.api.database.models import User
+from ika_web.app.api.resources.errors import SchemaValidationError, InternalServerError, \
     EmailDoesnotExistsError, BadTokenError
-from src.ika_web.app.api.services.mail_service import send_email
+from ika_web.app.api.services.mail_service import send_email
 
 
 class ForgotPassword(Resource):

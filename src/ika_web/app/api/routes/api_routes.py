@@ -1,7 +1,7 @@
-from src.ika_web.app.api.resources.login import SignupApi, LoginApi
-from src.ika_web.app.api.resources.credential import CredentialsApi, CredentialApi
-from src.ika_web.app.api.resources.reset_password import ForgotPassword, ResetPassword
-from src.ika_web.app.api.resources.google_auth import AuthorizeGoogle, AuthentificationGoogle
+from ika_web.app.api.resources.login import SignupApi, LoginApi
+from ika_web.app.api.resources.credential import CredentialsApi, CredentialApi
+from ika_web.app.api.resources.reset_password import ForgotPassword, ResetPassword
+from ika_web.app.api.resources.google_auth import AuthorizeGoogle, AuthentificationGoogle
 
 def initialize_routes(api):
     api.add_resource(CredentialsApi, '/api/v1/credentials')
