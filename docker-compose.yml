@@ -19,10 +19,10 @@ services:
     ports:
       - 8001:8000
     environment:
-      - FN_AUTH_REDIRECT_URI=http://127.0.0.1:8000/google/auth
-      - FN_BASE_URI=http://127.0.0.1:8000
+      - FN_AUTH_REDIRECT_URI=http://127.0.0.1:8001/google/auth
+      - FN_BASE_URI=http://127.0.0.1:8001
       - MONGO_URI=mongodb://localhost:27017/
-      - PORT_APP=8000
+      - PORT_APP=8001
       - OAUTHLIB_INSECURE_TRANSPORT=1
       - FLASK_APP=src/app/ika_web/app/app.py
       - FLASK_DEBUG=1
