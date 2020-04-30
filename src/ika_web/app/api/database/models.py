@@ -14,8 +14,10 @@ class Credential(db.Document):
 
 class User(db.Document):
     email = db.EmailField(required=True, unique=True)
+    first_name = db.StringField(required=False, unique=False)
+    last_name = db.StringField(required=False, unique=False)
     password = db.StringField(required=True, min_length=6)
-    credentials = db.ListField(db.ReferenceField('Credential', reverse_delete_rule=db.PULL))
+    ##credentials = db.ListField(db.ReferenceField('Credential', reverse_delete_rule=db.PULL))
 
     def hash_password(self):
         self.password = generate_password_hash(self.password).decode('utf8')

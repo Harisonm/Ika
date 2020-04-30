@@ -77,39 +77,33 @@
         		label.attr('id', 'valid');
    		 	},
 		});
-		var validate = function() {
-  			$.post("{{ url_for('page.validate') }}",$( "form" ).validate({
-					rules: {
-						password: "required",
-						comfirm_password: {
-							equalTo: "#password"
-						}
-					},
-					messages: {
-						first_name: {
-							required: "Please enter a firstname"
-						},
-						last_name: {
-							required: "Please enter a lastname"
-						},
-						your_email: {
-							required: "Please provide an email"
-						},
-						password: {
-							required: "Please enter a password"
-						},
-						comfirm_password: {
-							required: "Please enter a password",
-							equalTo: "Wrong Password"
-						}
-					}
-				}),
-				$('form').serialize(), function(errors){
-					alert(errors);
-					// update the dom with the errors however you want.
-				};
-			);
+		$( "form" ).validate({
+			rules: {
+				password: "required",
+				comfirm_password: {
+					equalTo: "#password"
+				}
+			},
+			messages: {
+				first_name: {
+					required: "Please enter a firstname"
+				},
+				last_name: {
+					required: "Please enter a lastname"
+				},
+				your_email: {
+					required: "Please provide an email"
+				},
+				password: {
+					required: "Please enter a password"
+				},
+				comfirm_password: {
+					required: "Please enter a password",
+					equalTo: "Wrong Password"
+				}
+			}
 		}
+		
 	</script>
 </body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>
