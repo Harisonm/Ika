@@ -9,6 +9,8 @@ UpdatingCredentialError, DeletingCredentialError, CredentialNotExistsError
 
 
 class CredentialsApi(Resource):
+    
+    @jwt_required
     def get(self):
         query = Credential.objects()
         credentials = Credential.objects().to_json()

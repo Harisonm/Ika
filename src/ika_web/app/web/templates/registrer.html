@@ -24,26 +24,28 @@
 					<input type="submit" name="account" class="account" value="Have An Account">
 				</div>
 			</div>
-			<form class="form-detail" action="#" method="post" id="myform">
+
+			<!-- Form of login -->
+			<form class="form-detail" action="/add_registrer" method="post" id="form">
 				<h2>REGISTER FORM</h2>
 				<div class="form-group">
 					<div class="form-row form-row-1">
 						<label for="first_name">First Name</label>
-						<input type="text" name="first_name" id="first_name" class="input-text">
+						<input type="text" name="first_name" id="first_name" class="input-text" value="{{request.form.first_name }}">
 					</div>
 					<div class="form-row form-row-1">
 						<label for="last_name">Last Name</label>
-						<input type="text" name="last_name" id="last_name" class="input-text">
+						<input type="text" name="last_name" id="last_name" class="input-text" value="{{request.form.last_name }}">
 					</div>
 				</div>
 				<div class="form-row">
 					<label for="your_email">Your Email</label>
-					<input type="text" name="your_email" id="your_email" class="input-text" required pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}">
+					<input type="text" name="your_email" id="your_email" class="input-text" required pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}" value="{{request.form.your_email }}">
 				</div>
 				<div class="form-group">
 					<div class="form-row form-row-1 ">
 						<label for="password">Password</label>
-						<input type="password" name="password" id="password" class="input-text" required>
+						<input type="password" name="password" id="password" class="input-text" required value="{{request.form.password }}">
 					</div>
 					<div class="form-row form-row-1">
 						<label for="comfirm-password">Comfirm Password</label>
@@ -60,6 +62,8 @@
 					<input type="submit" name="register" class="register" value="Register">
 				</div>
 			</form>
+			<!-- End of form of login -->
+
 		</div>
 	</div>
 	<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
@@ -73,32 +77,39 @@
         		label.attr('id', 'valid');
    		 	},
 		});
-		$( "#myform" ).validate({
-		  	rules: {
-			    password: "required",
-		    	comfirm_password: {
-		      		equalTo: "#password"
-		    	}
-		  	},
-		  	messages: {
-		  		first_name: {
-		  			required: "Please enter a firstname"
-		  		},
-		  		last_name: {
-		  			required: "Please enter a lastname"
-		  		},
-		  		your_email: {
-		  			required: "Please provide an email"
-		  		},
-		  		password: {
-	  				required: "Please enter a password"
-		  		},
-		  		comfirm_password: {
-		  			required: "Please enter a password",
-		      		equalTo: "Wrong Password"
-		    	}
-		  	}
-		});
+		var validate = function() {
+  			$.post("{{ url_for('page.validate') }}",$( "form" ).validate({
+					rules: {
+						password: "required",
+						comfirm_password: {
+							equalTo: "#password"
+						}
+					},
+					messages: {
+						first_name: {
+							required: "Please enter a firstname"
+						},
+						last_name: {
+							required: "Please enter a lastname"
+						},
+						your_email: {
+							required: "Please provide an email"
+						},
+						password: {
+							required: "Please enter a password"
+						},
+						comfirm_password: {
+							required: "Please enter a password",
+							equalTo: "Wrong Password"
+						}
+					}
+				}),
+				$('form').serialize(), function(errors){
+					alert(errors);
+					// update the dom with the errors however you want.
+				};
+			);
+		}
 	</script>
 </body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>

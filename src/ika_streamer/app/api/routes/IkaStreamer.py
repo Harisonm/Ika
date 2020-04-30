@@ -23,16 +23,15 @@ async def create_streamer():
         "me",
         include_spam_trash=False,
         max_results=25,
-        batch_using=False
+        batch_using=True
     )
     
     mycol = mdb["streamer"]
-    large_generator_handle = CollecterModel("prod",
-                                            transform_flag=True).collect_mail(user_id="me",
-                                                                              message_id=message_id,
-                                                                              max_workers=25)
-                                            
-    mycol.insert(large_generator_handle)
+    mycol.insert(CollecterModel("prod",
+                                transform_flag=True).collect_mail(user_id="me",
+                                                                         message_id=message_id,
+                                                                         max_workers=25))
+        
     response = mycol.find_one()
     
     if not response:

@@ -129,11 +129,11 @@ class GmailDataFactory(object):
                 .execute()
             )
             if "messages" in response:
-                messages.extend(response["messages"])
+                messages.extend(response.get("messages"))
 
             if batch_using:
                 while "nextPageToken" in response:
-                    page_token = response["nextPageToken"]
+                    page_token = response.get("nextPageToken")
                     response = (
                         self.__service.users()
                         .messages()
@@ -145,7 +145,7 @@ class GmailDataFactory(object):
                         )
                         .execute()
                     )
-                    messages.extend(response["messages"])
+                    messages.extend(response.get("messages"))
             return messages
 
         except errors.HttpError as error:
