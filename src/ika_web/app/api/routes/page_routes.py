@@ -30,13 +30,24 @@ def validate():
         print(form)
         myobj = {
                 'email':request.form['your_email'],
-                'first_name':request.form['first_name'],
-                'last_name':request.form['last_name'],
                 'password':request.form['password'],
                 }
         x = requests.post(url, json=myobj)
     return flask.render_template("index.html")
 
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    url=os.environ.get("FN_BASE_URI", default=False) + "/api/v1/auth/login"
+    if request.method == 'POST':
+        form = request.form
+        myobj = {
+        'email':request.form['email'],
+        'password':request.form['pass'],
+        }
+        r = requests.post(url, json=myobj)
+        data = r.json() 
+        print(data)
+    return flask.render_template("login.html") 
     
 @app.route("/home")
 def home_page():
@@ -51,4 +62,4 @@ def loading_page():
     """
     Returns:
     """
-    return flask.render_template("loading_page.html")
+    return flask.render_template("login.html")
