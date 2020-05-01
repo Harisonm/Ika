@@ -8,17 +8,17 @@
     <link
             rel="icon"
             type="image/png"
-            href="{{ url_for('static', filename='login/images/icons/neomail_jaune_ico.png') }}"
+            href="{{ url_for('static', filename='login_google/images/icons/neomail_jaune_ico.png') }}"
     />
     <!--===============================================================================================-->
     <link
             rel="stylesheet"
             type="text/css"
-            href="{{ url_for('static', filename='login/fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}"
+            href="{{ url_for('static', filename='login_google/fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}"
     />
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='login/css/util.css') }}"/>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='login/css/main.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='login_google/css/util.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='login_google/css/main.css') }}"/>
     <!--===============================================================================================-->
 </head>
 
@@ -29,14 +29,14 @@
         <div class="wrap-login100">
             <div id="div_logo">
                 <img
-                        src="../static/login/images/icons/neomail_jaune.png"
+                        src="../static/login_google/images/icons/neomail_jaune.png"
                         alt="NEOMAIL"
                         width="250vw"
                 />
             </div>
             <div
                     class="login100-form-title"
-                    style="background-image: url(../static/login/images/bg-01.jpg);"
+                    style="background-image: url(../static/login_google/images/bg-01.jpg);"
             >
                 <span class="login100-form-title-1"> <br/>Sign In </span>
             </div>
@@ -46,7 +46,7 @@
                 <div class="container-login100-form-btn">
                     <button onclick="location.href = '{{ redirect_url }}'" id="myButton"
                             class="login100-form-btn" style="width:22vw!important;"  type="button">
-                        <img src="../static/login/images/gmail-logo.png" width="50vw" alt=" "/>
+                        <img src="../static/login_google/images/gmail-logo.png" width="50vw" alt=" "/>
                         &nbsp;Google
                     </button>
                 </div>
@@ -63,6 +63,6 @@
 ></script>
 
 <!--===============================================================================================-->
-<script src="../static/login/js/main.js"></script>
+<script src="../static/login_google/js/main.js"></script>
 </body>
 </html>

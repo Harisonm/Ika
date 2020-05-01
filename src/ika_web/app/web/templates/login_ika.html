@@ -5,26 +5,26 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
-	<link rel="icon" type="image/png" href="{{ url_for('static', filename='index/images/icons/favicon.ico') }}"/>
+	<link rel="icon" type="image/png" href="{{ url_for('static', filename='login_ika/images/icons/favicon.ico') }}"/>
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index/vendor/bootstrap/css/bootstrap.min.css') }}"/>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='login_ika/vendor/bootstrap/css/bootstrap.min.css') }}"/>
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index/fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}"/>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='login_ika/fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}"/>
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index/fonts/iconic/css/material-design-iconic-font.min.css') }}"/>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='login_ika/fonts/iconic/css/material-design-iconic-font.min.css') }}"/>
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index/vendor/animate/animate.css') }}"/>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='login_ika/vendor/animate/animate.css') }}"/>
 <!--===============================================================================================-->	
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index/vendor/css-hamburgers/hamburgers.min.css') }}"/>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='login_ika/vendor/css-hamburgers/hamburgers.min.css') }}"/>
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index/vendor/animsition/css/animsition.min.css') }}"/>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='login_ika/vendor/animsition/css/animsition.min.css') }}"/>
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index/vendor/select2/select2.min.css') }}"/>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='login_ika/vendor/select2/select2.min.css') }}"/>
 <!--===============================================================================================-->	
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index/vendor/daterangepicker/daterangepicker.css') }}"/>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='login_ika/vendor/daterangepicker/daterangepicker.css') }}"/>
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index/css/util.css') }}"/>
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index/css/main.css') }}"/>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='login_ika/css/util.css') }}"/>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='login_ika/css/main.css') }}"/>
 <!--===============================================================================================-->
 </head>
 <body>
@@ -32,6 +32,7 @@
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
+				<iframe name="votar" style="display:none;"></iframe>
 				<form class="login100-form validate-form" type="POST" name="login" action="#">
 					<span class="login100-form-title p-b-26">
 						Welcome
@@ -41,7 +42,7 @@
 					</span>
 
 					<div class="wrap-input100 validate-input" data-validate = "Valid email is: a@b.c">
-						<input class="input100" type="text" name="email" value="{{request.form.mail }}">
+						<input class="input100" type="text" name="email" type="hidden" value="{{request.form.mail }}">
 						<span class="focus-input100" data-placeholder="Email"></span>
 					</div>
 
@@ -49,14 +50,14 @@
 						<span class="btn-show-pass">
 							<i class="zmdi zmdi-eye"></i>
 						</span>
-						<input class="input100" type="password" name="pass" value="{{request.form.pass }}">
+						<input class="input100" type="password" name="pass" type="hidden" value="{{request.form.pass }}">
 						<span class="focus-input100" data-placeholder="Password"></span>
 					</div>
 
 					<div class="container-login100-form-btn">
 						<div class="wrap-login100-form-btn">
 							<div class="login100-form-bgbtn"></div>
-							<button class="login100-form-btn" id="login"> 
+							<button class="login100-form-btn" id="login" type = "submit"> 
 								Login
 							</button>
 						</div>
@@ -79,25 +80,25 @@
 	<div id="dropDownSelect1"></div>
 	
 <!--===============================================================================================-->
-	<script src="../static/index/vendor/jquery/jquery-3.2.1.min.js"></script>
+	<script src="../static/login_ika/vendor/jquery/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->
-	<script src="../static/index/vendor/animsition/js/animsition.min.js"></script>
+	<script src="../static/login_ika/vendor/animsition/js/animsition.min.js"></script>
 <!--===============================================================================================-->
-	<script src="../static/index/vendor/bootstrap/js/popper.js"></script>
-	<script src="../static/index/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="../static/login_ika/vendor/bootstrap/js/popper.js"></script>
+	<script src="../static/login_ika/vendor/bootstrap/js/bootstrap.min.js"></script>
 <!--===============================================================================================-->
-	<script src="../static/index/vendor/select2/select2.min.js"></script>
+	<script src="../static/login_ika/vendor/select2/select2.min.js"></script>
 <!--===============================================================================================-->
-	<script src="../static/index/vendor/daterangepicker/moment.min.js"></script>
-	<script src="../static/index/vendor/daterangepicker/daterangepicker.js"></script>
+	<script src="../static/login_ika/vendor/daterangepicker/moment.min.js"></script>
+	<script src="../static/login_ika/vendor/daterangepicker/daterangepicker.js"></script>
 <!--===============================================================================================-->
-	<script src="../static/index/vendor/countdowntime/countdowntime.js"></script>
+	<script src="../static/login_ika/vendor/countdowntime/countdowntime.js"></script>
 <!--===============================================================================================-->
-	<script src="../static/index/js/main.js"></script>
+	<script src="../static/login_ika/js/main.js"></script>
 
 	<script>
 	$("#login").click(function() {
-            $.post("{{ url_for('page.login') }}",$('form').serialize(),function(form) {
+            $.post("{{ url_for('page.login_ika') }}",$('form').serialize(),function(form) {
                     alert("ca marche");
             });
         })

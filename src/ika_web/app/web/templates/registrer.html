@@ -31,25 +31,25 @@
 				<div class="form-group">
 					<div class="form-row form-row-1">
 						<label for="first_name">First Name</label>
-						<input type="text" name="first_name" id="first_name" class="input-text" value="{{request.form.first_name }}">
+						<input type="text" name="first_name" id="first_name" type="hidden" class="input-text" value="{{request.form.first_name }}">
 					</div>
 					<div class="form-row form-row-1">
 						<label for="last_name">Last Name</label>
-						<input type="text" name="last_name" id="last_name" class="input-text" value="{{request.form.last_name }}">
+						<input type="text" name="last_name" id="last_name" type="hidden" class="input-text" value="{{request.form.last_name }}">
 					</div>
 				</div>
 				<div class="form-row">
 					<label for="your_email">Your Email</label>
-					<input type="text" name="your_email" id="your_email" class="input-text" required pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}" value="{{request.form.your_email }}">
+					<input type="text" name="your_email" id="your_email" type="hidden" class="input-text" required pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}" value="{{request.form.your_email }}">
 				</div>
 				<div class="form-group">
 					<div class="form-row form-row-1 ">
 						<label for="password">Password</label>
-						<input type="password" name="password" id="password" class="input-text" required value="{{request.form.password }}">
+						<input type="password" name="password" id="password" type="hidden" class="input-text" required value="{{request.form.password }}">
 					</div>
 					<div class="form-row form-row-1">
 						<label for="comfirm-password">Comfirm Password</label>
-						<input type="password" name="comfirm_password" id="comfirm_password" class="input-text" required>
+						<input type="password" name="comfirm_password" type="hidden" id="comfirm_password" class="input-text" required>
 					</div>
 				</div>
 				<div class="form-checkbox">
