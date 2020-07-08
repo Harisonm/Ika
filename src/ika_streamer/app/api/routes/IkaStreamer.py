@@ -16,7 +16,7 @@ from src.ika_streamer.app.api.models.Gmail import Gmail
 
 streamers = APIRouter()
 
-@streamers.get('/', response_model=Gmail, status_code=201)
+@streamers.get('/api/v1/streamer/', response_model=Gmail, status_code=201)
 async def create_streamer():
     
     message_id = GmailDataFactory("prod").get_message_id(
@@ -42,3 +42,5 @@ async def create_streamer():
     
 
 
+def get_auth():
+    pass
