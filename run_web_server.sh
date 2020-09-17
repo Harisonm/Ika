@@ -9,7 +9,7 @@ export FLASK_ENV=production
 # development
 export FN_FLASK_SECRET_KEY=SOMETHING RANDOM AND SECRET
 export CLIENT_SECRET=ika_web/resources/client_secret_localhost.json
-
+export ENV_FILE_LOCATION=./ika_web/app/.env.test
 # code
 export PATH_FILE=temp/
 export HOME_URI=/home
