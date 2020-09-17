@@ -45,6 +45,7 @@ class AuthorizeGoogle(Resource):
 
         # Store the state so the callback can verify the auth server response.
         flask.session["state"] = state
+        print(flask.session)
 
         return flask.redirect(authorization_url)
 

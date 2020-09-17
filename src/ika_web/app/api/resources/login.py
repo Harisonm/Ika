@@ -9,6 +9,17 @@ InternalServerError
 
 class SignupApi(Resource):
     def post(self):
+        """
+        post [summary]
+
+        Raises:
+            SchemaValidationError: [description]
+            EmailAlreadyExistsError: [description]
+            InternalServerError: [description]
+
+        Returns:
+            [type]: [description]
+        """
         try:
             body = request.get_json()
             user = User(**body)
@@ -25,6 +36,17 @@ class SignupApi(Resource):
 
 class LoginApi(Resource):
     def post(self):
+        """
+        post [summary]
+
+        Raises:
+            UnauthorizedError: [description]
+            UnauthorizedError: [description]
+            InternalServerError: [description]
+
+        Returns:
+            [type]: [description]
+        """
         try:
             body = request.get_json()
             user = User.objects.get(email=body.get('email'))

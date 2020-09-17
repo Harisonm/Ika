@@ -43,7 +43,7 @@ pip install -r src/ika_web/requirements.txt
 
 4. Lancer le programme
 ```
-bash run_neomail_localhost.sh
+bash run_web_server.sh
 ```
 
 ## Test de l'API
@@ -92,6 +92,9 @@ Get
 uvicorn src.ika_streamer.app.main:app --reload --port 8080
 ```
 
+
+
+# Ika-web
 Lancer serveur SMTP : 
 ```bash
 python -m smtpd -n -c DebuggingServer localhost:1025 

@@ -9,15 +9,32 @@ UpdatingCredentialError, DeletingCredentialError, CredentialNotExistsError
 
 
 class CredentialsApi(Resource):
-    
+
     @jwt_required
     def get(self):
+        """
+        get [summary]
+
+        Returns:
+            [type]: [description]
+        """
         query = Credential.objects()
         credentials = Credential.objects().to_json()
         return Response(credentials, mimetype="application/json", status=200)
 
     @jwt_required
     def post(self):
+        """
+        post [summary]
+
+        Raises:
+            SchemaValidationError: [description]
+            CredentialAlreadyExistsError: [description]
+            InternalServerError: [description]
+
+        Returns:
+            [type]: [description]
+        """
         try:
             user_id = get_jwt_identity()
             body = request.get_json()
@@ -37,9 +54,22 @@ class CredentialsApi(Resource):
 
 
 class CredentialApi(Resource):
-    
     @jwt_required
     def put(self, id):
+        """
+        put [summary]
+
+        Args:
+            id ([type]): [description]
+
+        Raises:
+            SchemaValidationError: [description]
+            UpdatingCredentialError: [description]
+            InternalServerError: [description]
+
+        Returns:
+            [type]: [description]
+        """
         try:
             user_id = get_jwt_identity()
             credential = Credential.objects.get(id=id, added_by=user_id)
@@ -55,6 +85,19 @@ class CredentialApi(Resource):
 
     @jwt_required
     def delete(self, id):
+        """
+        delete [summary]
+
+        Args:
+            id ([type]): [description]
+
+        Raises:
+            DeletingCredentialError: [description]
+            InternalServerError: [description]
+
+        Returns:
+            [type]: [description]
+        """
         try:
             user_id = get_jwt_identity()
             credential = Credential.objects.get(id=id, added_by=user_id)
@@ -66,6 +109,19 @@ class CredentialApi(Resource):
             raise InternalServerError
 
     def get(self, id):
+        """
+        get [summary]
+
+        Args:
+            id ([type]): [description]
+
+        Raises:
+            CredentialNotExistsError: [description]
+            InternalServerError: [description]
+
+        Returns:
+            [type]: [description]
+        """
         try:
             credentials = Credential.objects.get(id=id).to_json()
             return Response(credentials, mimetype="application/json", status=200)

@@ -13,6 +13,19 @@ from src.ika_web.app.api.services.mail_service import send_email
 
 class ForgotPassword(Resource):
     def post(self):
+        """
+        post [summary]
+
+        Raises:
+            SchemaValidationError: [description]
+            EmailDoesnotExistsError: [description]
+            SchemaValidationError: [description]
+            EmailDoesnotExistsError: [description]
+            InternalServerError: [description]
+
+        Returns:
+            [type]: [description]
+        """
         url = request.host_url + 'reset/'
         try:
             body = request.get_json()
@@ -44,6 +57,19 @@ class ForgotPassword(Resource):
 
 class ResetPassword(Resource):
     def post(self):
+        """
+        post [summary]
+
+        Raises:
+            SchemaValidationError: [description]
+            SchemaValidationError: [description]
+            ExpiredTokenError: [description]
+            BadTokenError: [description]
+            InternalServerError: [description]
+
+        Returns:
+            [type]: [description]
+        """
         url = request.host_url + 'reset/'
         try:
             body = request.get_json()
