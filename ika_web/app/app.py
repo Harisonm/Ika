@@ -1,0 +1,34 @@
+import os
+import ika_web.app.api.routes.page_routes
+from flask import Flask
+from flask_bcrypt import Bcrypt
+from flask_jwt_extended import JWTManager
+from flask_restful import Api
+from flask_mail import Mail
+from ika_web.app.api.database.db import initialize_db
+from ika_web.app.api.resources import errors
+
+app = Flask(__name__,
+                  template_folder="./web/templates",
+                  static_folder="./web/static")
+
+
+app.config.from_envvar('ENV_FILE_LOCATION')
+app.secret_key = os.environ.get("FN_FLASK_SECRET_KEY", default=False)
+
+mail = Mail(app)
+
+from ika_web.app.api.routes.api_routes import initialize_routes
+api = Api(app, errors=errors)
+
+bcrypt = Bcrypt(app)
+jwt = JWTManager(app)
+MONGO_URI=os.environ.get("MONGO_URI", default=False)
+app.config['MONGODB_SETTINGS'] = {
+    'host': MONGO_URI
+}
+
+initialize_db(app)
+initialize_routes(api)
+
+app.register_blueprint(ika_web.app.api.routes.page_routes.app)

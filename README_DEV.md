@@ -86,16 +86,14 @@ Get
 }
 ```
 
-# Ika-Streamer
-## Lautch Streamer
-```
-uvicorn src.ika_streamer.app.main:app --reload --port 8080
-```
-
-
-
 # Ika-web
 Lancer serveur SMTP : 
 ```bash
 python -m smtpd -n -c DebuggingServer localhost:1025 
+```
+
+# Ika-Streamer
+## Lautch Streamer
+```
+uvicorn ika_streamer.app.main:app --reload --port 8080
 ```

@@ -2,28 +2,25 @@ version: '3.7'
 
 services:
   ika_streamer:
-    build: ./src/ika_streamer
+    build: ./ika_streamer
     command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
     volumes:
-      - ./src/ika_streamer/:/app/
+      - ./ika_streamer/:/app/
     ports:
       - 8002:8000
     depends_on:
       - ika_db
-    networks:
-      vpcbr:
-        ipv4_address: 10.5.0.7
 
   ika_web:
-    build: ./src/ika_web
+    build: ./ika_web
     volumes:
-      - ./src/ika_web/:/ika_web/
+      - ./ika_web/:/ika_web/
     ports:
-      - 8000:8000
+      - "8000:8000"
     environment:
       - FN_AUTH_REDIRECT_URI=http://127.0.0.1:8000/google/auth
       - FN_BASE_URI=http://127.0.0.1:8000
-      - MONGO_URI=mongodb:27017/
+      - MONGO_URI=ika_db:27017
       - PORT_APP=8000
       - OAUTHLIB_INSECURE_TRANSPORT=1
       - FLASK_APP=app/app.py
@@ -37,19 +34,18 @@ services:
     command: python -m flask run -p 8000 --host=0.0.0.0
     depends_on:
       - ika_db
-    networks:
-      vpcbr:
-        ipv4_address: 10.5.0.6
+
+  smtpd:
+    image: python:3.8
+    ports:
+     - "1025:1025"
+    command: python -m smtpd -n -c DebuggingServer localhost:1025 
 
   ika_db:
     container_name: ika_mongodb
     image : mongo:latest
     ports :
         - "27017:27017"
-    networks:
-      vpcbr:
-        ipv4_address: 10.5.0.5
-
 
   nginx:
     image: nginx:latest
@@ -60,11 +56,3 @@ services:
     depends_on:
       - ika_streamer
       - ika_web
-
-  networks:
-    vpcbr:
-      driver: bridge
-      ipam:
-        driver: default
-        config:
-          - subnet: 10.5.0.0/16
