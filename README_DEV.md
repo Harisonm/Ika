@@ -88,6 +88,7 @@ Get
 
 # Ika-web
 Lancer serveur SMTP : 
+
 ```bash
 python -m smtpd -n -c DebuggingServer localhost:1025 
 ```
