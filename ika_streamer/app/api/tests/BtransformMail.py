@@ -1,4 +1,4 @@
-from helper.GmailHelper import GmailDataFactory
+from helper.GmailHelper import GmailHelper
 from pathlib import Path  # python3 only
 import json
 import os
@@ -19,7 +19,7 @@ def main(name_file):
     begin_time = time.time()
     env_path = Path("default/app/utils/data_pipeline/transformer_mail/.env")
 
-    name_user_dict = GmailDataFactory("dev").get_user().execute()
+    name_user_dict = GmailHelper("dev").get_user().execute()
     name_user = name_user_dict["emailAddress"]
 
     schema = {}

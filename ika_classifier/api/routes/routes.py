@@ -1,6 +1,6 @@
 from ika_classifier.api.model.KMeansModel import *
 from ika_classifier.api.model.Metrics import *
-from ika_classifier.api.helper.GmailHelper import GmailDataFactory
+from ika_classifier.api.helper.GmailHelper import GmailHelper
 from ika_classifier.api.database.mongo import mdb
 import pandas as pd
 import flask
@@ -73,15 +73,15 @@ def build_label_mail():
             # print(mail)
             # print(mail['idMail'])
             for lbl in mail["label"][:1]:
-                GmailDataFactory("prod").create_label(
+                GmailHelper("prod").create_label(
                     "me",
                     name_label=lbl,
                     label_list_visibility="labelShow",
                     message_list_visibility="show",
                 )
-            labels_ids = GmailDataFactory("prod").get_label_ids("me", mail["label"])
+            labels_ids = GmailHelper("prod").get_label_ids("me", mail["label"])
 
-            GmailDataFactory("prod").modify_message(
+            GmailHelper("prod").modify_message(
                 user_id="me",
                 mail_id=mail["idMail"],
                 mail_labels=create_msg_labels(labels_ids[:1]),
@@ -94,10 +94,10 @@ def delete_all_label():
     """Delete all labels.
     Args:
     """
-    labels = GmailDataFactory("prod").list_label("me")
+    labels = GmailHelper("prod").list_label("me")
     for label in labels:
         if label["type"] == "user":
-            GmailDataFactory("prod").delete_label_from_id("me", label["id"])
+            GmailHelper("prod").delete_label_from_id("me", label["id"])
 
     return flask.redirect(HOME_URI, code=302)
 
@@ -109,15 +109,15 @@ def create_label_mails(requests):
 
     for mail in clean_train_reviews:
         for lbl in mail["label"][:len_labels]:
-            GmailDataFactory("prod").create_label(
+            GmailHelper("prod").create_label(
                 "me",
                 name_label=lbl,
                 label_list_visibility="labelShow",
                 message_list_visibility="show",
             )
-        labels_ids = GmailDataFactory("prod").get_label_ids("me", mail["label"])
+        labels_ids = GmailHelper("prod").get_label_ids("me", mail["label"])
 
-        GmailDataFactory("prod").modify_message(
+        GmailHelper("prod").modify_message(
             user_id="me",
             mail_id=mail["idMail"],
             mail_labels=create_msg_labels(labels_ids[:1]),

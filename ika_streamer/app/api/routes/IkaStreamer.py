@@ -1,10 +1,10 @@
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import RedirectResponse
-# from app.api.helper.GmailHelper import GmailDataFactory
+# from app.api.helper.GmailHelper import GmailHelper
 # from app.api.models.CollecterModel import CollecterModel
 # from app.api.database.mongo import mdb
 # from app.api.models.Gmail import Gmail
-from app.api.helper.GmailHelper import GmailDataFactory
+from app.api.helper.GmailHelper import GmailHelper
 from app.api.models.CollecterModel import CollecterModel
 from app.api.database.mongo import mdb
 from app.api.models.Gmail import Gmail
@@ -19,7 +19,7 @@ streamers = APIRouter()
 @streamers.get('/api/v1/streamers/', response_model=Gmail, status_code=201)
 async def create_streamer():
     
-    message_id = GmailDataFactory("prod").get_message_id(
+    message_id = GmailHelper("prod").get_message_id(
         "me",
         include_spam_trash=False,
         max_results=25,

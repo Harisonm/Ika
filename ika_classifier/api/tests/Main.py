@@ -1,6 +1,6 @@
 from api.classifier_mail.model.KMeansModel import *
 from api.classifier_mail.model.Metrics import *
-from helper.GmailHelper import GmailDataFactory
+from helper.GmailHelper import GmailHelper
 import pandas as pd
 import nltk
 import sys
@@ -50,15 +50,15 @@ def build_label_mail(data):
     for mail in clean_train_reviews:
  
         for lbl in mail["label"][:1]:
-            GmailDataFactory("dev").create_label(
+            GmailHelper("dev").create_label(
                 "me",
                 name_label=lbl,
                 label_list_visibility="labelShow",
                 message_list_visibility="show",
             )
-        labels_ids = GmailDataFactory("dev").get_label_ids("me", mail["label"])
+        labels_ids = GmailHelper("dev").get_label_ids("me", mail["label"])
 
-        GmailDataFactory("dev").modify_message(
+        GmailHelper("dev").modify_message(
             user_id="me",
             mail_id=mail["idMail"],
             mail_labels=create_msg_labels(labels_ids[:1]),

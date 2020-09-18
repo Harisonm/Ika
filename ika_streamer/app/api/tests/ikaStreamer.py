@@ -1,5 +1,5 @@
 # Importing required libraries
-from helper.GmailHelper import GmailDataFactory
+from helper.GmailHelper import GmailHelper
 from api.ika_streamer.models.CollecterModel import CollecterModel
 from api.ika_streamer.models.TransformerModel import TransformerModel
 
@@ -25,7 +25,7 @@ example :
 def main():
     begin_time = time.time()
 
-    name_file_dict = GmailDataFactory("dev").get_user().execute()
+    name_file_dict = GmailHelper("dev").get_user().execute()
     name_file = name_file_dict["emailAddress"] + str(int(begin_time))
 
     schema = {}
@@ -36,7 +36,7 @@ def main():
     for field in schema["fields"]:
         fieldnames.append(field["name"])
         
-    message_id = GmailDataFactory("dev").get_message_id(
+    message_id = GmailHelper("dev").get_message_id(
         "me", include_spam_trash=False, max_results=10000, batch_using=True
     )
     print(message_id)

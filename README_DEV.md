@@ -92,6 +92,18 @@ Lancer serveur SMTP :
 python -m smtpd -n -c DebuggingServer localhost:1025 
 ```
 
+Pour exécuter un test d'isolation
+```
+python -m unittest ika_web/tests/test_signup.py
+```
+
+Pour exécuter tous les tests en même temps, utilisez la commande:
+```bash
+python -m unittest --buffer
+
+--bufferou -best utilisé pour ignorer la sortie lors d'un test réussi.
+```
+
 # Ika-Streamer
 ## Lautch Streamer
 ```

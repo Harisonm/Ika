@@ -14,7 +14,9 @@ from ika_web.app.api.services.mail_service import send_email
 class ForgotPassword(Resource):
     def post(self):
         """
-        post [summary]
+        post : 
+        This endpoint takes the email of the user whose account needs to be changed. 
+        This endpoint then sends the email to the user with the link which contains reset token to reset the password.
 
         Raises:
             SchemaValidationError: [description]
@@ -58,7 +60,8 @@ class ForgotPassword(Resource):
 class ResetPassword(Resource):
     def post(self):
         """
-        post [summary]
+        post :
+        This endpoint takes reset_token sent in the email and the new password.
 
         Raises:
             SchemaValidationError: [description]
