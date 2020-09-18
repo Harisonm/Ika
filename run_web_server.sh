@@ -9,14 +9,14 @@ export FLASK_ENV=production
 # development
 export FN_FLASK_SECRET_KEY=SOMETHING RANDOM AND SECRET
 export CLIENT_SECRET=ika_web/resources/client_secret_localhost.json
-
+#export ENV_FILE_LOCATION=./ika_web/app/.env.test
 # code
 export PATH_FILE=temp/
 export HOME_URI=/home
 
 # Database
 export ENV_FILE_LOCATION=./.env
-export MONGO_URI=mongodb://localhost:27017/ika
+export MONGO_URI=mongodb://localhost:27017/ika-web
 python -m flask run -p 8040 --host=127.0.0.1
 
 # python -m flask run -p 8080 --host=0.0.0.0

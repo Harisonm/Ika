@@ -1,7 +1,7 @@
-# from app.api.helper.GmailHelper import GmailDataFactory
+# from app.api.helper.GmailHelper import GmailHelper
 # rom app.api.models.TransformerModel import TransformerModel
 
-from app.api.helper.GmailHelper import GmailDataFactory
+from app.api.helper.GmailHelper import GmailHelper
 from app.api.models.TransformerModel import TransformerModel
 
 from concurrent.futures import ThreadPoolExecutor as PoolExecutor
@@ -12,7 +12,7 @@ import base64
 
 class CollecterModel(object):
     def __init__(self, env,transform_flag=False):
-        """function to init GmailDataFactory Class .
+        """function to init GmailHelper Class .
         Args:
             client_secret: credential to call GMAIL API.
             transform_flag: flag to using transformerModel to clean data
@@ -20,7 +20,7 @@ class CollecterModel(object):
         Returns:
             None
         """
-        self.__service = GmailDataFactory(env)
+        self.__service = GmailHelper(env)
         self.__transform_flag = transform_flag
 
     def build_data(self, **kwargs):

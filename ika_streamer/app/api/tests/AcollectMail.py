@@ -1,4 +1,4 @@
-from helper.GmailHelper import GmailDataFactory
+from helper.GmailHelper import GmailHelper
 from api.collecter_mail.manager.CollectManager import CollectManager
 import json
 import csv
@@ -13,7 +13,7 @@ PATH_SAVE = os.environ.get("PATH_FILE", default=False)
 def main():
     begin_time = time.time()
 
-    name_file_dict = GmailDataFactory("dev").get_user().execute()
+    name_file_dict = GmailHelper("dev").get_user().execute()
     name_file = name_file_dict["emailAddress"] + str(int(begin_time))
 
     schema = {}
@@ -24,7 +24,7 @@ def main():
     for field in schema["fields"]:
         fieldnames.append(field["name"])
 
-    message_id = GmailDataFactory("dev").get_message_id(
+    message_id = GmailHelper("dev").get_message_id(
         "me", include_spam_trash=True, max_results=10000, batch_using=True
     )
 

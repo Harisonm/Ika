@@ -21,11 +21,9 @@ default/utils/GmailManager/resources/credentials.json
 src/components/outlook_manager/resources/psswrd.txt
 *__pycache__
 python_37/*
-*.env
 default/notebooks/.movie_data.csv.icloud
 *__pycache__
 *.csv
-*__init__.py
 *nltk*
 python37*
 python3*
