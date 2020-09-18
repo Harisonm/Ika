@@ -1,5 +1,5 @@
 # Importing required libraries
-from helper.GmailHelper import GmailDataFactory
+from helper.GmailHelper import GmailHelper
 import os
 
 # Creating a storage.JSON file with authentication details
@@ -29,28 +29,28 @@ python -m default.components.gmail_manager.tests.TestCallGmailFactory
 
 def main():
     # Build object with service-account
-    mails_id = GmailDataFactory("dev").get_message_id(
+    mails_id = GmailHelper("dev").get_message_id(
         "me", include_spam_trash=True, max_results=10
     )
     for mail in mails_id:
-        mails = GmailDataFactory("dev").get_message("me", mail["id"])
+        mails = GmailHelper("dev").get_message("me", mail["id"])
         print(mails)
 
     # call Methods to get all your mail
 
     # # Test 1
-    # mail = GmailDataFactory(CLIENT_SECRET).get_message_by_thread('me')
+    # mail = GmailHelper(CLIENT_SECRET).get_message_by_thread('me')
     # with open('gmail_test.json', 'w') as outfile:
     #     json.dump(mail, outfile, indent=4)
     #
     # # Test 2
     # id = '16a4a42bc5d77074'
-    # mail = GmailDataFactory(CLIENT_SECRET).get_message('me',id)
+    # mail = GmailHelper(CLIENT_SECRET).get_message('me',id)
     # with open('gmail_test_2.json', 'w') as outfile:
     #     json.dump(mail, outfile, indent=4)
 
     # Rest 3
-    # label_id = GmailDataFactory(CLIENT_SECRET).list_label('me')
+    # label_id = GmailHelper(CLIENT_SECRET).list_label('me')
 
 
 if __name__ == "__main__":

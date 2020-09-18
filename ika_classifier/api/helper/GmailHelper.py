@@ -34,7 +34,7 @@ API_SERVICE_NAME = "gmail"
 API_VERSION = "v1"
 
 
-class GmailDataFactory(object):
+class GmailHelper(object):
     def __init__(self, env):
         """function to init GmailDataFactory Class .
         Args:

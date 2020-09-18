@@ -13,10 +13,22 @@ class CredentialsApi(Resource):
     @jwt_required
     def get(self):
         """
-        get [summary]
-
-        Returns:
-            [type]: [description]
+        ---
+        post:
+        description: increments the input by x
+        requestBody:
+            required: true
+            content:
+                application/json:
+                    schema: InputSchema
+        responses:
+            '200':
+            description: call successful
+            content:
+                application/json:
+                schema: OutputSchema
+        tags:
+            - calculation
         """
         query = Credential.objects()
         credentials = Credential.objects().to_json()
@@ -25,15 +37,22 @@ class CredentialsApi(Resource):
     @jwt_required
     def post(self):
         """
-        post [summary]
-
-        Raises:
-            SchemaValidationError: [description]
-            CredentialAlreadyExistsError: [description]
-            InternalServerError: [description]
-
-        Returns:
-            [type]: [description]
+        ---
+        post:
+        description: increments the input by x
+        requestBody:
+            required: true
+            content:
+                application/json:
+                    schema: InputSchema
+        responses:
+            '200':
+            description: call successful
+            content:
+                application/json:
+                schema: OutputSchema
+        tags:
+            - calculation
         """
         try:
             user_id = get_jwt_identity()
@@ -57,18 +76,22 @@ class CredentialApi(Resource):
     @jwt_required
     def put(self, id):
         """
-        put [summary]
-
-        Args:
-            id ([type]): [description]
-
-        Raises:
-            SchemaValidationError: [description]
-            UpdatingCredentialError: [description]
-            InternalServerError: [description]
-
-        Returns:
-            [type]: [description]
+        ---
+        post:
+        description: increments the input by x
+        requestBody:
+            required: true
+            content:
+                application/json:
+                    schema: InputSchema
+        responses:
+            '200':
+            description: call successful
+            content:
+                application/json:
+                schema: OutputSchema
+        tags:
+            - calculation
         """
         try:
             user_id = get_jwt_identity()

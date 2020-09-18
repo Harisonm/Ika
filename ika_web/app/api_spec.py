@@ -30,8 +30,14 @@ tags = [
             {'name': 'testing',
              'description': 'For testing the API.'
             },
-            {'name': 'calculation',
-             'description': 'Functions for calculating.'
+            {'name': 'Credentials',
+             'description': 'Functions for credentials.'
+            },
+            {'name': 'auth',
+             'description': 'Functions for Authentification in ika Web.'
+            },
+            {'name': 'google Gmail API',
+             'description': 'Functions for using Gmail API.'
             },
        ]
 
