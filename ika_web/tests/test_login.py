@@ -12,10 +12,10 @@ class TestUserLogin(BaseCase):
             "email": email,
             "password": password
         })
-        response = self.app.post('/api/v1/auth/signup', headers={"Content-Type": "application/json"}, data=payload)
+        response = self.app.post('/api/v1/auth/signup-test', headers={"Content-Type": "application/json"}, data=payload)
 
         # When
-        response = self.app.post('/api/v1/auth/login', headers={"Content-Type": "application/json"}, data=payload)
+        response = self.app.post('/api/v1/auth/login-test', headers={"Content-Type": "application/json"}, data=payload)
 
         # Then
         self.assertEqual(str, type(response.json['token']))
