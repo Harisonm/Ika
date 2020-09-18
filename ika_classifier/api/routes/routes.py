@@ -109,15 +109,15 @@ def create_label_mails(requests):
 
     for mail in clean_train_reviews:
         for lbl in mail["label"][:len_labels]:
-            GmailDataFactory("prod").create_label(
+            GmailHelper("prod").create_label(
                 "me",
                 name_label=lbl,
                 label_list_visibility="labelShow",
                 message_list_visibility="show",
             )
-        labels_ids = GmailDataFactory("prod").get_label_ids("me", mail["label"])
+        labels_ids = GmailHelper("prod").get_label_ids("me", mail["label"])
 
-        GmailDataFactory("prod").modify_message(
+        GmailHelper("prod").modify_message(
             user_id="me",
             mail_id=mail["idMail"],
             mail_labels=create_msg_labels(labels_ids[:1]),

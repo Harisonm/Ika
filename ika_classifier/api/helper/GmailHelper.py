@@ -36,7 +36,7 @@ API_VERSION = "v1"
 
 class GmailHelper(object):
     def __init__(self, env):
-        """function to init GmailDataFactory Class .
+        """function to init GmailHelper Class .
         Args:
 
         Returns:
