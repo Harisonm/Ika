@@ -27,7 +27,7 @@ bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 
 MONGO_URI=os.environ.get("MONGO_URI", default=False)
-app.config['MONGODB_SETTINGS'] = {
+MONGODB_SETTINGS = {
     'host': MONGO_URI
 }
 

@@ -14,3 +14,5 @@ RUN pip install -r /ika_web/requirements.txt \
 EXPOSE 27017
 
 COPY . /ika_web/
+
+RUN python -m unittest --buffer
