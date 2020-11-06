@@ -5,37 +5,37 @@ import requests
 from flask import Flask, render_template, redirect, url_for, request, jsonify
 app = flask.Blueprint("page", __name__)
 
-@app.route("/")
-def login_page():
-    """
-    login_page 
-    """
-    return flask.render_template("login_google.html")
-
-# @app.route("/", methods=['GET','POST'])
-# def login_ika():
+# @app.route("/")
+# def login_page():
 #     """
-#     login_ika [summary]
-
-#     Returns:
-#         [type]: [description]
+#     login_page 
 #     """
-#     url=os.environ.get("FN_BASE_URI", default=False) + "/api/v1/auth/login"
-#     url_test=os.environ.get("FN_BASE_URI", default=False) + "/loading_page"
+#     return flask.render_template("login_google.html")
+
+@app.route("/", methods=['GET','POST'])
+def login_ika():
+    """
+    login_ika [summary]
+
+    Returns:
+        [type]: [description]
+    """
+    url=os.environ.get("FN_BASE_URI", default=False) + "/api/v1/auth/login"
+    url_test=os.environ.get("FN_BASE_URI", default=False) + "/loading_page"
     
-#     if request.method == 'POST':
-#         myobj = {
-#         'email':request.form['email'],
-#         'password':request.form['pass'],
-#         }
-#         r = requests.post(url, json=myobj)
-#         data = r.json()
-#         print(data)
-#         if r.status_code == 200:
-#             return flask.render_template('login_google.html')
+    if request.method == 'POST':
+        myobj = {
+        'email':request.form['email'],
+        'password':request.form['pass'],
+        }
+        r = requests.post(url, json=myobj)
+        data = r.json()
+        print(data)
+        if r.status_code == 200:
+            return flask.render_template('login_google.html')
         
-#     elif request.method == 'GET':
-#         return flask.render_template('login_ika.html')
+    elif request.method == 'GET':
+        return flask.render_template('login_ika.html')
 
 
 @app.route("/registrer", methods=['GET'])

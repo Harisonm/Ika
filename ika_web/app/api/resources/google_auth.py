@@ -33,7 +33,8 @@ class AuthorizeGoogle(Resource):
         # for the OAuth 2.0 client, which you configured in the API Console. If this
         # value doesn't match an authorized URI, you will get a 'redirect_uri_mismatch'
         # error.
-        flow.redirect_uri = os.environ.get("FN_BASE_URI", default=False) + "/api/v1/google/authentification"
+        flow.redirect_uri = os.environ.get("FN_BASE_URI", default=False) + "/api/v1/google/oauth2callback"
+        # flow.redirect_uri = os.environ.get("FN_BASE_URI", default=False) + "/api/v1/google/authentification"
 
         authorization_url, state = flow.authorization_url(
             # Enable offline access so that you can refresh an access token without
@@ -45,17 +46,16 @@ class AuthorizeGoogle(Resource):
 
         # Store the state so the callback can verify the auth server response.
         flask.session["state"] = state
-        print(flask.session)
-
         return flask.redirect(authorization_url)
 
-class AuthentificationGoogle(Resource):
+class Oauth2callback(Resource):
     def get(self):
         """
         Returns:
         """
         # Specify the state when creating the flow in the callback so that it can
         # verified in the authorization server response.
+        print(flask.session["state"])
         state = flask.session["state"]
 
         CLIENT_SECRET = os.environ.get("CLIENT_SECRET", default=False)
@@ -63,22 +63,22 @@ class AuthentificationGoogle(Resource):
         flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
             CLIENT_SECRET, scopes=None, state=state
         )
-        flow.redirect_uri = os.environ.get("FN_BASE_URI", default=False) + "/api/v1/google/authentification"
-
+        flow.redirect_uri = os.environ.get("FN_BASE_URI", default=False) + "/api/v1/google/oauth2callback"
         # Use the authorization server's response to fetch the OAuth 2.0 tokens.
         authorization_response = flask.request.url
         flow.fetch_token(authorization_response=authorization_response)
-
+        print(flow.credentials)
         credential = Credential(**self.credentials_to_dict(flow.credentials)).save()
+        print(credential)
 
         return flask.redirect("/loading_page")
 
     def credentials_to_dict(self,credentials):
         return {
-            "token": credentials.token,
-            "refresh_token": credentials.refresh_token,
-            "token_uri": credentials.token_uri,
-            "client_id": credentials.client_id,
-            "client_secret": credentials.client_secret,
-            "scopes": credentials.scopes,
+            "token": credentials.get('token'),
+            "refresh_token": credentials.get('refresh_token'),
+            "token_uri": credentials.get('token_uri'),
+            "client_id": credentials.get('client_id'),
+            "client_secret": credentials.get('client_secret'),
+            "scopes": credentials.get('scopes'),
         }
