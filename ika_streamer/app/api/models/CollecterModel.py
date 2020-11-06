@@ -1,7 +1,6 @@
-# from app.api.helper.GmailHelper import GmailHelper
 # rom app.api.models.TransformerModel import TransformerModel
 
-from app.api.helper.GmailHelper import GmailHelper
+from ikamail.GmailHelper import GmailHelper
 from app.api.models.TransformerModel import TransformerModel
 
 from concurrent.futures import ThreadPoolExecutor as PoolExecutor

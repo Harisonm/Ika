@@ -8,6 +8,8 @@ services:
       - ./ika_streamer/:/app/
     ports:
       - 8002:8000
+    environment:
+      - MONGO_URI=ika_db:27017
     depends_on:
       - ika_db
 

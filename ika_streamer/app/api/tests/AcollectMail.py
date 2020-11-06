@@ -1,4 +1,4 @@
-from helper.GmailHelper import GmailHelper
+from ikamail.GmailHelper import GmailHelper
 from api.collecter_mail.manager.CollectManager import CollectManager
 import json
 import csv

@@ -1,4 +1,4 @@
-from helper.GmailHelper import GmailHelper
+from ikamail.GmailHelper import GmailHelper
 from pathlib import Path  # python3 only
 import json
 import os

@@ -1,10 +1,9 @@
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import RedirectResponse
-# from app.api.helper.GmailHelper import GmailHelper
 # from app.api.models.CollecterModel import CollecterModel
 # from app.api.database.mongo import mdb
 # from app.api.models.Gmail import Gmail
-from app.api.helper.GmailHelper import GmailHelper
+from ikamail.GmailHelper import GmailHelper
 from app.api.models.CollecterModel import CollecterModel
 from app.api.database.mongo import mdb
 from app.api.models.Gmail import Gmail

@@ -1,6 +1,6 @@
 from api.classifier_mail.model.KMeansModel import *
 from api.classifier_mail.model.Metrics import *
-from helper.GmailHelper import GmailHelper
+from ikamail.GmailHelper import GmailHelper
 import pandas as pd
 import nltk
 import sys

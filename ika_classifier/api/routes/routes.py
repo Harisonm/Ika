@@ -1,6 +1,6 @@
 from ika_classifier.api.model.KMeansModel import *
 from ika_classifier.api.model.Metrics import *
-from ika_classifier.api.helper.GmailHelper import GmailHelper
+from ikamail.GmailHelper import GmailHelper
 from ika_classifier.api.database.mongo import mdb
 import pandas as pd
 import flask

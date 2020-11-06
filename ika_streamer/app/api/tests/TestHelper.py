@@ -1,5 +1,5 @@
 # Importing required libraries
-from helper.GmailHelper import GmailHelper
+from ikamail.GmailHelper import GmailHelper
 import os
 
 # Creating a storage.JSON file with authentication details

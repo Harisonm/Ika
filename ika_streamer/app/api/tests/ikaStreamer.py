@@ -1,5 +1,5 @@
 # Importing required libraries
-from helper.GmailHelper import GmailHelper
+from ikamail.GmailHelper import GmailHelper
 from api.ika_streamer.models.CollecterModel import CollecterModel
 from api.ika_streamer.models.TransformerModel import TransformerModel
 

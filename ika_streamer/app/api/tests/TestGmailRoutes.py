@@ -1,7 +1,7 @@
 import os
 import flask
 
-from helper.GmailHelper import GmailHelper
+from ikamail.GmailHelper import GmailHelper
 
 app = flask.Blueprint("google_gmail", __name__)
 app.secret_key = os.environ.get("FN_FLASK_SECRET_KEY", default=False)
