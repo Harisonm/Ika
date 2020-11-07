@@ -1,6 +1,6 @@
 from .db import db
 from flask_bcrypt import generate_password_hash, check_password_hash
-
+from mongoengine.fields import StringField
 
 class Credential(db.Document):
     token = db.StringField(required=True, unique=False)
@@ -8,7 +8,7 @@ class Credential(db.Document):
     token_uri = db.StringField(required=True, unique=False)
     client_id = db.StringField(required=True, unique=False)
     client_secret = db.StringField(required=True, unique=False)
-    scopes = db.StringField(required=False, unique=False)
+    scopes = db.ListField(StringField(max_length=300))
    #added_by = db.ReferenceField('User')
 
 

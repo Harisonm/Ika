@@ -17,23 +17,23 @@ docker-compose up --build -d
 
 Host
 ```bash
-http://0.0.0.0:8000/
+http://127.0.0.1:8000/
 ```
 API Documentation
 ```bash
-http://0.0.0.0:8000/api/v1/docs/
+http://127.0.0.1:8000/api/v1/docs/
 ```
 
 # Ika Streamer
 
 Host : 
 ```bash
-http://0.0.0.0:8002
+http://127.0.0.1:8002
 ```
 
 API Documentation
 ```bash
-http://0.0.0.0:8002/api/v1/streamers/docs
+http://127.0.0.1:8002/api/v1/streamers/docs
 ```
 
 # Ika Classifier

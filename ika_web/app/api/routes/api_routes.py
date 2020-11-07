@@ -13,5 +13,5 @@ def initialize_routes(api):
     api.add_resource(ForgotPassword, '/api/v1/auth/forgot')
     api.add_resource(ResetPassword, '/api/v1/auth/reset')
 
-#    api.add_resource(AuthorizeGoogle, '/api/v1/google/authorize')
-#    api.add_resource(Oauth2callback, '/api/v1/google/oauth2callback')
+    api.add_resource(AuthorizeGoogle, '/api/v1/google/authorize')
+    api.add_resource(Oauth2callback, '/api/v1/google/oauth2callback')

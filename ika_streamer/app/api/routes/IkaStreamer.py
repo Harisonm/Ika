@@ -28,8 +28,8 @@ async def create_streamer():
     mycol = mdb["streamer"]
     mycol.insert(CollecterModel("prod",
                                 transform_flag=True).collect_mail(user_id="me",
-                                                                         message_id=message_id,
-                                                                         max_workers=25))
+                                                                message_id=message_id,
+                                                                max_workers=25))
         
     response = mycol.find_one()
     

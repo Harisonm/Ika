@@ -22,28 +22,27 @@ SCOPES = [
 
 class AuthorizeGoogle(Resource):
     def get(self):
-        """
-        Returns:
-        """
-        CLIENT_SECRET = os.environ.get("CLIENT_SECRET", default=False)
         # Create flow instance to manage the OAuth 2.0 Authorization Grant Flow steps.
+        CLIENT_SECRET = os.environ.get("CLIENT_SECRET", default=False)
         flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
-            CLIENT_SECRET, scopes=SCOPES
-        )
+            CLIENT_SECRET, scopes=SCOPES)
+
         # The URI created here must exactly match one of the authorized redirect URIs
         # for the OAuth 2.0 client, which you configured in the API Console. If this
         # value doesn't match an authorized URI, you will get a 'redirect_uri_mismatch'
         # error.
         flow.redirect_uri = os.environ.get("FN_BASE_URI", default=False) + "/api/v1/google/oauth2callback"
+
         authorization_url, state = flow.authorization_url(
             # Enable offline access so that you can refresh an access token without
-            # re-prompting the user for permission. Recommended for web server app.
-            access_type="offline",
+            # re-prompting the user for permission. Recommended for web server apps.
+            access_type='offline',
             # Enable incremental authorization. Recommended as a best practice.
-            include_granted_scopes="true",
-        )
+            include_granted_scopes='true')
+
         # Store the state so the callback can verify the auth server response.
-        flask.session["state"] = state
+        flask.session['state'] = state
+
         return flask.redirect(authorization_url)
 
 
@@ -54,25 +53,26 @@ class Oauth2callback(Resource):
         """
         # Specify the state when creating the flow in the callback so that it can
         # verified in the authorization server response.
-        state = flask.session["state"]
+        state = flask.session['state']
         CLIENT_SECRET = os.environ.get("CLIENT_SECRET", default=False)
         flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
-            CLIENT_SECRET, scopes=None, state=state
+            CLIENT_SECRET, scopes=SCOPES, state=state
         )
         flow.redirect_uri = os.environ.get("FN_BASE_URI", default=False) + "/api/v1/google/oauth2callback"
         # Use the authorization server's response to fetch the OAuth 2.0 tokens.
         authorization_response = flask.request.url
         flow.fetch_token(authorization_response=authorization_response)
+            
         credential = Credential(**self.credentials_to_dict(flow.credentials)).save()
-        return flask.redirect("/loading_page")
+        return flask.redirect(flask.url_for('page.loading_page'))
 
     @staticmethod
     def credentials_to_dict(credentials):
         return {
-            "token": credentials.get('token'),
-            "refresh_token": credentials.get('refresh_token'),
-            "token_uri": credentials.get('token_uri'),
-            "client_id": credentials.get('client_id'),
-            "client_secret": credentials.get('client_secret'),
-            "scopes": credentials.get('scopes'),
+            "token": credentials.token,
+            "refresh_token": credentials.refresh_token,
+            "token_uri": credentials.token_uri,
+            "client_id": credentials.client_id,
+            "client_secret": credentials.client_secret,
+            "scopes": credentials.scopes
         }

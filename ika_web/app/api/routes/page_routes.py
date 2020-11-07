@@ -6,6 +6,7 @@ import google_auth_oauthlib.flow
 from flask import Flask, render_template, redirect, url_for, request, jsonify
 from ika_web.app.api.database.models import Credential
 
+
 app = flask.Blueprint("page", __name__)
 os.environ.get("OAUTHLIB_INSECURE_TRANSPORT") 
 
@@ -98,7 +99,7 @@ def oauth2callback():
     """
     # Specify the state when creating the flow in the callback so that it can
     # verified in the authorization server response.
-    state = flask.session["state"]
+    state = flask.session['state']
     CLIENT_SECRET = os.environ.get("CLIENT_SECRET", default=False)
     flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
         CLIENT_SECRET, scopes=SCOPES, state=state
@@ -107,18 +108,19 @@ def oauth2callback():
     # Use the authorization server's response to fetch the OAuth 2.0 tokens.
     authorization_response = flask.request.url
     flow.fetch_token(authorization_response=authorization_response)
+        
     credential = Credential(**credentials_to_dict(flow.credentials)).save()
     return flask.redirect(flask.url_for('page.loading_page'))
 
 
 def credentials_to_dict(credentials):
     return {
-        "token": credentials.get('token'),
-        "refresh_token": credentials.get('refresh_token'),
-        "token_uri": credentials.get('token_uri'),
-        "client_id": credentials.get('client_id'),
-        "client_secret": credentials.get('client_secret'),
-        "scopes": credentials.get('scopes'),
+        "token": credentials.token,
+        "refresh_token": credentials.refresh_token,
+        "token_uri": credentials.token_uri,
+        "client_id": credentials.client_id,
+        "client_secret": credentials.client_secret,
+        "scopes": credentials.scopes,
     }
 
 @app.route("/add_register", methods=['GET', 'POST'])

@@ -20,6 +20,7 @@ services:
     ports:
       - "8000:8000"
     environment:
+      - FN_AUTH_REDIRECT_URI=http://127.0.0.1:8000/google/auth
       - FN_BASE_URI=http://127.0.0.1:8000
       - MONGO_URI=ika_db:27017
       - PORT_APP=8000
