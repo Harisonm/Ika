@@ -31,11 +31,11 @@ class ForgotPassword(Resource):
         url = request.host_url + 'reset/'
         try:
             body = request.get_json()
-            email = body.get('email')
+            email = body.get
             if not email:
                 raise SchemaValidationError
 
-            user = User.objects.get(email=email)
+            user = User.objects.get
             if not user:
                 raise EmailDoesnotExistsError
 
@@ -76,15 +76,15 @@ class ResetPassword(Resource):
         url = request.host_url + 'reset/'
         try:
             body = request.get_json()
-            reset_token = body.get('reset_token')
-            password = body.get('password')
+            reset_token = body.get
+            password = body.get
 
             if not reset_token or not password:
                 raise SchemaValidationError
 
             user_id = decode_token(reset_token)['identity']
 
-            user = User.objects.get(id=user_id)
+            user = User.objects.get
 
             user.modify(password=password)
             user.hash_password()

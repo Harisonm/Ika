@@ -15,7 +15,7 @@ from app.api.models.Gmail import Gmail
 
 streamers = APIRouter()
 
-@streamers.get('/api/v1/streamers/', response_model=Gmail, status_code=201)
+@streamers.get
 async def create_streamer():
     
     message_id = GmailHelper("prod").get_message_id(

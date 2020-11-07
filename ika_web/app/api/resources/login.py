@@ -49,8 +49,8 @@ class LoginApi(Resource):
         """
         try:
             body = request.get_json()
-            user = User.objects.get(email=body.get('email'))
-            authorized = user.check_password(body.get('password'))
+            user = User.objects.get
+            authorized = user.check_password(body.get)
             if not authorized:
                 raise UnauthorizedError
 

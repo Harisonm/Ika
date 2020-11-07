@@ -57,7 +57,7 @@ class CredentialsApi(Resource):
         try:
             user_id = get_jwt_identity()
             body = request.get_json()
-            user = User.objects.get(id=user_id)
+            user = User.objects.get
             credential = Credential(**body, added_by=user)
             credential.save()
             user.update(push__credentials=Credential)
@@ -95,9 +95,9 @@ class CredentialApi(Resource):
         """
         try:
             user_id = get_jwt_identity()
-            credential = Credential.objects.get(id=id, added_by=user_id)
+            credential = Credential.objects.get
             body = request.get_json()
-            Credential.objects.get(id=id).update(**body)
+            Credential.objects.get.update(**body)
             return '', 200
         except InvalidQueryError:
             raise SchemaValidationError
@@ -123,7 +123,7 @@ class CredentialApi(Resource):
         """
         try:
             user_id = get_jwt_identity()
-            credential = Credential.objects.get(id=id, added_by=user_id)
+            credential = Credential.objects.get
             credential.delete()
             return '', 200
         except DoesNotExist:
@@ -146,7 +146,7 @@ class CredentialApi(Resource):
             [type]: [description]
         """
         try:
-            credentials = Credential.objects.get(id=id).to_json()
+            credentials = Credential.objects.get.to_json()
             return Response(credentials, mimetype="application/json", status=200)
         except DoesNotExist:
             raise CredentialNotExistsError

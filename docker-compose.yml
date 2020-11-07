@@ -27,7 +27,6 @@ services:
       - FLASK_APP=app/app.py
       - FLASK_DEBUG=1
       - FLASK_ENV=development
-      - FN_FLASK_SECRET_KEY=SOMETHING RANDOM AND SECRET
       - CLIENT_SECRET=resources/client_secret_localhost.json
       - PATH_FILE=temp/
       - HOME_URI=/home
