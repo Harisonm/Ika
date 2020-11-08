@@ -9,20 +9,24 @@ from typing import List
 streamers = APIRouter()
 
 @streamers.get('/', response_model=GmailOut)
-async def create_streamer():
+async def create_streamer(batch_using: bool=False,
+                          transform_flag: bool=False,
+                          include_spam_trash: bool=False,
+                          max_results:int=25,
+                          max_workers:int=25):
     
     message_id = GmailHelper("prod").get_message_id(
         "me",
-        include_spam_trash=False,
-        max_results=25,
-        batch_using=False
+        include_spam_trash=include_spam_trash,
+        max_results=max_results,
+        batch_using=batch_using
     )
     
     mycol = mdb["streamer"]
     mycol.insert(CollecterModel("prod",
-                                transform_flag=False).collect_mail(user_id="me",
-                                                                message_id=message_id,
-                                                                max_workers=25))
+                                transform_flag=transform_flag).collect_mail(user_id="me",
+                                                                   message_id=message_id,
+                                                                   max_workers=max_workers))
     response = mycol.find_one()
     
     if not response:
