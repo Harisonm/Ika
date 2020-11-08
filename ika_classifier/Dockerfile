@@ -2,7 +2,7 @@ FROM python:3.8-slim
 
 WORKDIR /app
 
-COPY requirements.txt /app/requirements.txt
+COPY ./requirements.txt /app/requirements.txt
 
 RUN apt-get update \
     && apt-get install gcc -y \
@@ -11,4 +11,5 @@ RUN apt-get update \
 RUN pip install -r /app/requirements.txt \
     && rm -rf /root/.cache/pip
 
-COPY app/classifier /app/
+COPY . /app/
+RUN sh -c 'touch /tmp/resultat_clustering.txt'

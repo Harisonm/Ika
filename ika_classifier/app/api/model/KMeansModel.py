@@ -11,8 +11,8 @@ import collections
 from sklearn.metrics import silhouette_samples, silhouette_score
 import pandas as pd
 
-FILE = open("./temp/resultat_clustering.txt", "w")
-TOKENIZED_WORDS = open("./ika_classifier/api/model/token.json", "w")
+FILE = open("/tmp/resultat_clustering.txt", "w")
+TOKENIZED_WORDS = open("./token.json", "w")
 
 
 def body_to_words(raw_body):

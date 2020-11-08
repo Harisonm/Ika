@@ -1,6 +1,23 @@
 version: '3.7'
 
 services:
+  ika_classifier:
+    build: ./ika_classifier
+    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+    volumes:
+      - ./ika_classifier/:/app/
+    ports:
+      - 8004:8000
+    environment:
+      - MONGO_URI=ika_db:27017
+      - PATH_FILE=temp/
+      - HOME_URI=/home
+      - GOOGLE_GMAIL_URI=https://mail.google.com/mail/u/0/#inbox
+      - FN_BASE_URI=http://127.0.0.1:8004
+      - ENV=production
+    depends_on:
+      - ika_db
+
   ika_streamer:
     build: ./ika_streamer
     command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000 --workers 16

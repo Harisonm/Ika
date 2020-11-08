@@ -1,14 +1,16 @@
-from ika_classifier.api.model.KMeansModel import *
-from ika_classifier.api.model.Metrics import *
+from fastapi import APIRouter, HTTPException
+from fastapi.responses import RedirectResponse
+from app.api.model.KMeansModel import *
+from app.api.model.Metrics import *
+from app.api.database.mongo import mdb
 from ikamail.GmailHelper import GmailHelper
-from ika_classifier.api.database.mongo import mdb
+from typing import List
 import pandas as pd
-import flask
 import nltk
 import os
 
 PATH = os.environ.get("PATH_FILE", default=False)
-ENV = os.environ.get("FLASK_ENV", default=False)
+ENV = os.environ.get("ENV", default=False)
 HOME_URI = os.environ.get("HOME_URI", default=False)
 GOOGLE_GMAIL_URI = os.environ.get("GOOGLE_GMAIL_URI", default=False)
 
@@ -21,11 +23,10 @@ GET host:port/labelling/gmail/{name_file}
 example : 
 """
 
-app = flask.Blueprint("labelling", __name__)
+classifier = APIRouter()
 
-
-@app.route("/api/v1/labelling/", methods=["GET", "POST"])
-def build_label_mail():
+@classifier.get('/labelling/build')
+async def build_label_mail():
     """method to build label from clustering Model
     this function take word, convert its to vector, calculate distance between vector from elbow method and using Kmeans.
     Args:
@@ -60,14 +61,7 @@ def build_label_mail():
 
     if ENV == "production":
         len_labels = len(labels[0])
-        return flask.redirect(
-            flask.url_for(
-                "google_auth.home_page",
-                code=302,
-                len_labels=len_labels,
-                mails=clean_train_reviews,
-            )
-        )
+        return RedirectResponse("http://127.0.0.1:8000/")
     else:
         for mail in clean_train_reviews:
             # print(mail)
@@ -87,10 +81,10 @@ def build_label_mail():
                 mail_labels=create_msg_labels(labels_ids[:1]),
             )
 
-        return flask.redirect(flask.url_for("google_auth.home_page", code=302))
+    return RedirectResponse("http://127.0.0.1:8000/")
 
-@app.route("/api/v1/labelling/deleteAll/")
-def delete_all_label():
+@classifier.get('/labelling/deleteAll/')
+async def delete_all_label():
     """Delete all labels.
     Args:
     """
@@ -99,11 +93,11 @@ def delete_all_label():
         if label["type"] == "user":
             GmailHelper("prod").delete_label_from_id("me", label["id"])
 
-    return flask.redirect(HOME_URI, code=302)
+    return RedirectResponse("http://127.0.0.1:8000/")
 
 
-@app.route("/labelling/create/", methods=["POST"])
-def create_label_mails(requests):
+@classifier.get("/labelling/create/")
+async def create_label_mails(requests):
     clean_train_reviews = requests.form["mails"]
     len_labels = requests.form["len_labels"]
 
@@ -122,8 +116,7 @@ def create_label_mails(requests):
             mail_id=mail["idMail"],
             mail_labels=create_msg_labels(labels_ids[:1]),
         )
-
-    return flask.redirect(GOOGLE_GMAIL_URI, code=302)
+    return RedirectResponse("http://127.0.0.1:8000/")
 
 
 def create_msg_labels(labels_id):

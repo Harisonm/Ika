@@ -9,7 +9,7 @@ from typing import List
 streamers = APIRouter()
 
 @streamers.get('/', response_model=GmailOut)
-async def create_streamer(batch_using: bool=True,
+async def create_streamer(batch_using: bool=False,
                           transform_flag: bool=True,
                           include_spam_trash: bool=False,
                           max_results:int=25,
