@@ -33,23 +33,23 @@ MONGODB_SETTINGS = {
     'host': MONGO_URI
 }
 
-# with app.test_request_context():
-#     # register all swagger documented functions here
-#     for fn_name in app.view_functions:
-#         if fn_name == 'static':
-#             continue
-#         print(f"Loading swagger docs for function: {fn_name}")
-#         view_fn = app.view_functions[fn_name]
-#         spec.path(view=view_fn)
+with app.test_request_context():
+    # register all swagger documented functions here
+    for fn_name in app.view_functions:
+        if fn_name == 'static':
+            continue
+        print(f"Loading swagger docs for function: {fn_name}")
+        view_fn = app.view_functions[fn_name]
+        spec.path(view=view_fn)
 
 
-# @app.route("/api/v1/swagger.json")
-# def create_swagger_spec():
-#     return jsonify(spec.to_dict())
+@app.route("/api/v1/swagger.json")
+def create_swagger_spec():
+    return jsonify(spec.to_dict())
 
 
 initialize_db(app)
 initialize_routes(api)
 
 app.register_blueprint(ika_web.app.api.routes.page_routes.app)
-# app.register_blueprint(swagger_ui_blueprint, url_prefix=SWAGGER_URL)
+app.register_blueprint(swagger_ui_blueprint, url_prefix=SWAGGER_URL)

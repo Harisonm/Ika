@@ -3,7 +3,7 @@ from fastapi.responses import RedirectResponse
 from ikamail.GmailHelper import GmailHelper
 from app.api.models.CollecterModel import CollecterModel
 from app.api.database.mongo import mdb
-from app.api.models.Gmail import GmailIn,GmailOut
+from app.api.models.Gmail import GmailOut
 from typing import List
 
 streamers = APIRouter()
@@ -20,7 +20,7 @@ async def create_streamer():
     
     mycol = mdb["streamer"]
     mycol.insert(CollecterModel("prod",
-                                transform_flag=True).collect_mail(user_id="me",
+                                transform_flag=False).collect_mail(user_id="me",
                                                                 message_id=message_id,
                                                                 max_workers=25))
     response = mycol.find_one()

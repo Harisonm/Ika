@@ -157,7 +157,7 @@ class CollecterModel(object):
             except KeyError:
                 temp_dict["mimeVersion"] = ""
             try:
-                temp_dict["From"] = temp_tab["from"]
+                temp_dict["From"] = temp_tab["From"]
             except KeyError:
                 temp_dict["From"] = ""
             try:
