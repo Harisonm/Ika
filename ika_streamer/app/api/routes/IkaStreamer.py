@@ -9,8 +9,8 @@ from typing import List
 streamers = APIRouter()
 
 @streamers.get('/', response_model=GmailOut)
-async def create_streamer(batch_using: bool=False,
-                          transform_flag: bool=False,
+async def create_streamer(batch_using: bool=True,
+                          transform_flag: bool=True,
                           include_spam_trash: bool=False,
                           max_results:int=25,
                           max_workers:int=25):
@@ -35,6 +35,15 @@ async def create_streamer(batch_using: bool=False,
     # Test
     return RedirectResponse("http://127.0.0.1:5000/api/v1/labelling/")
     
+
+def write_in_csv():
+    pass
+
+def write_in_json():
+    pass 
+
+def write_in_db():
+    pass 
 
 def get_auth():
     pass
