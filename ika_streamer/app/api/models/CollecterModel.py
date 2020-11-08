@@ -67,9 +67,6 @@ class CollecterModel(object):
                 'size' (str):'585655',
                 'body' (str):'Lorem ipsum dolor sit ametLorem ipsum dolor sit amet',
                 'mimeType' (str):'text/plain;text/html;'
-                
-                
-                
             }
            The dictionary can be exported as a .csv or into a database
         """

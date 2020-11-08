@@ -33,7 +33,7 @@ http://127.0.0.1:8002
 
 API Documentation
 ```bash
-http://127.0.0.1:8002/api/v1/streamers/docs
+http://127.0.0.1:8002/api/v1/streamers/docs#/
 ```
 
 # Ika Classifier

@@ -49,7 +49,7 @@ bash run_web_server.sh
 ## Test de l'API
 
 ### S'inscrire
-http://127.0.0.1:8040/api/v1/auth/signup
+http://127.0.0.1:8000/api/v1/auth/signup
 
 ```json
 {
@@ -59,7 +59,7 @@ http://127.0.0.1:8040/api/v1/auth/signup
 ```
 
 ### Se connecter
-http://127.0.0.1:8040/api/v1/auth/login
+http://127.0.0.1:8000/api/v1/auth/login
 
 ```json
 {
@@ -71,7 +71,9 @@ Cc le Token obtenu
 
 ### Obtenir le credential Google propre à se compte
 ```
-http://127.0.0.1:8040/api/v1/credentials
+http://127.0.0.1:8080/api/v1/google/authorize
+
+http://127.0.0.1:8000/api/v1/google/authorize
 ```
 
 Sur postman :
