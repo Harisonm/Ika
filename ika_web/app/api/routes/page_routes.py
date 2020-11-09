@@ -40,9 +40,8 @@ def login_ika():
         }
         r = requests.post(url, json=myobj)
         data = r.json()
-        print(data)
         if r.status_code == 200:
-            return flask.render_template('login_google.html')
+            return flask.redirect(flask.url_for('page.login_google'))
 
     elif request.method == 'GET':
         return flask.render_template('login_ika.html')

@@ -9,7 +9,7 @@ from typing import List
 streamers = APIRouter()
 
 @streamers.get('/', response_model=GmailOut)
-async def create_streamer(batch_using: bool=False,
+async def create_streamer(batch_using: bool=True,
                           transform_flag: bool=True,
                           include_spam_trash: bool=False,
                           max_results:int=25,
@@ -33,7 +33,7 @@ async def create_streamer(batch_using: bool=False,
         raise HTTPException(status_code=404, detail="Cast not found")
     
     # Test
-    return RedirectResponse("http://127.0.0.1:5000/api/v1/labelling/")
+    return RedirectResponse("http://127.0.0.1:8004/api/v1/classifier/labelling/build")
     
 
 def write_in_csv():

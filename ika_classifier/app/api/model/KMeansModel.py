@@ -12,7 +12,7 @@ from sklearn.metrics import silhouette_samples, silhouette_score
 import pandas as pd
 
 FILE = open("/tmp/resultat_clustering.txt", "w")
-TOKENIZED_WORDS = open("./token.json", "w")
+TOKENIZED_WORDS = []
 
 
 def body_to_words(raw_body):

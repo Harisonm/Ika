@@ -61,7 +61,7 @@ async def build_label_mail():
 
     if ENV == "production":
         len_labels = len(labels[0])
-        return RedirectResponse("http://127.0.0.1:8000/")
+        return RedirectResponse("http://127.0.0.1:8004/api/v1/classifier/labelling/create/")
     else:
         for mail in clean_train_reviews:
             # print(mail)
@@ -81,7 +81,7 @@ async def build_label_mail():
                 mail_labels=create_msg_labels(labels_ids[:1]),
             )
 
-    return RedirectResponse("http://127.0.0.1:8000/")
+    return RedirectResponse("http://127.0.0.1:8004/api/v1/classifier/labelling/create/")
 
 @classifier.get('/labelling/deleteAll/')
 async def delete_all_label():
