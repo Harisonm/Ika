@@ -1,6 +1,7 @@
 .idea*
 .DS_Store
 Icon
+__pycache__
 */__pycache__
 .vscode
 _config.yml

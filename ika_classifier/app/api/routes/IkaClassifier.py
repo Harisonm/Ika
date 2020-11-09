@@ -59,29 +59,25 @@ async def build_label_mail():
         n_clusters,
     )
 
-    if ENV == "production":
-        len_labels = len(labels[0])
-        return RedirectResponse("http://127.0.0.1:8004/api/v1/classifier/labelling/create/")
-    else:
-        for mail in clean_train_reviews:
-            # print(mail)
-            # print(mail['idMail'])
-            for lbl in mail["label"][:1]:
-                GmailHelper("prod").create_label(
-                    "me",
-                    name_label=lbl,
-                    label_list_visibility="labelShow",
-                    message_list_visibility="show",
-                )
-            labels_ids = GmailHelper("prod").get_label_ids("me", mail["label"])
-
-            GmailHelper("prod").modify_message(
-                user_id="me",
-                mail_id=mail["idMail"],
-                mail_labels=create_msg_labels(labels_ids[:1]),
+    for mail in clean_train_reviews:
+        # print(mail)
+        # print(mail['idMail'])
+        for lbl in mail["label"][:1]:
+            GmailHelper("prod").create_label(
+                "me",
+                name_label=lbl,
+                label_list_visibility="labelShow",
+                message_list_visibility="show",
             )
+        labels_ids = GmailHelper("prod").get_label_ids("me", mail["label"])
 
-    return RedirectResponse("http://127.0.0.1:8004/api/v1/classifier/labelling/create/")
+        GmailHelper("prod").modify_message(
+            user_id="me",
+            mail_id=mail["idMail"],
+            mail_labels=create_msg_labels(labels_ids[:1]),
+        )
+
+    return flask.redirect(flask.url_for('google_auth.home_page', code=302))
 
 @classifier.get('/labelling/deleteAll/')
 async def delete_all_label():
@@ -127,3 +123,11 @@ def create_msg_labels(labels_id):
       A label update object.
     """
     return {"removeLabelIds": [], "addLabelIds": labels_id}
+
+
+# if ENV == "production":
+#     len_labels = len(labels[0])
+#     return flask.redirect(flask.url_for('google_auth.home_page',
+#                                         code=302,
+#                                         len_labels=len_labels,
+#                                         mails=clean_train_reviews))

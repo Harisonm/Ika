@@ -14,7 +14,7 @@ services:
       - HOME_URI=/home
       - GOOGLE_GMAIL_URI=https://mail.google.com/mail/u/0/#inbox
       - FN_BASE_URI=http://127.0.0.1:8004
-      - ENV=production
+      - ENV=localhost
     depends_on:
       - ika_db
 
