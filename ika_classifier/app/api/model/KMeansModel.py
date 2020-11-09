@@ -10,10 +10,13 @@ import nltk
 import collections
 from sklearn.metrics import silhouette_samples, silhouette_score
 import pandas as pd
+import json
 
 FILE = open("/tmp/resultat_clustering.txt", "w")
-TOKENIZED_WORDS = []
 
+# Read Token
+with open('token.json') as json_file:
+    TOKENIZED_WORDS = json.load(json_file)
 
 def body_to_words(raw_body):
     """

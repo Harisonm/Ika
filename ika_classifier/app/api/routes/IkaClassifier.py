@@ -59,23 +59,7 @@ async def build_label_mail():
         n_clusters,
     )
 
-    for mail in clean_train_reviews:
-        # print(mail)
-        # print(mail['idMail'])
-        for lbl in mail["label"][:1]:
-            GmailHelper("prod").create_label(
-                "me",
-                name_label=lbl,
-                label_list_visibility="labelShow",
-                message_list_visibility="show",
-            )
-        labels_ids = GmailHelper("prod").get_label_ids("me", mail["label"])
-
-        GmailHelper("prod").modify_message(
-            user_id="me",
-            mail_id=mail["idMail"],
-            mail_labels=create_msg_labels(labels_ids[:1]),
-        )
+    create_label_in_mail_box(clean_train_reviews)
 
     return flask.redirect(flask.url_for('google_auth.home_page', code=302))
 
@@ -125,9 +109,19 @@ def create_msg_labels(labels_id):
     return {"removeLabelIds": [], "addLabelIds": labels_id}
 
 
-# if ENV == "production":
-#     len_labels = len(labels[0])
-#     return flask.redirect(flask.url_for('google_auth.home_page',
-#                                         code=302,
-#                                         len_labels=len_labels,
-#                                         mails=clean_train_reviews))
+def create_label_in_mail_box(clean_train_reviews):
+    for mail in clean_train_reviews:
+        for lbl in mail["label"][:1]:
+            GmailHelper("prod").create_label(
+                "me",
+                name_label=lbl,
+                label_list_visibility="labelShow",
+                message_list_visibility="show",
+            )
+        labels_ids = GmailHelper("prod").get_label_ids("me", mail["label"])
+
+        GmailHelper("prod").modify_message(
+            user_id="me",
+            mail_id=mail["idMail"],
+            mail_labels=create_msg_labels(labels_ids[:1]),
+        )
