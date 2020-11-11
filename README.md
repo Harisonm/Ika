@@ -18,7 +18,7 @@ cliquer sur "Enable the Gmail API"
 2 . Choisir "Desktop app" et cliquer sur "CREATE"
 ![Generate Json](docs/images/python_quickstart_generate_json.png)
 
-3 . renommé le en client_secret_localhost.json et placé le dans dossier "resources".
+3 . renommé le en client_secret_localhost.json et placé le dans dossier "resources" de ika_web.
 
 Information : client_secret_localhost.json : Fichier d'autorisation pour l'API Gmail. Ce fichier est propre à votre mail.
 
