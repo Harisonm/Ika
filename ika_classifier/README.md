@@ -7,6 +7,8 @@ http://127.0.0.1:8004/
 API Documentation
 ```bash
 http://127.0.0.1:8004/api/v1/classifier/docs#
+
+http://127.0.0.1:8080/api/v1/classifier/docs#
 ```
 
 Build Cluster from data mail and build Label into Gmail Box
