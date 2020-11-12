@@ -11,6 +11,11 @@ Host :
 http://127.0.0.1:8002
 ```
 
+create streaming
+```bash 
+http://127.0.0.1:8080/api/v1/streamers/
+```
+
 API Documentation
 ```bash
 http://127.0.0.1:8002/api/v1/streamers/docs#/

@@ -61,7 +61,7 @@ async def build_label_mail():
 
     create_label_in_mail_box(clean_train_reviews)
 
-    return flask.redirect(flask.url_for('google_auth.home_page', code=302))
+    return RedirectResponse("http://127.0.0.1:8000/")
 
 @classifier.get('/labelling/deleteAll/')
 async def delete_all_label():
