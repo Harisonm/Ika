@@ -44,12 +44,16 @@ async def create_stream(batch_using: bool=True, transform_flag: bool=True, inclu
         batch_using=batch_using
     )
     
-    mycol = mdb["streamer"]
-    mycol.insert(CollecterModel("prod",
-                                transform_flag=transform_flag).collect_mail(user_id="me",
-                                                                   message_id=message_id,
-                                                                   max_workers=max_workers))
-    response = mycol.find_one()
+    gmail_collection = mdb["streamer"]
+    gmail_collection.insert(
+                            CollecterModel("prod",
+                                        transform_flag=transform_flag)
+                            .collect_mail(user_id="me",
+                                        message_id=message_id,
+                                        max_workers=max_workers)
+                            )
+    
+    response = gmail_collection.find_one()
     
     if not response:
         raise HTTPException(status_code=404, detail="Cast not found")
@@ -58,23 +62,20 @@ async def create_stream(batch_using: bool=True, transform_flag: bool=True, inclu
         return RedirectResponse("http://127.0.0.1:8004/api/v1/classifier/labelling/build")
     
     elif file_return == 'csv':
-        data = pd.DataFrame(list(mycol.find()))
-        compression_opts = dict(method='zip',
-                        archive_name='out.csv')
-        data.to_csv('out.zip', index=False,compression=compression_opts)  
-        file_location='out.zip'
-        return FileResponse(file_location, media_type='application/octet-stream',filename='gmail_file.zip')
-    
+            data = pd.DataFrame(list(gmail_collection.find()))
+            compression_opts = dict(method='zip',
+                            archive_name='out.csv')
+            data.to_csv('gmail_file.zip', index=False,compression=compression_opts)  
+            file_location='gmail_file.zip'
+            return FileResponse(file_location, media_type='application/octet-stream',filename='gmail_file.zip')
+        
     elif file_return == 'json':
         pass
     
-        # return FileResponse('collection.json', media_type='application/json', filename=file_name)
-    
-
 @streamers.post("/uploadfile/")
 async def create_upload_file(file: UploadFile = File(...)):
     return {"filename": file.filename}
-
+    
 def write_in_db():
     pass 
 
