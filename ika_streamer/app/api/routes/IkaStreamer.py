@@ -45,13 +45,13 @@ async def create_stream(batch_using: bool=True, transform_flag: bool=True, inclu
     )
     
     gmail_collection = mdb["streamer"]
-    mycol.insert(
-        CollecterModel("prod",
-                       transform_flag=transform_flag)
-        .collect_mail(user_id="me",
-                      message_id=message_id,
-                      max_workers=max_workers)
-        )
+    gmail_collection.insert(
+                            CollecterModel("prod",
+                                        transform_flag=transform_flag)
+                            .collect_mail(user_id="me",
+                                        message_id=message_id,
+                                        max_workers=max_workers)
+                            )
     
     response = gmail_collection.find_one()
     
@@ -62,25 +62,19 @@ async def create_stream(batch_using: bool=True, transform_flag: bool=True, inclu
         return RedirectResponse("http://127.0.0.1:8004/api/v1/classifier/labelling/build")
     
     elif file_return == 'csv':
-        write_into_csv(gmail_collection)
+            data = pd.DataFrame(list(gmail_collection.find()))
+            compression_opts = dict(method='zip',
+                            archive_name='out.csv')
+            data.to_csv('gmail_file.zip', index=False,compression=compression_opts)  
+            file_location='gmail_file.zip'
+            return FileResponse(file_location, media_type='application/octet-stream',filename='gmail_file.zip')
         
     elif file_return == 'json':
         pass
     
-    
 @streamers.post("/uploadfile/")
 async def create_upload_file(file: UploadFile = File(...)):
     return {"filename": file.filename}
-
-async def write_into_csv(collection_data):
-    data = pd.DataFrame(list(collection_data.find()))
-    compression_opts = dict(method='zip',
-                    archive_name='out.csv')
-    data.to_csv('gmail_file.zip', index=False,compression=compression_opts)  
-    file_location='gmail_file.zip'
-    return FileResponse(file_location, media_type='application/octet-stream',filename='gmail_file.zip')
-
-
     
 def write_in_db():
     pass 
