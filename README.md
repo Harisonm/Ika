@@ -1,4 +1,8 @@
 # Ika project
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Latest Version](https://img.shields.io/pypi/pyversions/Markdown.svg)]()
+[![](https://images.microbadger.com/badges/version/robertbeal/markdown-link-checker.svg)](https://microbadger.com/images/robertbeal/markdown-link-checker "Get your own version badge on microbadger.com")
+
 
 ## Project Introduction
 Ika is application to doing classification of mail thank to labels builded by a clustering model of machine learning.
