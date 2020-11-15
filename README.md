@@ -1,29 +1,39 @@
-# Projet Ikamail
+# Ika project
 
-# Présentation du projet
-Le projet neomail est un outil qui permet de trier/classer vos mails grace à des labels construit par un modèle de clustering.
+## Project Introduction
+Ika is application to doing classification of mail thank to labels builded by a clustering model of machine learning.
 
-neomail project can to classify your mail from labels. labelling is build from clustering model.
+This project was started as part of the school project during my master's degree and was then improved in my free time.
+Ika is still under development and more modifications will come.
 
-# Lancer le projet en local
+## Run project in localhost
 
-Vous devez d'abord vous rendre au lien suivant afin de générer votre compte de service :
+First of all, you need to go this link to generate credential :
 
 1 . https://developers.google.com/gmail/api/quickstart/python
 
 ![Python Quickstart](docs/images/python_quickstart.png)
 
-cliquer sur "Enable the Gmail API"
+click on "Enable the Gmail API"
 
-2 . Choisir "Desktop app" et cliquer sur "CREATE"
+2 . Choice "Desktop app" and click on "CREATE"
 ![Generate Json](docs/images/python_quickstart_generate_json.png)
 
-3 . renommé le en client_secret_localhost.json et placé le dans dossier "resources" de ika_web.
+3 . rename file to client_secret_localhost.json and put it in "resources" in ika_web folder.
 
-Information : client_secret_localhost.json : Fichier d'autorisation pour l'API Gmail. Ce fichier est propre à votre mail.
+Information : client_secret_localhost.json : File to give autorisation for l'API Gmail. THis file is unique to Gmail.
 
-## Lancer le projet
+## Run project from docker
 ```bash
 docker-compose up --build -d
 ```
 
+
+## Remerciement et gratitude
+I would like thank <a href="https://github.com/LorgneSchilooch">Olivier Queret</a> for your helps and contributions.
+
+I would like to thank God for the time he has given me to work on this project. May this project inspire others people.
+
+Be blessing.
+
+###### Auteur : *Manitra Andréa RANAIVOHARISON*. 
