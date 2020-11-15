@@ -6,8 +6,6 @@ services:
     command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000 --workers 16
     volumes:
       - ./ika_classifier/:/app/
-    ports:
-      - 8004:8000
     environment:
       - MONGO_URI=ika_db:27017
       - PATH_FILE=temp/
@@ -22,8 +20,6 @@ services:
     command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000 --workers 16
     volumes:
       - ./ika_streamer/:/app/
-    ports:
-      - 8002:8000
     environment:
       - MONGO_URI=ika_db:27017
     depends_on:

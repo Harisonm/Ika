@@ -32,6 +32,16 @@ Information : client_secret_localhost.json : File to give autorisation for l'API
 docker-compose up --build -d
 ```
 
+to launch Ika, go to the following link
+```bash
+http://127.0.0.1:8080/api/v1/google/authorize
+```
+
+I invite you to read the README.md of each micro-services.
+
+- [Ika Web](ika_web/README.md)
+- [Ika Streamer](ika_streamer/README.md)
+- [Ika Classifier](ika_classifier/README.md)
 
 ## Remerciement et gratitude
 I would like thank <a href="https://github.com/LorgneSchilooch">Olivier Queret</a> for your helps and contributions.
