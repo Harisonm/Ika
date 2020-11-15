@@ -29,8 +29,6 @@ services:
     build: ./ika_web
     volumes:
       - ./ika_web/:/ika_web/
-    ports:
-      - "8000:8000"
     environment:
       - FN_AUTH_REDIRECT_URI=http://127.0.0.1:8000/google/auth
       - FN_BASE_URI=http://127.0.0.1:8000
