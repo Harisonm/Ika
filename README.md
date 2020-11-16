@@ -27,7 +27,10 @@ click on "Enable the Gmail API"
 
 Information : client_secret_localhost.json : File to give autorisation for l'API Gmail. THis file is unique to Gmail.
 
-## Run project from docker
+You need install docker and docker-compose to run project.
+install docker : https://docs.docker.com/docker-for-windows/install/
+
+Run project
 ```bash
 docker-compose up --build -d
 ```
@@ -43,7 +46,7 @@ I invite you to read the README.md of each micro-services.
 - [Ika Streamer](ika_streamer/README.md)
 - [Ika Classifier](ika_classifier/README.md)
 
-## Remerciement et gratitude
+## Remerciement and gratitude
 I would like thank <a href="https://github.com/LorgneSchilooch">Olivier Queret</a> for your helps and contributions.
 
 I would like to thank God for the time he has given me to work on this project. May this project inspire others people.
