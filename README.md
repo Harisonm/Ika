@@ -46,6 +46,11 @@ I invite you to read the README.md of each micro-services.
 - [Ika Streamer](ika_streamer/README.md)
 - [Ika Classifier](ika_classifier/README.md)
 
+### Information
+This project using one package created by me : [Ikamail](https://pypi.org/project/ikamail/)
+
+The part of reseach of machine-learning model has been realized on this repository : [ika-search](https://github.com/Harisonm/ika-research) 
+
 ## Remerciement and gratitude
 I would like thank <a href="https://github.com/LorgneSchilooch">Olivier Queret</a> for your helps and contributions.
 
