@@ -5,7 +5,7 @@
 
 
 ## Project Introduction
-Ika is an application to make classification of mail thank to labels builded by a clustering model of machine learning.
+Ika is an application to make classification of mail thank to labels built by a clustering model of machine learning.
 
 This project was started as part of the school project during my master's degree and was then improved in my free time.
 Ika is still under development and more modifications will come.
