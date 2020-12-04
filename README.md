@@ -54,8 +54,6 @@ The part of reseach of machine-learning model has been realized on this reposito
 ## Remerciement and gratitude
 I would like thank <a href="https://github.com/LorgneSchilooch">Olivier Queret</a> for your helps and contributions.
 
-I would like to thank God for the time he has given me to work on this project. May this project inspire others people.
-
-Be blessing.
+I hope this project inspire others people.
 
 ###### Auteur : *Manitra Andréa RANAIVOHARISON*. 
