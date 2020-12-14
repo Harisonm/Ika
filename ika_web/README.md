@@ -3,17 +3,17 @@
 ## Access and documentation
 Host
 ```bash
-http://127.0.0.1:8080/
+http://127.0.0.1:8000/
 ```
 API Documentation
 ```bash
-http://127.0.0.1:8080/api/v1/docs/
+http://127.0.0.1:8000/api/v1/docs/
 ```
 
 ## Using API
 
 ### S'inscrire
-http://127.0.0.1:8080/api/v1/auth/signup
+http://127.0.0.1:8000/api/v1/auth/signup
 
 ```json
 {
@@ -23,7 +23,7 @@ http://127.0.0.1:8080/api/v1/auth/signup
 ```
 
 ### Se connecter
-http://127.0.0.1:8080/api/v1/auth/login
+http://127.0.0.1:8000/api/v1/auth/login
 
 ```json
 {
@@ -38,6 +38,8 @@ Cc le Token obtenu
 
 ### Obtenir le credential Google propre à se compte
 ```bash
+http://127.0.0.1:8000/api/v1/google/authorize
+
 http://127.0.0.1:8080/api/v1/google/authorize
 ```
 
