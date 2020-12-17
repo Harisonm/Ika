@@ -44,7 +44,7 @@ jobs:
     # Build the Docker image
     - name: Build
       run: |-
-        docker-compose build \
+        docker build \
           --tag "gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA" \
           --build-arg GITHUB_SHA="$GITHUB_SHA" \
           --build-arg GITHUB_REF="$GITHUB_REF" \
