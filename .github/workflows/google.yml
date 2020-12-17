@@ -7,9 +7,9 @@ on:
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
   GKE_KEY: ${{ secrets.GKE_KEY }}
-  GKE_CLUSTER: ${{ secrets.GKE_CLUSTER }}   # TODO: update to cluster name
-  GKE_ZONE: ${{ secrets.GKE_ZONE }}  # TODO: update to cluster zone
-  DEPLOYMENT_NAME: gke-test # TODO: update to deployment name
+  GKE_CLUSTER: ${{ secrets.GKE_CLUSTER }}  
+  GKE_ZONE: ${{ secrets.GKE_ZONE }} 
+  DEPLOYMENT_NAME: gke-test
   IMAGE: ika
 
 jobs:
