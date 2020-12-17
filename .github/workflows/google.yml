@@ -7,8 +7,8 @@ on:
       - master
 
 env:
-  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
-  GKE_KEY: ${{ secrets.GKE_KEY }}
+  PROJECT_ID: ${{ secrets.PROJECT_ID }}
+  GKE_SA_KEY: ${{ secrets.GKE_SA_KEY }}
   GKE_CLUSTER: ${{ secrets.GKE_CLUSTER }}  
   GKE_ZONE: ${{ secrets.GKE_ZONE }} 
   DEPLOYMENT_NAME: gke-test 
@@ -26,8 +26,8 @@ jobs:
     # Setup gcloud CLI
     - uses: google-github-actions/setup-gcloud@v0.2.0
       with:
-        service_account_key: ${{ secrets.GKE_KEY }}
-        project_id: ${{ secrets.PROJECT_ID }}
+        service_account_key: $GKE_SA_KEY
+        project_id: $ROJECT_ID
 
     # Configure Docker to use the gcloud command-line tool as a credential
     # helper for authentication
