@@ -1,15 +1,17 @@
 name: Build and Deploy to GKE
 
+# Define if push or release
 on:
-  release:
-    types: [created]
+  push:
+    branches:
+      - master
 
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
   GKE_KEY: ${{ secrets.GKE_KEY }}
   GKE_CLUSTER: ${{ secrets.GKE_CLUSTER }}  
   GKE_ZONE: ${{ secrets.GKE_ZONE }} 
-  DEPLOYMENT_NAME: gke-test
+  DEPLOYMENT_NAME: gke-test 
   IMAGE: ika
 
 jobs:
@@ -19,10 +21,10 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@master
+      uses: actions/checkout@v2
 
     # Setup gcloud CLI
-    - uses: google-github-actions/setup-gcloud@master
+    - uses: google-github-actions/setup-gcloud@v0.2.0
       with:
         service_account_key: ${{ env.GKE_SA_KEY }}
         project_id: ${{ env.GKE_PROJECT }}
