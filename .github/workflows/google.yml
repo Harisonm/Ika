@@ -11,7 +11,7 @@ env:
   GKE_SA_KEY: ${{ secrets.GKE_SA_KEY }}
   GKE_CLUSTER: ${{ secrets.GKE_CLUSTER }}  
   GKE_ZONE: ${{ secrets.GKE_ZONE }} 
-  DEPLOYMENT_NAME: gke-test 
+  DEPLOYMENT_NAME: ika-web
   IMAGE: ika-web
 
 
