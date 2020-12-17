@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.22.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: smtpd
+  name: smtpd
+spec:
+  ports:
+    - name: "1025"
+      port: 1025
+      targetPort: 1025
+  selector:
+    io.kompose.service: smtpd
+status:
+  loadBalancer: {}
