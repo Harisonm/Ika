@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ika_classifier
+spec:
+  selector:
+    matchLabels:
+      app: ika_classifier
+  template:
+    metadata:
+      labels:
+        app: ika_classifier
+    spec:
+      containers:
+        - name: ika_classifier
+          image: gcr.io/$PROJECT_ID/ika_classifier:latest
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"

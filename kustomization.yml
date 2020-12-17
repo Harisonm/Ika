@@ -1,0 +1,9 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ika_classifier/kubernetes/deployment.yml
+  - ika_classifier/kubernetes/service.yml
+  - ika_streamer/kubernetes/deployment.yml
+  - ika_streamer/kubernetes/service.yml
+  - ika_web/kubernetes/deployment.yml
+  - ika_web/kubernetes/service.yml
