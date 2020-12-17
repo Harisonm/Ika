@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.22.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: smtpd
+  name: smtpd
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: smtpd
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.22.0 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: smtpd
+    spec:
+      containers:
+        - args:
+            - python
+            - -m
+            - smtpd
+            - -n
+            - -c
+            - DebuggingServer
+            - localhost:1025
+          image: python:3.8
+          name: smtpd
+          ports:
+            - containerPort: 1025
+          resources: {}
+      restartPolicy: Always
+status: {}
