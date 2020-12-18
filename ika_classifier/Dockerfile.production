@@ -1,7 +1,6 @@
 FROM python:3.8-slim
 
-VOLUME ./ika_classifier/:/app/
-
+COPY . /app/
 WORKDIR /app
 
 ENV MONGO_URI=ika_db:27017
@@ -9,8 +8,6 @@ ENV PATH_FILE=temp/
 ENV HOME_URI=/home
 ENV GOOGLE_GMAIL_URI=https://mail.google.com/mail/u/0/#inbox
 ENV ENV=localhost
-
-COPY . /app/
 
 RUN apt-get update \
     && apt-get install gcc -y \

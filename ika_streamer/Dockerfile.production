@@ -1,12 +1,9 @@
 FROM python:3.8-slim
 
-VOLUME ./ika_streamer/:/app/
-
+COPY . /app/
 WORKDIR /app
 
 ENV MONGO_URI=ika_db:27017
-
-COPY . /app/
 
 RUN apt-get update \
     && apt-get install gcc -y \
