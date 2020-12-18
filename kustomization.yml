@@ -1,19 +1,16 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - kubernetes/ika-web-claim0-persistentvolumeclaim.yaml
+  - kubernetes/ika-classifier-deployment.yaml
+  - kubernetes/ika-classifier-service.yaml
+  - kubernetes/ika-db-deployment.yaml
+  - kubernetes/ika-db-service.yaml
+  - kubernetes/ika-streamer-deployment.yaml
+  - kubernetes/ika-streamer-service.yaml
   - kubernetes/ika-web-deployment.yaml
   - kubernetes/ika-web-service.yaml
-  # - kubernetes/ika-classifier-claim0-persistentvolumeclaim.yaml
-  # - kubernetes/ika-classifier-deployment.yaml
-  # - kubernetes/ika-classifier-service.yaml
-  # - kubernetes/ika-streamer-claim0-persistentvolumeclaim.yaml
-  # - kubernetes/ika-streamer-deployment.yaml
-  # - kubernetes/ika-streamer-service.yaml
-  # - kubernetes/ika-db-deployment.yaml
-  # - kubernetes/ika-db-service.yaml
-  # - kubernetes/nginx-claim0-persistentvolumeclaim.yaml
-  # - kubernetes/nginx-deployment.yaml
-  # - kubernetes/nginx-service.yaml
-  # - kubernetes/smtpd-deployment.yaml
-  # - kubernetes/smtpd-service.yaml
+  - kubernetes/nginx-deployment.yaml
+  - kubernetes/nginx-service.yaml
+  - kubernetes/smtpd-deployment.yaml
+  - kubernetes/smtpd-service.yaml
+

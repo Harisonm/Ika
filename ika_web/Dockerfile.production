@@ -17,8 +17,7 @@ ENV PATH_FILE=temp/
 ENV HOME_URI=/home
 ENV ENV_FILE_LOCATION=./.env
 
-COPY requirements.txt /ika_web/requirements.txt
-# COPY /ika_web/requirements.txt ./
+COPY . /ika_web/
     
 RUN apt-get update \
     && apt-get install gcc -y \
@@ -29,8 +28,6 @@ RUN pip install -r /ika_web/requirements.txt \
 
 EXPOSE 27017
 EXPOSE 8000
-
-COPY . /ika_web/
 
 RUN python -m unittest --buffer
 
