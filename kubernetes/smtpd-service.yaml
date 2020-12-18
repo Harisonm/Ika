@@ -4,7 +4,6 @@ metadata:
   annotations:
     kompose.cmd: kompose convert -f docker-compose.production.yml
     kompose.version: 1.22.0 (HEAD)
-  creationTimestamp: null
   labels:
     io.kompose.service: smtpd
   name: smtpd
