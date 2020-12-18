@@ -2,9 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert
+    kompose.cmd: kompose convert -f docker-compose.production.yml
     kompose.version: 1.22.0 (HEAD)
-  creationTimestamp: null
   labels:
     io.kompose.service: ika-classifier
   name: ika-classifier
@@ -13,50 +12,26 @@ spec:
   selector:
     matchLabels:
       io.kompose.service: ika-classifier
-  strategy:
-    type: Recreate
+  strategy: {}
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert
+        kompose.cmd: kompose convert -f docker-compose.production.yml
         kompose.version: 1.22.0 (HEAD)
-      creationTimestamp: null
       labels:
         io.kompose.service: ika-classifier
     spec:
       containers:
-        - args:
-            - uvicorn
-            - app.main:app
-            - --reload
-            - --host
-            - 0.0.0.0
-            - --port
-            - "8000"
-            - --workers
-            - "16"
-          env:
-            - name: ENV
-              value: localhost
-            - name: GOOGLE_GMAIL_URI
-              value: https://mail.google.com/mail/u/0/#inbox
-            - name: HOME_URI
-              value: /home
-            - name: MONGO_URI
-              value: ika_db:27017
-            - name: PATH_FILE
-              value: temp/
-          image: ika-classifier
+        - image: ika-classifier
           name: ika-classifier
           ports:
             - containerPort: 8000
-          resources: {}
-          volumeMounts:
-            - mountPath: /app/
-              name: ika-classifier-claim0
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
       restartPolicy: Always
-      volumes:
-        - name: ika-classifier-claim0
-          persistentVolumeClaim:
-            claimName: ika-classifier-claim0
 status: {}

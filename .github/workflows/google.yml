@@ -11,8 +11,12 @@ env:
   GKE_SA_KEY: ${{ secrets.GKE_SA_KEY }}
   GKE_CLUSTER: ${{ secrets.GKE_CLUSTER }}  
   GKE_ZONE: ${{ secrets.GKE_ZONE }} 
-  DEPLOYMENT_NAME: ika-web
-  IMAGE: ika-web
+  IMAGE_1: ika-web
+  IMAGE_2: ika-classifier
+  IMAGE_3: ika-streamer
+  IMAGE_4: mongodb
+  IMAGE_5: nginx
+  IMAGE_6: smtpd
 
 
 jobs:
@@ -42,20 +46,63 @@ jobs:
         location: ${{ secrets.GKE_ZONE }}  
         credentials: ${{ secrets.GKE_SA_KEY }}
 
-    # Build all Docker image
-    - name: Build
+    - name: Build-ika-web
       run: |-
         docker build \
-          --tag "gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA" \
+          --tag "gcr.io/$PROJECT_ID/$IMAGE_1:$GITHUB_SHA" \
           --build-arg GITHUB_SHA="$GITHUB_SHA" \
           --build-arg GITHUB_REF="$GITHUB_REF" \
-          . -f ika_web/Dockerfile
+          . -f ika_web/Dockerfile.production
+
+    - name: Build-ika-streamer
+      run: |-
+        docker build \
+          --tag "gcr.io/$PROJECT_ID/$IMAGE_2:$GITHUB_SHA" \
+          --build-arg GITHUB_SHA="$GITHUB_SHA" \
+          --build-arg GITHUB_REF="$GITHUB_REF" \
+          . -f ika_streamer/Dockerfile.production
+
+    - name: Build-ika-classifier
+      run: |-
+        docker build \
+          --tag "gcr.io/$PROJECT_ID/$IMAGE_3:$GITHUB_SHA" \
+          --build-arg GITHUB_SHA="$GITHUB_SHA" \
+          --build-arg GITHUB_REF="$GITHUB_REF" \
+          . -f ika_classifier/Dockerfile.production
+
+    - name: Build-mongodb
+      run: |-
+        docker build \
+          --tag "gcr.io/$PROJECT_ID/$IMAGE_4:$GITHUB_SHA" \
+          --build-arg GITHUB_SHA="$GITHUB_SHA" \
+          --build-arg GITHUB_REF="$GITHUB_REF" \
+          . -f mongodb/Dockerfile.production
+
+    - name: Build-nginx
+      run: |-
+        docker build \
+          --tag "gcr.io/$PROJECT_ID/$IMAGE_5:$GITHUB_SHA" \
+          --build-arg GITHUB_SHA="$GITHUB_SHA" \
+          --build-arg GITHUB_REF="$GITHUB_REF" \
+          . -f nginx/Dockerfile.production
+
+    - name: Build-smtpd
+      run: |-
+        docker build \
+          --tag "gcr.io/$PROJECT_ID/$IMAGE_6:$GITHUB_SHA" \
+          --build-arg GITHUB_SHA="$GITHUB_SHA" \
+          --build-arg GITHUB_REF="$GITHUB_REF" \
+          . -f smtpd/Dockerfile.production
 
     # Push the Docker image to Google Container Registry
     - name: Publish
       run: |-
-        docker push "gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA"
-
+        docker push "gcr.io/$PROJECT_ID/$IMAGE_1:$GITHUB_SHA"
+        docker push "gcr.io/$PROJECT_ID/$IMAGE_2:$GITHUB_SHA"
+        docker push "gcr.io/$PROJECT_ID/$IMAGE_3:$GITHUB_SHA"
+        docker push "gcr.io/$PROJECT_ID/$IMAGE_4:$GITHUB_SHA"
+        docker push "gcr.io/$PROJECT_ID/$IMAGE_5:$GITHUB_SHA"
+        docker push "gcr.io/$PROJECT_ID/$IMAGE_6:$GITHUB_SHA"
     # Set up kustomize
     - name: Set up Kustomize
       run: |-
@@ -65,7 +112,17 @@ jobs:
     # Deploy the Docker image to the GKE cluster
     - name: Deploy
       run: |-
-        ./kustomize edit set image gcr.io/PROJECT_ID/IMAGE:TAG=gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA
+        ./kustomize edit set image gcr.io/PROJECT_ID/IMAGE_1:TAG=gcr.io/$PROJECT_ID/$IMAGE_1:$GITHUB_SHA
+        ./kustomize edit set image gcr.io/PROJECT_ID/IMAGE_2:TAG=gcr.io/$PROJECT_ID/$IMAGE_2:$GITHUB_SHA
+        ./kustomize edit set image gcr.io/PROJECT_ID/IMAGE_3:TAG=gcr.io/$PROJECT_ID/$IMAGE_3:$GITHUB_SHA
+        ./kustomize edit set image gcr.io/PROJECT_ID/IMAGE_4:TAG=gcr.io/$PROJECT_ID/$IMAGE_4:$GITHUB_SHA
+        ./kustomize edit set image gcr.io/PROJECT_ID/IMAGE_5:TAG=gcr.io/$PROJECT_ID/$IMAGE_5:$GITHUB_SHA
+        ./kustomize edit set image gcr.io/PROJECT_ID/IMAGE_6:TAG=gcr.io/$PROJECT_ID/$IMAGE_6:$GITHUB_SHA
         ./kustomize build . | kubectl apply -f -
-        kubectl rollout status deployment/$DEPLOYMENT_NAME
+        kubectl rollout status deployment/$IMAGE_1
+        kubectl rollout status deployment/$IMAGE_2
+        kubectl rollout status deployment/$IMAGE_3
+        kubectl rollout status deployment/$IMAGE_4
+        kubectl rollout status deployment/$IMAGE_5
+        kubectl rollout status deployment/$IMAGE_6
         kubectl get services -o wide

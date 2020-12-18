@@ -1,0 +1,37 @@
+FROM python:3.8-slim
+
+VOLUME  ./ika_web/:/ika_web/
+
+WORKDIR /ika_web
+
+ENV FN_AUTH_REDIRECT_URI=http://127.0.0.1:8000/google/auth
+ENV FN_BASE_URI=http://127.0.0.1:8000
+ENV MONGO_URI=ika_db:27017
+ENV PORT_APP=8000
+ENV OAUTHLIB_INSECURE_TRANSPORT=1
+ENV FLASK_APP=app/app.py
+ENV FLASK_DEBUG=1
+ENV FLASK_ENV=development
+ENV CLIENT_SECRET=resources/client_secret_localhost.json
+ENV PATH_FILE=temp/
+ENV HOME_URI=/home
+ENV ENV_FILE_LOCATION=./.env
+
+COPY requirements.txt /ika_web/requirements.txt
+# COPY /ika_web/requirements.txt ./
+    
+RUN apt-get update \
+    && apt-get install gcc -y \
+    && apt-get clean
+
+RUN pip install -r /ika_web/requirements.txt \
+    && rm -rf /root/.cache/pip
+
+EXPOSE 27017
+EXPOSE 8000
+
+COPY . /ika_web/
+
+RUN python -m unittest --buffer
+
+CMD python -m flask run -p 8000 --host=0.0.0.0

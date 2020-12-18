@@ -2,9 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert
+    kompose.cmd: kompose convert -f docker-compose.production.yml
     kompose.version: 1.22.0 (HEAD)
-  creationTimestamp: null
   labels:
     io.kompose.service: smtpd
   name: smtpd
@@ -17,25 +16,22 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert
+        kompose.cmd: kompose convert -f docker-compose.production.yml
         kompose.version: 1.22.0 (HEAD)
-      creationTimestamp: null
       labels:
         io.kompose.service: smtpd
     spec:
       containers:
-        - args:
-            - python
-            - -m
-            - smtpd
-            - -n
-            - -c
-            - DebuggingServer
-            - localhost:1025
-          image: python:3.8
+        - image: smtpd
           name: smtpd
           ports:
             - containerPort: 1025
-          resources: {}
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
       restartPolicy: Always
 status: {}
