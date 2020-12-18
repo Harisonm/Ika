@@ -1,0 +1,53 @@
+version: '3.7'
+
+services:
+  ika_classifier:
+    build: 
+      context: ./ika_classifier
+      dockerfile: Dockerfile.production
+    ports:
+      - 8004:8000
+    depends_on:
+      - ika_db
+
+  ika_streamer:
+    build: 
+      context: ./ika_streamer
+      dockerfile: Dockerfile.production
+    ports:
+      - 8002:8000
+    depends_on:
+      - ika_db
+
+  ika_web:
+    build: 
+      context: ./ika_web
+      dockerfile: Dockerfile.production
+    ports:
+      - "8000:8000"
+    depends_on:
+      - ika_db
+
+  smtpd:
+    build:
+      context: ./smtpd
+      dockerfile: Dockerfile.production
+    ports:
+     - "1025:1025"
+
+  ika_db:
+    build:
+      context: ./mongodb
+      dockerfile: Dockerfile.production
+    ports :
+        - "27017:27017"
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile.production
+    ports:
+      - "8080:8080"
+    depends_on:
+      - ika_streamer
+      - ika_web

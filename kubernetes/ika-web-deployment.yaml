@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert
+    kompose.cmd: kompose convert -f docker-compose.production.yml
     kompose.version: 1.22.0 (HEAD)
   creationTimestamp: null
   labels:
@@ -13,62 +13,21 @@ spec:
   selector:
     matchLabels:
       io.kompose.service: ika-web
-  strategy:
-    type: Recreate
+  strategy: {}
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert
+        kompose.cmd: kompose convert -f docker-compose.production.yml
         kompose.version: 1.22.0 (HEAD)
       creationTimestamp: null
       labels:
         io.kompose.service: ika-web
     spec:
       containers:
-        - args:
-            - python
-            - -m
-            - flask
-            - run
-            - -p
-            - "8000"
-            - --host=0.0.0.0
-          env:
-            - name: CLIENT_SECRET
-              value: resources/client_secret_localhost.json
-            - name: ENV_FILE_LOCATION
-              value: ./.env
-            - name: FLASK_APP
-              value: app/app.py
-            - name: FLASK_DEBUG
-              value: "1"
-            - name: FLASK_ENV
-              value: development
-            - name: FN_AUTH_REDIRECT_URI
-              value: http://127.0.0.1:8000/google/auth
-            - name: FN_BASE_URI
-              value: http://127.0.0.1:8000
-            - name: HOME_URI
-              value: /home
-            - name: MONGO_URI
-              value: ika_db:27017
-            - name: OAUTHLIB_INSECURE_TRANSPORT
-              value: "1"
-            - name: PATH_FILE
-              value: temp/
-            - name: PORT_APP
-              value: "8000"
-          image: ika-web
+        - image: ika-web
           name: ika-web
           ports:
             - containerPort: 8000
           resources: {}
-          volumeMounts:
-            - mountPath: /ika_web/
-              name: ika-web-claim0
       restartPolicy: Always
-      volumes:
-        - name: ika-web-claim0
-          persistentVolumeClaim:
-            claimName: ika-web-claim0
 status: {}

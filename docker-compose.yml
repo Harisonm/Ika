@@ -53,23 +53,27 @@ services:
       - ika_db
 
   smtpd:
-    image: python:3.8
+    build:
+      context: ./smtpd
+      dockerfile: Dockerfile
     ports:
      - "1025:1025"
     command: python -m smtpd -n -c DebuggingServer localhost:1025 
 
   ika_db:
-    container_name: ika_mongodb
+    build:
+      context: ./mongodb
+      dockerfile: Dockerfile
     image : mongo:latest
     ports :
         - "27017:27017"
 
   nginx:
-    image: nginx:latest
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
     ports:
       - "8080:8080"
-    volumes:
-      - ./nginx_config.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - ika_streamer
       - ika_web

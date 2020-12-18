@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert
+    kompose.cmd: kompose convert -f docker-compose.production.yml
     kompose.version: 1.22.0 (HEAD)
   creationTimestamp: null
   labels:
@@ -13,42 +13,21 @@ spec:
   selector:
     matchLabels:
       io.kompose.service: ika-streamer
-  strategy:
-    type: Recreate
+  strategy: {}
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert
+        kompose.cmd: kompose convert -f docker-compose.production.yml
         kompose.version: 1.22.0 (HEAD)
       creationTimestamp: null
       labels:
         io.kompose.service: ika-streamer
     spec:
       containers:
-        - args:
-            - uvicorn
-            - app.main:app
-            - --reload
-            - --host
-            - 0.0.0.0
-            - --port
-            - "8000"
-            - --workers
-            - "16"
-          env:
-            - name: MONGO_URI
-              value: ika_db:27017
-          image: ika-streamer
+        - image: ika-streamer
           name: ika-streamer
           ports:
             - containerPort: 8000
           resources: {}
-          volumeMounts:
-            - mountPath: /app/
-              name: ika-streamer-claim0
       restartPolicy: Always
-      volumes:
-        - name: ika-streamer-claim0
-          persistentVolumeClaim:
-            claimName: ika-streamer-claim0
 status: {}
