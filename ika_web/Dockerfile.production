@@ -1,7 +1,6 @@
 FROM python:3.8-slim
 
-VOLUME  ./ika_web/:/ika_web/
-
+COPY . /ika_web/
 WORKDIR /ika_web
 
 ENV FN_AUTH_REDIRECT_URI=http://127.0.0.1:8000/google/auth
@@ -17,8 +16,6 @@ ENV PATH_FILE=temp/
 ENV HOME_URI=/home
 ENV ENV_FILE_LOCATION=./.env
 
-COPY . /ika_web/
-    
 RUN apt-get update \
     && apt-get install gcc -y \
     && apt-get clean
