@@ -1,8 +1,8 @@
 FROM python:3.8-slim
 
-WORKDIR /ika_web
+COPY . /ika_web/
 
-COPY requirements.txt ./
+WORKDIR /ika_web
 
 RUN apt-get update \
     && apt-get install gcc -y \
@@ -10,8 +10,6 @@ RUN apt-get update \
 
 RUN pip install -r requirements.txt \
     && rm -rf /root/.cache/pip
-
-COPY . /ika_web/
 
 ENV FN_AUTH_REDIRECT_URI=http://127.0.0.1:8000/google/auth
 ENV FN_BASE_URI=http://127.0.0.1:8000
