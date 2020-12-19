@@ -8,8 +8,7 @@ RUN apt-get update \
     && apt-get install gcc -y \
     && apt-get clean
 
-RUN pip install -r requirements.txt \
-    && rm -rf /root/.cache/pip
+RUN pip install -r /ika_web/requirements.txt 
 
 ENV FN_AUTH_REDIRECT_URI=http://127.0.0.1:8000/google/auth
 ENV FN_BASE_URI=http://127.0.0.1:8000

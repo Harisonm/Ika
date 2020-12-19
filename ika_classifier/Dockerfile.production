@@ -7,8 +7,7 @@ RUN apt-get update \
     && apt-get install gcc -y \
     && apt-get clean
 
-RUN pip install -r requirements.txt \
-    && rm -rf /root/.cache/pip
+RUN pip install -r /ika_classifier/requirements.txt 
 
 RUN sh -c 'touch /tmp/resultat_clustering.txt'
 
