@@ -2,18 +2,20 @@ FROM python:3.8-slim
 
 ENV MONGO_URI=ika_db:27017
 
+# Install c Compiler
+RUN apt-get update \
+    && apt-get install gcc -y \
+    && apt-get clean
+
 # copy over and install packages
 COPY /ika_streamer/requirements.txt ./
+
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt \
     && rm -rf /root/.cache/pip
 
 COPY . /app/
 WORKDIR /app
-
-RUN apt-get update \
-    && apt-get install gcc -y \
-    && apt-get clean
 
 EXPOSE 8000
 
