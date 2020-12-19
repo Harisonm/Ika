@@ -3,20 +3,22 @@ FROM python:3.8-slim
 COPY . /app/
 WORKDIR /app
 
-ENV MONGO_URI=ika_db:27017
-ENV PATH_FILE=temp/
-ENV HOME_URI=/home
-ENV GOOGLE_GMAIL_URI=https://mail.google.com/mail/u/0/#inbox
-ENV ENV=localhost
+COPY requirements.txt ./
 
 RUN apt-get update \
     && apt-get install gcc -y \
     && apt-get clean
 
-RUN pip install -r /ika_classifier/requirements.txt \
+RUN pip install -r requirements.txt \
     && rm -rf /root/.cache/pip
 
 RUN sh -c 'touch /tmp/resultat_clustering.txt'
+
+ENV MONGO_URI=ika_db:27017
+ENV PATH_FILE=temp/
+ENV HOME_URI=/home
+ENV GOOGLE_GMAIL_URI=https://mail.google.com/mail/u/0/#inbox
+ENV ENV=localhost
 
 EXPOSE 8000
 

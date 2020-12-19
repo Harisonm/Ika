@@ -1,7 +1,17 @@
 FROM python:3.8-slim
 
-COPY . /ika_web/
 WORKDIR /ika_web
+
+COPY requirements.txt ./
+
+RUN apt-get update \
+    && apt-get install gcc -y \
+    && apt-get clean
+
+RUN pip install -r requirements.txt \
+    && rm -rf /root/.cache/pip
+
+COPY . /ika_web/
 
 ENV FN_AUTH_REDIRECT_URI=http://127.0.0.1:8000/google/auth
 ENV FN_BASE_URI=http://127.0.0.1:8000
@@ -15,13 +25,6 @@ ENV CLIENT_SECRET=resources/client_secret_localhost.json
 ENV PATH_FILE=temp/
 ENV HOME_URI=/home
 ENV ENV_FILE_LOCATION=./.env
-
-RUN apt-get update \
-    && apt-get install gcc -y \
-    && apt-get clean
-
-RUN pip install -r /ika_web/requirements.txt \
-    && rm -rf /root/.cache/pip
 
 EXPOSE 27017
 EXPOSE 8000
