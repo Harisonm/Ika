@@ -8,8 +8,7 @@ RUN apt-get update \
     && apt-get install gcc -y \
     && apt-get clean
 
-RUN pip install -r requirements.txt \
-    && rm -rf /root/.cache/pip
+RUN pip install -r /ika_streamer/requirements.txt 
 
 ENV MONGO_URI=ika_db:27017
 
