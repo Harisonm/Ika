@@ -15,8 +15,8 @@ ENV ENV_FILE_LOCATION=./.env
 
 # copy over and install packages
 COPY /ika_web/requirements.txt ./
-RUN pip3 install --upgrade pip
-RUN pip3 install -r requirements.txt \
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt \
     && rm -rf /root/.cache/pip
 
 COPY . /ika_web/
