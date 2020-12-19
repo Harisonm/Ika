@@ -8,11 +8,10 @@ metadata:
     io.kompose.service: ika-classifier
   name: ika-classifier
 spec:
+  type: LoadBalancer
   ports:
     - name: "8004"
       port: 8004
       targetPort: 8000
   selector:
     io.kompose.service: ika-classifier
-status:
-  loadBalancer: {}

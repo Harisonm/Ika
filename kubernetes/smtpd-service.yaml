@@ -8,11 +8,10 @@ metadata:
     io.kompose.service: smtpd
   name: smtpd
 spec:
+  type: LoadBalancer
   ports:
     - name: "1025"
       port: 1025
       targetPort: 1025
   selector:
     io.kompose.service: smtpd
-status:
-  loadBalancer: {}
