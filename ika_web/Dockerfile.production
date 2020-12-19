@@ -1,15 +1,5 @@
 FROM python:3.8-slim
 
-COPY . /ika_web/
-
-WORKDIR /ika_web
-
-RUN apt-get update \
-    && apt-get install gcc -y \
-    && apt-get clean
-
-RUN pip install -r /ika_web/requirements.txt 
-
 ENV FN_AUTH_REDIRECT_URI=http://127.0.0.1:8000/google/auth
 ENV FN_BASE_URI=http://127.0.0.1:8000
 ENV MONGO_URI=ika_db:27017
@@ -22,6 +12,20 @@ ENV CLIENT_SECRET=resources/client_secret_localhost.json
 ENV PATH_FILE=temp/
 ENV HOME_URI=/home
 ENV ENV_FILE_LOCATION=./.env
+
+# copy over and install packages
+COPY /ika_web/requirements.txt ./
+RUN pip3 install --upgrade pip
+RUN pip3 install -r requirements.txt \
+    && rm -rf /root/.cache/pip
+
+COPY . /ika_web/
+
+WORKDIR /ika_web
+
+RUN apt-get update \
+    && apt-get install gcc -y \
+    && apt-get clean
 
 EXPOSE 27017
 EXPOSE 8000
