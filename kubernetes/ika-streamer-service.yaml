@@ -8,11 +8,10 @@ metadata:
     io.kompose.service: ika-streamer
   name: ika-streamer
 spec:
+  type: LoadBalancer
   ports:
     - name: "8002"
       port: 8002
       targetPort: 8000
   selector:
     io.kompose.service: ika-streamer
-status:
-  loadBalancer: {}

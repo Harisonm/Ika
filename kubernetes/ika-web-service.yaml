@@ -8,11 +8,10 @@ metadata:
     io.kompose.service: ika-web
   name: ika-web
 spec:
+  type: LoadBalancer
   ports:
     - name: "8000"
       port: 8000
       targetPort: 8000
   selector:
     io.kompose.service: ika-web
-status:
-  loadBalancer: {}
