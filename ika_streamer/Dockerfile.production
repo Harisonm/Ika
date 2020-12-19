@@ -1,5 +1,12 @@
 FROM python:3.8-slim
 
+ENV MONGO_URI=ika_db:27017
+
+# copy over and install packages
+COPY /ika_streamer/requirements.txt ./
+RUN pip3 install --upgrade pip
+RUN pip3 install -r requirements.txt \
+    && rm -rf /root/.cache/pip
 
 COPY . /app/
 WORKDIR /app
@@ -7,10 +14,6 @@ WORKDIR /app
 RUN apt-get update \
     && apt-get install gcc -y \
     && apt-get clean
-
-RUN pip install -r /ika_streamer/requirements.txt 
-
-ENV MONGO_URI=ika_db:27017
 
 EXPOSE 8000
 
