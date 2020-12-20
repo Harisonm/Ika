@@ -113,22 +113,22 @@ jobs:
     - name: Deploy
       run: |
         gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $PROJECT_ID
-        ./kustomize edit set image gcr.io/$GKE_PROJECT/$IMAGE_1:latest"
+        ./kustomize edit set image gcr.io/$GKE_PROJECT/$IMAGE_1:latest
         ./kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/$IMAGE_1
-        ./kustomize edit set image gcr.io/$GKE_PROJECT/$IMAGE_2:latest"
+        ./kustomize edit set image gcr.io/$GKE_PROJECT/$IMAGE_2:latest
         ./kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/$IMAGE_2
-        ./kustomize edit set image gcr.io/$GKE_PROJECT/$IMAGE_3:latest"
+        ./kustomize edit set image gcr.io/$GKE_PROJECT/$IMAGE_3:latest
         ./kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/$IMAGE_3
-        ./kustomize edit set image gcr.io/$GKE_PROJECT/$IMAGE_4:latest"
+        ./kustomize edit set image gcr.io/$GKE_PROJECT/$IMAGE_4:latest
         ./kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/$IMAGE_4
-        ./kustomize edit set image gcr.io/$GKE_PROJECT/$IMAGE_5:latest"
+        ./kustomize edit set image gcr.io/$GKE_PROJECT/$IMAGE_5:latest
         ./kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/$IMAGE_5
-        ./kustomize edit set image gcr.io/$GKE_PROJECT/$IMAGE_6:latest"
+        ./kustomize edit set image gcr.io/$GKE_PROJECT/$IMAGE_6:latest
         ./kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/$IMAGE_6
         kubectl get services -o wide
