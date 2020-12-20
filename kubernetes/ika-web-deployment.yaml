@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: ika-web
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: ika-web
@@ -17,7 +18,10 @@ spec:
           ports:
             - containerPort: 8000
           resources:
-            limits:
-              cpu: "1.5"
             requests:
-              cpu: "1"
+              memory: 256Mi
+            limits:
+              memory: 512Mi
+          env:
+            - name: DEBUG_MODE
+              value: "1"
