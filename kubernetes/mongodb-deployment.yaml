@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ika-db
+  name: mongodb
 spec:
   selector:
     matchLabels:
-      app: ika-db
+      app: mongodb
   template:
     metadata:
       labels:
-        app: ika-db
+        app: mongodb
     spec:
       containers:
-        - name: ika-db
-          image: gcr.io/formation-mac-298810/ika-db:latest
+        - name: mongodb
+          image: gcr.io/formation-mac-298810/mongodb:$GITHUB_SHA
           ports:
-            - containerPort: 8000
+            - containerPort: 27017

@@ -13,6 +13,6 @@ spec:
     spec:
       containers:
         - name: ika-web
-          image: gcr.io/formation-mac-298810/ika-web:latest
+          image: gcr.io/formation-mac-298810/ika-web:$GITHUB_SHA
           ports:
             - containerPort: 8000
