@@ -13,6 +13,6 @@ spec:
     spec:
       containers:
         - name: mongodb
-          image: gcr.io/formation-mac-298810/mongodb:$GITHUB_SHA
+          image: gcr.io/formation-mac-298810/mongodb:latest
           ports:
             - containerPort: 27017

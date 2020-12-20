@@ -13,6 +13,6 @@ spec:
     spec:
       containers:
         - name: smtpd
-          image: gcr.io/formation-mac-298810/smtpd:$GITHUB_SHA
+          image: gcr.io/formation-mac-298810/smtpd:latest
           ports:
             - containerPort: 1025

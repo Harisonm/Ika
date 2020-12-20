@@ -13,6 +13,6 @@ spec:
     spec:
       containers:
         - name: ika-classifier
-          image: gcr.io/formation-mac-298810/ika-classifier:$GITHUB_SHA
+          image: gcr.io/formation-mac-298810/ika-classifier:latest
           ports:
             - containerPort: 8000
