@@ -34,4 +34,4 @@ EXPOSE 8000
 
 RUN python -m unittest --buffer
 
-CMD ["python" "-m" "flask" "run" "-p" "8000" "--host=0.0.0.0"]
+CMD  python -m flask run -p 8000 --host=0.0.0.0
