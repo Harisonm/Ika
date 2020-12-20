@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: mongodb
 spec:
+  loadBalancerIP: 35.232.119.203
   type: LoadBalancer
   selector:
     app: mongodb
