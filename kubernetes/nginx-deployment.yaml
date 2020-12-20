@@ -13,6 +13,6 @@ spec:
     spec:
       containers:
         - name: nginx
-          image: gcr.io/formation-mac-298810/nginx:$GITHUB_SHA
+          image: gcr.io/formation-mac-298810/nginx:latest
           ports:
             - containerPort: 8080
