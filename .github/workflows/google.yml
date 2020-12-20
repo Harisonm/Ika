@@ -48,61 +48,37 @@ jobs:
 
     - name: Build-ika-web
       run: |-
-        docker build \
-          --tag "gcr.io/$PROJECT_ID/$IMAGE_1:$GITHUB_SHA" \
-          --build-arg GITHUB_SHA="$GITHUB_SHA" \
-          --build-arg GITHUB_REF="$GITHUB_REF" \
-          . -f ika_web/Dockerfile.production
+        docker build -t gcr.io/"$GKE_PROJECT""/ika-web:latest" .
 
     - name: Build-ika-streamer
       run: |-
-        docker build \
-          --tag "gcr.io/$PROJECT_ID/$IMAGE_2:$GITHUB_SHA" \
-          --build-arg GITHUB_SHA="$GITHUB_SHA" \
-          --build-arg GITHUB_REF="$GITHUB_REF" \
-          . -f ika_streamer/Dockerfile.production
+        docker build -t gcr.io/"$GKE_PROJECT""/ika-streamer:latest" .
 
     - name: Build-ika-classifier
       run: |-
-        docker build \
-          --tag "gcr.io/$PROJECT_ID/$IMAGE_3:$GITHUB_SHA" \
-          --build-arg GITHUB_SHA="$GITHUB_SHA" \
-          --build-arg GITHUB_REF="$GITHUB_REF" \
-          . -f ika_classifier/Dockerfile.production
+        docker build -t gcr.io/"$GKE_PROJECT""/ika-classifier:latest" .
 
     - name: Build-mongodb
       run: |-
-        docker build \
-          --tag "gcr.io/$PROJECT_ID/$IMAGE_4:$GITHUB_SHA" \
-          --build-arg GITHUB_SHA="$GITHUB_SHA" \
-          --build-arg GITHUB_REF="$GITHUB_REF" \
-          . -f mongodb/Dockerfile.production
+        docker build -t gcr.io/"$GKE_PROJECT""/mongodb:latest" .
 
     - name: Build-nginx
       run: |-
-        docker build \
-          --tag "gcr.io/$PROJECT_ID/$IMAGE_5:$GITHUB_SHA" \
-          --build-arg GITHUB_SHA="$GITHUB_SHA" \
-          --build-arg GITHUB_REF="$GITHUB_REF" \
-          . -f nginx/Dockerfile.production
+        docker build -t gcr.io/"$GKE_PROJECT""/nginx:latest" .
 
     - name: Build-smtpd
       run: |-
-        docker build \
-          --tag "gcr.io/$PROJECT_ID/$IMAGE_6:$GITHUB_SHA" \
-          --build-arg GITHUB_SHA="$GITHUB_SHA" \
-          --build-arg GITHUB_REF="$GITHUB_REF" \
-          . -f smtpd/Dockerfile.production
+        docker build -t gcr.io/"$GKE_PROJECT""/smtpd:latest" .
 
     # Push the Docker image to Google Container Registry
     - name: Publish
       run: |-
-        docker push "gcr.io/$PROJECT_ID/$IMAGE_1:$GITHUB_SHA"
-        docker push "gcr.io/$PROJECT_ID/$IMAGE_2:$GITHUB_SHA"
-        docker push "gcr.io/$PROJECT_ID/$IMAGE_3:$GITHUB_SHA"
-        docker push "gcr.io/$PROJECT_ID/$IMAGE_4:$GITHUB_SHA"
-        docker push "gcr.io/$PROJECT_ID/$IMAGE_5:$GITHUB_SHA"
-        docker push "gcr.io/$PROJECT_ID/$IMAGE_6:$GITHUB_SHA"
+        docker push "gcr.io/$PROJECT_ID/$IMAGE_1:latest"
+        docker push "gcr.io/$PROJECT_ID/$IMAGE_2:latest"
+        docker push "gcr.io/$PROJECT_ID/$IMAGE_3:latest"
+        docker push "gcr.io/$PROJECT_ID/$IMAGE_4:latest"
+        docker push "gcr.io/$PROJECT_ID/$IMAGE_5:latest"
+        docker push "gcr.io/$PROJECT_ID/$IMAGE_6:latest"
     # Set up kustomize
     - name: Set up Kustomize
       run: |-
