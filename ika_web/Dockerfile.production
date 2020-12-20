@@ -32,6 +32,6 @@ WORKDIR /ika_web
 EXPOSE 27017
 EXPOSE 8000
 
-CMD python -m unittest --buffer
+RUN python -m unittest --buffer
 
-ENTRYPOINT ["python" "-m" "flask" "run" "-p" "8000" "--host=0.0.0.0"]
+CMD ["python" "-m" "flask" "run" "-p" "8000" "--host=0.0.0.0"]
