@@ -111,18 +111,24 @@ jobs:
 
     # Deploy the Docker image to the GKE cluster
     - name: Deploy
-      run: |-
-        ./kustomize edit set image gcr.io/PROJECT_ID/IMAGE_1:TAG=gcr.io/$PROJECT_ID/$IMAGE_1:$GITHUB_SHA
-        ./kustomize edit set image gcr.io/PROJECT_ID/IMAGE_2:TAG=gcr.io/$PROJECT_ID/$IMAGE_2:$GITHUB_SHA
-        ./kustomize edit set image gcr.io/PROJECT_ID/IMAGE_3:TAG=gcr.io/$PROJECT_ID/$IMAGE_3:$GITHUB_SHA
-        ./kustomize edit set image gcr.io/PROJECT_ID/IMAGE_4:TAG=gcr.io/$PROJECT_ID/$IMAGE_4:$GITHUB_SHA
-        ./kustomize edit set image gcr.io/PROJECT_ID/IMAGE_5:TAG=gcr.io/$PROJECT_ID/$IMAGE_5:$GITHUB_SHA
-        ./kustomize edit set image gcr.io/PROJECT_ID/IMAGE_6:TAG=gcr.io/$PROJECT_ID/$IMAGE_6:$GITHUB_SHA
+      run: |
+        gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $PROJECT_ID
+        ./kustomize edit set image gcr.io/$GKE_PROJECT/$IMAGE_1:latest
         ./kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/$IMAGE_1
+        ./kustomize edit set image gcr.io/$GKE_PROJECT/$IMAGE_2:latest
+        ./kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/$IMAGE_2
+        ./kustomize edit set image gcr.io/$GKE_PROJECT/$IMAGE_3:latest
+        ./kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/$IMAGE_3
+        ./kustomize edit set image gcr.io/$GKE_PROJECT/$IMAGE_4:latest
+        ./kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/$IMAGE_4
+        ./kustomize edit set image gcr.io/$GKE_PROJECT/$IMAGE_5:latest
+        ./kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/$IMAGE_5
+        ./kustomize edit set image gcr.io/$GKE_PROJECT/$IMAGE_6:latest
+        ./kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/$IMAGE_6
         kubectl get services -o wide
