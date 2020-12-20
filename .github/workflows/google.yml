@@ -48,37 +48,61 @@ jobs:
 
     - name: Build-ika-web
       run: |-
-        docker build -t gcr.io/"$GKE_PROJECT""/ika-web:latest" .
+        docker build \
+          --tag "gcr.io/$PROJECT_ID/$IMAGE_1:$GITHUB_SHA" \
+          --build-arg GITHUB_SHA="$GITHUB_SHA" \
+          --build-arg GITHUB_REF="$GITHUB_REF" \
+          . -f ika_web/Dockerfile.production
 
     - name: Build-ika-streamer
       run: |-
-        docker build -t gcr.io/"$GKE_PROJECT""/ika-streamer:latest" .
+        docker build \
+          --tag "gcr.io/$PROJECT_ID/$IMAGE_2:$GITHUB_SHA" \
+          --build-arg GITHUB_SHA="$GITHUB_SHA" \
+          --build-arg GITHUB_REF="$GITHUB_REF" \
+          . -f ika_streamer/Dockerfile.production
 
     - name: Build-ika-classifier
       run: |-
-        docker build -t gcr.io/"$GKE_PROJECT""/ika-classifier:latest" .
+        docker build \
+          --tag "gcr.io/$PROJECT_ID/$IMAGE_3:$GITHUB_SHA" \
+          --build-arg GITHUB_SHA="$GITHUB_SHA" \
+          --build-arg GITHUB_REF="$GITHUB_REF" \
+          . -f ika_classifier/Dockerfile.production
 
     - name: Build-mongodb
       run: |-
-        docker build -t gcr.io/"$GKE_PROJECT""/mongodb:latest" .
+        docker build \
+          --tag "gcr.io/$PROJECT_ID/$IMAGE_4:$GITHUB_SHA" \
+          --build-arg GITHUB_SHA="$GITHUB_SHA" \
+          --build-arg GITHUB_REF="$GITHUB_REF" \
+          . -f mongodb/Dockerfile.production
 
     - name: Build-nginx
       run: |-
-        docker build -t gcr.io/"$GKE_PROJECT""/nginx:latest" .
+        docker build \
+          --tag "gcr.io/$PROJECT_ID/$IMAGE_5:$GITHUB_SHA" \
+          --build-arg GITHUB_SHA="$GITHUB_SHA" \
+          --build-arg GITHUB_REF="$GITHUB_REF" \
+          . -f nginx/Dockerfile.production
 
     - name: Build-smtpd
       run: |-
-        docker build -t gcr.io/"$GKE_PROJECT""/smtpd:latest" .
+        docker build \
+          --tag "gcr.io/$PROJECT_ID/$IMAGE_6:$GITHUB_SHA" \
+          --build-arg GITHUB_SHA="$GITHUB_SHA" \
+          --build-arg GITHUB_REF="$GITHUB_REF" \
+          . -f smtpd/Dockerfile.production
 
     # Push the Docker image to Google Container Registry
     - name: Publish
       run: |-
-        docker push "gcr.io/$PROJECT_ID/$IMAGE_1:latest"
-        docker push "gcr.io/$PROJECT_ID/$IMAGE_2:latest"
-        docker push "gcr.io/$PROJECT_ID/$IMAGE_3:latest"
-        docker push "gcr.io/$PROJECT_ID/$IMAGE_4:latest"
-        docker push "gcr.io/$PROJECT_ID/$IMAGE_5:latest"
-        docker push "gcr.io/$PROJECT_ID/$IMAGE_6:latest"
+        docker push "gcr.io/$PROJECT_ID/$IMAGE_1:$GITHUB_SHA"
+        docker push "gcr.io/$PROJECT_ID/$IMAGE_2:$GITHUB_SHA"
+        docker push "gcr.io/$PROJECT_ID/$IMAGE_3:$GITHUB_SHA"
+        docker push "gcr.io/$PROJECT_ID/$IMAGE_4:$GITHUB_SHA"
+        docker push "gcr.io/$PROJECT_ID/$IMAGE_5:$GITHUB_SHA"
+        docker push "gcr.io/$PROJECT_ID/$IMAGE_6:$GITHUB_SHA"
     # Set up kustomize
     - name: Set up Kustomize
       run: |-
@@ -89,22 +113,22 @@ jobs:
     - name: Deploy
       run: |
         gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $PROJECT_ID
-        ./kustomize edit set image gcr.io/$GKE_PROJECT/$IMAGE_1:latest
+        ./kustomize edit set image gcr.io/$GKE_PROJECT/$IMAGE_1:$GITHUB_SHA"
         ./kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/$IMAGE_1
-        ./kustomize edit set image gcr.io/$GKE_PROJECT/$IMAGE_2:latest
+        ./kustomize edit set image gcr.io/$GKE_PROJECT/$IMAGE_2:$GITHUB_SHA"
         ./kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/$IMAGE_2
-        ./kustomize edit set image gcr.io/$GKE_PROJECT/$IMAGE_3:latest
+        ./kustomize edit set image gcr.io/$GKE_PROJECT/$IMAGE_3:$GITHUB_SHA"
         ./kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/$IMAGE_3
-        ./kustomize edit set image gcr.io/$GKE_PROJECT/$IMAGE_4:latest
+        ./kustomize edit set image gcr.io/$GKE_PROJECT/$IMAGE_4:$GITHUB_SHA"
         ./kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/$IMAGE_4
-        ./kustomize edit set image gcr.io/$GKE_PROJECT/$IMAGE_5:latest
+        ./kustomize edit set image gcr.io/$GKE_PROJECT/$IMAGE_5:$GITHUB_SHA"
         ./kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/$IMAGE_5
-        ./kustomize edit set image gcr.io/$GKE_PROJECT/$IMAGE_6:latest
+        ./kustomize edit set image gcr.io/$GKE_PROJECT/$IMAGE_6:$GITHUB_SHA"
         ./kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/$IMAGE_6
         kubectl get services -o wide

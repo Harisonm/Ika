@@ -13,6 +13,6 @@ spec:
     spec:
       containers:
         - name: ika-streamer
-          image: gcr.io/formation-mac-298810/ika-streamer:latest
+          image: gcr.io/formation-mac-298810/ika-streamer:$GITHUB_SHA
           ports:
             - containerPort: 8000
