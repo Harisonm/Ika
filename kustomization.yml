@@ -3,8 +3,8 @@ kind: Kustomization
 resources:
   - kubernetes/ika-classifier-deployment.yaml
   - kubernetes/ika-classifier-service.yaml
-  - kubernetes/ika-db-deployment.yaml
-  - kubernetes/ika-db-service.yaml
+  - kubernetes/mongodb-deployment.yaml
+  - kubernetes/mongodb-service.yaml
   - kubernetes/ika-streamer-deployment.yaml
   - kubernetes/ika-streamer-service.yaml
   - kubernetes/ika-web-deployment.yaml

@@ -1,37 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: kompose convert -f docker-compose.production.yml
-    kompose.version: 1.22.0 (HEAD)
-  labels:
-    io.kompose.service: smtpd
   name: smtpd
 spec:
-  replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: smtpd
-  strategy: {}
+      app: smtpd
   template:
     metadata:
-      annotations:
-        kompose.cmd: kompose convert -f docker-compose.production.yml
-        kompose.version: 1.22.0 (HEAD)
       labels:
-        io.kompose.service: smtpd
+        app: smtpd
     spec:
       containers:
-        - image: smtpd
-          name: smtpd
+        - name: smtpd
+          image: gcr.io/formation-mac-298810/smtpd:latest
           ports:
             - containerPort: 1025
-          resources:
-            requests:
-              memory: "64Mi"
-              cpu: "10m"
-            limits:
-              memory: "128Mi"
-              cpu: "10m"
-      restartPolicy: Always
-status: {}

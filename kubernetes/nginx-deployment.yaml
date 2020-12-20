@@ -1,37 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: kompose convert -f docker-compose.production.yml
-    kompose.version: 1.22.0 (HEAD)
-  labels:
-    io.kompose.service: nginx
   name: nginx
 spec:
-  replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: nginx
-  strategy: {}
+      app: nginx
   template:
     metadata:
-      annotations:
-        kompose.cmd: kompose convert -f docker-compose.production.yml
-        kompose.version: 1.22.0 (HEAD)
       labels:
-        io.kompose.service: nginx
+        app: nginx
     spec:
       containers:
-        - image: nginx
-          name: nginx
+        - name: nginx
+          image: gcr.io/formation-mac-298810/nginx:latest
           ports:
             - containerPort: 8080
-          resources:
-            requests:
-              memory: "64Mi"
-              cpu: "10m"
-            limits:
-              memory: "128Mi"
-              cpu: "10m"
-      restartPolicy: Always
-status: {}
