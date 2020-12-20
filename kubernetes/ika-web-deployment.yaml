@@ -16,3 +16,11 @@ spec:
           image: gcr.io/formation-mac-298810/ika-web:latest
           ports:
             - containerPort: 8000
+          resources:
+            limits:
+              cpu: "1"
+            requests:
+              cpu: "0.5"
+          args:
+          - -cpus
+          - "2"
