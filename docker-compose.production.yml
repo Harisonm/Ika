@@ -41,13 +41,3 @@ services:
       dockerfile: Dockerfile.production
     ports :
         - "27017:27017"
-
-  nginx:
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile.production
-    ports:
-      - "8080:8080"
-    depends_on:
-      - ika_streamer
-      - ika_web

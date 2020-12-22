@@ -28,7 +28,7 @@ spec:
         - name: PORT_APP
           value: "8000"
         - name: OAUTHLIB_INSECURE_TRANSPORT
-          value: 1
+          value: "1"
         - name: FLASK_APP
           value: "app/app.py"
         - name: CLIENT_SECRET
