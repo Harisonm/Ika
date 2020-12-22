@@ -51,14 +51,14 @@ def login_ika():
 def alive():
     return 'OK'
 
-# Mock readiness check
-@app.route("/ready")
-def ready():
-    return jsonify(
-        backend='ready',
-        db='ready',
-        queue='ready'
-    )
+# # Mock readiness check
+# @app.route("/ready")
+# def ready():
+#     return jsonify(
+#         backend='ready',
+#         db='ready',
+#         queue='ready'
+#     )
     
 @app.route("/register", methods=['GET'])
 def register():

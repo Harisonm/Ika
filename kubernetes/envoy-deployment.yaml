@@ -29,7 +29,7 @@ spec:
             memory: 256Mi
         readinessProbe:
           httpGet:
-            path: /ready
+            path: /api/v1/google/authorize
             port: 8000
           initialDelaySeconds: 15
           periodSeconds: 5
