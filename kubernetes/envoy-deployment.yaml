@@ -18,8 +18,32 @@ spec:
       containers:
       - image: gcr.io/formation-mac-298810/ika-web:latest
         name: ika-web
+        env:
+        - name: FN_AUTH_REDIRECT_URI
+          value: "http://0.0.0.0:8000/google/auth"
+        - name: FN_BASE_URI
+          value: "0.0.0.0:8000"
+        - name: MONGO_URI
+          value: "ika_db:27017"
+        - name: PORT_APP
+          value: "8000"
+        - name: OAUTHLIB_INSECURE_TRANSPORT
+          value: 1
+        - name: FLASK_APP
+          value: "app/app.py"
+        - name: CLIENT_SECRET
+          value: "resources/client_secret_localhost.json"
+        - name: PATH_FILE
+          value: "temp/"
+        - name: HOME_URI
+          value: "/home" 
+        - name : ENV_FILE_LOCATION
+          value : "./.env"                  
+        # Change to development to enable debug mode
+        - name: FLASK_ENV
+          value: "development"
         ports:
-        - containerPort: 8000
+        - containerPort: 5000
         resources:
           requests:
             cpu: 50m
@@ -29,14 +53,14 @@ spec:
             memory: 256Mi
         readinessProbe:
           httpGet:
-            path: /api/v1/google/authorize
-            port: 8000
+            path: /ready
+            port: 5001
           initialDelaySeconds: 15
           periodSeconds: 5
         livenessProbe:
           httpGet:
             path: /alive
-            port: 8000
+            port: 5001
           initialDelaySeconds: 20
           periodSeconds: 5
       - name: envoy
