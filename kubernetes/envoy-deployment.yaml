@@ -41,9 +41,9 @@ spec:
           value : "./.env"                  
         # Change to development to enable debug mode
         - name: FLASK_ENV
-          value: "development"
+          value: "production"
         ports:
-        - containerPort: 5000
+        - containerPort: 8000
         resources:
           requests:
             cpu: 50m

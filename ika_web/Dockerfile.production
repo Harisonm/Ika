@@ -1,18 +1,5 @@
 FROM python:3.8-slim
 
-ENV FN_AUTH_REDIRECT_URI=http://0.0.0.0:8000/google/auth
-ENV FN_BASE_URI=0.0.0.0:8000
-ENV MONGO_URI=ika_db:27017
-ENV PORT_APP=8000
-ENV OAUTHLIB_INSECURE_TRANSPORT=1
-ENV FLASK_APP=app/app.py
-ENV FLASK_DEBUG=1
-ENV FLASK_ENV=development
-ENV CLIENT_SECRET=resources/client_secret_localhost.json
-ENV PATH_FILE=temp/
-ENV HOME_URI=/home
-ENV ENV_FILE_LOCATION=./.env
-
 # Install c Compiler
 RUN apt-get update \
     && apt-get install gcc -y \

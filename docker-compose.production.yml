@@ -2,42 +2,68 @@ version: '3.7'
 
 services:
   ika_classifier:
-    build: 
-      context: ./ika_classifier
-      dockerfile: Dockerfile.production
+    build: ./ika_classifier
+    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000 --workers 16
+    volumes:
+      - ./ika_classifier/:/app/
     ports:
       - 8004:8000
+    environment:
+      - MONGO_URI=ika_db:27017
+      - PATH_FILE=temp/
+      - HOME_URI=/home
+      - GOOGLE_GMAIL_URI=https://mail.google.com/mail/u/0/#inbox
+      - ENV=localhost
     depends_on:
       - ika_db
 
   ika_streamer:
-    build: 
-      context: ./ika_streamer
-      dockerfile: Dockerfile.production
+    build: ./ika_streamer
+    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000 --workers 16
+    volumes:
+      - ./ika_streamer/:/app/
     ports:
       - 8002:8000
+    environment:
+      - MONGO_URI=ika_db:27017
     depends_on:
       - ika_db
 
   ika_web:
-    build: 
-      context: ./ika_web
-      dockerfile: Dockerfile.production
+    build: ./ika_web
+    volumes:
+      - ./ika_web/:/ika_web/
     ports:
       - "8000:8000"
+    environment:
+      - FN_AUTH_REDIRECT_URI=http://127.0.0.1:8000/google/auth
+      - FN_BASE_URI=http://127.0.0.1:8000
+      - MONGO_URI=ika_db:27017
+      - PORT_APP=8000
+      - OAUTHLIB_INSECURE_TRANSPORT=1
+      - FLASK_APP=app/app.py
+      - FLASK_DEBUG=1
+      - FLASK_ENV=development
+      - CLIENT_SECRET=resources/client_secret_localhost.json
+      - PATH_FILE=temp/
+      - HOME_URI=/home
+      - ENV_FILE_LOCATION=./.env
+    command: python -m flask run -p 8000 --host=0.0.0.0
     depends_on:
       - ika_db
 
   smtpd:
     build:
       context: ./smtpd
-      dockerfile: Dockerfile.production
+      dockerfile: Dockerfile
     ports:
      - "1025:1025"
+    command: python -m smtpd -n -c DebuggingServer localhost:1025 
 
   ika_db:
     build:
       context: ./mongodb
-      dockerfile: Dockerfile.production
+      dockerfile: Dockerfile
+    image : mongo:latest
     ports :
         - "27017:27017"
