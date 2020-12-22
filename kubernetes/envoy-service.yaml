@@ -5,10 +5,11 @@ metadata:
   labels:
     app: ika-web
 spec:
+  type: NodePort
   ports:
   - port: 80
     protocol: TCP
     name: http
-    targetPort: 8000
+    targetPort: 5001
   selector:
     app: ika-web

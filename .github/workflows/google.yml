@@ -15,7 +15,6 @@ env:
   IMAGE_2: ika-classifier
   IMAGE_3: ika-streamer
   IMAGE_4: mongodb
-  IMAGE_5: nginx
   IMAGE_6: smtpd
 
 
@@ -78,14 +77,6 @@ jobs:
           --build-arg GITHUB_REF="$GITHUB_REF" \
           . -f mongodb/Dockerfile.production
 
-    - name: Build-nginx
-      run: |-
-        docker build \
-          --tag "gcr.io/$PROJECT_ID/$IMAGE_5:latest" \
-          --build-arg GITHUB_SHA="latest" \
-          --build-arg GITHUB_REF="$GITHUB_REF" \
-          . -f nginx/Dockerfile.production
-
     - name: Build-smtpd
       run: |-
         docker build \
@@ -101,7 +92,6 @@ jobs:
         docker push "gcr.io/$PROJECT_ID/$IMAGE_2:latest"
         docker push "gcr.io/$PROJECT_ID/$IMAGE_3:latest"
         docker push "gcr.io/$PROJECT_ID/$IMAGE_4:latest"
-        docker push "gcr.io/$PROJECT_ID/$IMAGE_5:latest"
         docker push "gcr.io/$PROJECT_ID/$IMAGE_6:latest"
     # Set up kustomize
     - name: Set up Kustomize
@@ -123,9 +113,6 @@ jobs:
         ./kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/$IMAGE_3
         ./kustomize edit set image gcr.io/$GKE_PROJECT/$IMAGE_4:latest
-        ./kustomize build . | kubectl apply -f -
-        kubectl rollout status deployment/$IMAGE_4
-        ./kustomize edit set image gcr.io/$GKE_PROJECT/$IMAGE_5:latest
         ./kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/$IMAGE_5
         ./kustomize edit set image gcr.io/$GKE_PROJECT/$IMAGE_6:latest

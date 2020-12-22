@@ -8,9 +8,11 @@ resources:
   - kubernetes/ika-streamer-deployment.yaml
   - kubernetes/ika-streamer-service.yaml
   - kubernetes/ika-web-deployment.yaml
+  - kubernetes/ika-web-ingress.yaml
   - kubernetes/ika-web-service.yaml
-  - kubernetes/nginx-deployment.yaml
-  - kubernetes/nginx-service.yaml
+  - kubernetes/envoy-configmap.yaml
+  - kubernetes/envoy-deployment.yaml
+  - kubernetes/envoy-service.yaml
   - kubernetes/smtpd-deployment.yaml
   - kubernetes/smtpd-service.yaml
 

@@ -30,13 +30,30 @@ spec:
         readinessProbe:
           httpGet:
             path: /ready
-            port: 8000
+            port: 5001
           initialDelaySeconds: 15
           periodSeconds: 5
         livenessProbe:
           httpGet:
             path: /alive
-            port: 8000
+            port: 5001
           initialDelaySeconds: 20
           periodSeconds: 5
-
+      - name: envoy
+        image: envoyproxy/envoy:v1.16-latest
+        command: ["envoy"]
+        args: ["-c", "/etc/envoy.yaml", "--service-cluster", "$(POD_NAME)"]
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        volumeMounts:
+        - name: envoy-yaml
+          mountPath: /etc/envoy.yaml
+          subPath: envoy.yaml
+      volumes:
+      - name: envoy-yaml
+        configMap:
+          name: flask-envoy
+      restartPolicy: Always
