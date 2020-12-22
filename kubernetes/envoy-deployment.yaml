@@ -30,7 +30,7 @@ spec:
         - name: OAUTHLIB_INSECURE_TRANSPORT
           value: "1"
         - name: FLASK_APP
-          value: "app/app.py"
+          value: "ika_web/app/app.py"
         - name: CLIENT_SECRET
           value: "resources/client_secret_localhost.json"
         - name: PATH_FILE
@@ -41,7 +41,7 @@ spec:
           value : "./.env"                  
         # Change to development to enable debug mode
         - name: FLASK_ENV
-          value: "production"
+          value: "development"
         ports:
         - containerPort: 8000
         resources:
