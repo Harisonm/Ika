@@ -1,18 +1,15 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
+  - kubernetes/envoy-configmap.yaml
+  - kubernetes/envoy-deployment.yaml
+  - kubernetes/envoy-service.yaml
   - kubernetes/ika-classifier-deployment.yaml
   - kubernetes/ika-classifier-service.yaml
   - kubernetes/mongodb-deployment.yaml
   - kubernetes/mongodb-service.yaml
   - kubernetes/ika-streamer-deployment.yaml
   - kubernetes/ika-streamer-service.yaml
-  - kubernetes/ika-web-deployment.yaml
-  - kubernetes/ika-web-ingress.yaml
-  - kubernetes/ika-web-service.yaml
-  - kubernetes/envoy-configmap.yaml
-  - kubernetes/envoy-deployment.yaml
-  - kubernetes/envoy-service.yaml
   - kubernetes/smtpd-deployment.yaml
   - kubernetes/smtpd-service.yaml
 
