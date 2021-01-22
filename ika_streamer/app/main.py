@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.api.routes.IkaStreamer import streamers
+from app.api.routes.IkaGmailStreamer import GmailStreamersApi
 # from app.api.db import metadata, database, engine
 
 # metadata.create_all(engine)
@@ -14,4 +14,4 @@ async def startup():
 async def shutdown():
     pass
 
-app.include_router(streamers, prefix='/api/v1/streamers', tags=['streamers'])
+app.include_router(GmailStreamersApi, prefix='/api/v1/streamers', tags=['streamers'])

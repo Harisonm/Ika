@@ -1,0 +1,84 @@
+    # gmail_collection = mdb["streamer"]
+    # gmail_collection.insert(
+    #                         CollecterModel("prod",
+    #                                     transform_flag=transform_flag)
+    #                         .collect_mail(user_id="me",
+    #                                     message_id=message_id,
+    #                                     max_workers=max_workers)
+    #                         )
+    
+    # response = gmail_collection.find_one()
+    
+    # if not response:
+    #     raise HTTPException(status_code=404, detail="Cast not found")
+    
+    # if file_return is None:
+    #     return RedirectResponse("http://127.0.0.1:8004/api/v1/classifier/labelling/build")
+    
+    # elif file_return == 'csv':
+    #         data = pd.DataFrame(list(gmail_collection.find()))
+    #         compression_opts = dict(method='zip',
+    #                         archive_name='out.csv')
+    #         data.to_csv('gmail_file.zip', index=False,compression=compression_opts)  
+    #         file_location='gmail_file.zip'
+    #         return FileResponse(file_location, media_type='application/octet-stream',filename='gmail_file.zip')
+        
+    # elif file_return == 'json':
+    #     pass
+
+
+
+
+
+
+
+
+       # A rajouter
+    # url = f'http://some.other.api/{params}'
+    
+    # return RedirectResponse("/api/v1/streamers/GetMessage")
+    # Return aussi le nom du topics
+
+
+# @GmailStreamers.get('/GetMessage', response_class=HTMLResponse, status_code=307)
+# # Ajouter le nom du topics
+# async def GetMessage(batch_using: bool=True, transform_flag: bool=True, include_spam_trash: bool=False, max_results:int=200, max_workers:int=100, file_return:str=None):
+
+#     try:
+#         print('ok')
+#         # admin = KafkaAdminClient(bootstrap_servers=KAFKA_URI)
+
+#         # # Remplacer le name de new topcis par adresse email ou ID unique
+#         # new_topics_name = 'mirana-mail-decode'
+#         # last_topics_name = 'mirana-mail-id'
+        
+#         # topic = NewTopic(name='mirana-mail-decode',
+#         #                     num_partitions=4,
+#         #                     replication_factor=2)
+#         # admin.create_topics(['mirana-mail-decode'])
+                
+#         # consumer = KafkaConsumer(
+#         #     'mirana-mail-id',                                # specify topic to consume from
+#         #     bootstrap_servers=KAFKA_URI,
+#         #     consumer_timeout_ms=3000,                       # break connection if the consumer has fetched anything for 3 secs (e.g. in case of an empty topic)
+#         #     auto_offset_reset='earliest',                   # automatically reset the offset to the earliest offset (should the current offset be deleted or anything)
+#         #     enable_auto_commit=True,                        # offsets are committed automatically by the consumer
+#         #     #group_id='my-group',
+#         #     value_deserializer=lambda x: loads(x.decode('utf-8'))
+#         # )
+        
+#         # logging.info('Consumer constructed')
+        
+#         # for message in consumer:                            # loop over messages
+
+#         #     logging.info( "Offset: ", message.offset)
+#         #     message = message.value
+#         #     print(message)
+
+#         #     logging.info('data retrieved from topic')
+            
+#     # except Exception as e:
+#     #     print(e)
+#     #     logging.info('Error: '+e)
+        
+#     # return RedirectResponse("/api/v1/GetMessage")

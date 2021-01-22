@@ -1,7 +1,7 @@
 # rom app.api.models.TransformerModel import TransformerModel
 
 from ikamail.GmailHelper import GmailHelper
-from app.api.models.TransformerModel import TransformerModel
+from app.api.models.Gmail.GmailTransformerModel import GmailTransformerModel
 
 from concurrent.futures import ThreadPoolExecutor as PoolExecutor
 from traceback import print_exc
@@ -9,7 +9,7 @@ import concurrent.futures
 import base64
 
 
-class CollecterModel(object):
+class GmailCollecterModel(object):
     def __init__(self, env,transform_flag=False):
         """function to init GmailHelper Class .
         Args:
@@ -247,7 +247,7 @@ class CollecterModel(object):
                 print(type(inst))
                 print(inst.args)
                 print(inst)
-            return TransformerModel(temp_dict).transform_mail() if self.__transform_flag is True else temp_dict
+            return GmailTransformerModel(temp_dict).transform_mail() if self.__transform_flag is True else temp_dict
 
     @staticmethod
     def __transform_mail_body(mail):
