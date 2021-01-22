@@ -26,11 +26,8 @@ services:
       - 8002:8000
     environment:
       - MONGO_URI=ika_db:27017
-      - KAFKA_URI=kafka:9092
     depends_on:
       - ika_db
-      - kafka
-      - zookeeper
 
   ika_web:
     build: ./ika_web
@@ -70,33 +67,3 @@ services:
     image : mongo:latest
     ports :
         - "27017:27017"
-
-  nginx:
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile
-    ports:
-      - "8080:8080"
-    depends_on:
-      - ika_streamer
-      - ika_web
-
-  zookeeper:                                          # create zookeeper container
-      image: wurstmeister/zookeeper
-      container_name: zookeeper_container
-      ports:
-          - "2181:2181"                               # expose port
-
-  kafka:                                              # create an instance of a Kafka broker in a container
-      image: wurstmeister/kafka
-      container_name: kafka_container
-      ports:
-          - "9092:9092"                               # expose port
-      environment:
-          KAFKA_ADVERTISED_HOST_NAME: kafka           # specify the docker host IP at which other containers can reach the broker
-          KAFKA_CREATE_TOPICS: "TopicA:1:1"           # create a topic called 'TopicA"  with 1 partition and 1 replica
-          KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181     # specify where the broker can reach Zookeeper
-          KAFKA_LISTENERS: PLAINTEXT://:9092          # the list of addresses on which the Kafka broker will listen on for incoming connections.
-          KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092  # Kafka sends the value of this variable to clients during their connection. After receiving that value, the clients use it for sending/consuming records to/from the Kafka broker.y connect to it.
-      volumes:
-          - /var/run/docker.sock:/var/run/docker.sock

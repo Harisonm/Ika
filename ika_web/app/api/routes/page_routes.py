@@ -46,7 +46,20 @@ def login_ika():
     elif request.method == 'GET':
         return flask.render_template('login_ika.html')
 
+# Liveliness check
+@app.route("/alive")
+def alive():
+    return 'OK'
 
+# Mock readiness check
+@app.route("/ready")
+def ready():
+    return jsonify(
+        backend='ready',
+        db='ready',
+        queue='ready'
+    )
+    
 @app.route("/register", methods=['GET'])
 def register():
     """

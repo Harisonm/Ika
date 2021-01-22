@@ -1,0 +1,121 @@
+name: Build and Deploy to GKE
+
+# Define if push or release
+on:
+  push:
+    branches:
+      - master
+
+env:
+  PROJECT_ID: ${{ secrets.PROJECT_ID }}
+  GKE_SA_KEY: ${{ secrets.GKE_SA_KEY }}
+  GKE_CLUSTER: ${{ secrets.GKE_CLUSTER }}  
+  GKE_ZONE: ${{ secrets.GKE_ZONE }} 
+  IMAGE_1: ika-web
+  IMAGE_2: ika-classifier
+  IMAGE_3: ika-streamer
+  IMAGE_4: mongodb
+  IMAGE_6: smtpd
+
+
+jobs:
+  setup-build-publish-deploy:
+    name: Setup, Build, Publish, and Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    # Setup gcloud CLI
+    - uses: google-github-actions/setup-gcloud@v0.2.0
+      with:
+        service_account_key: ${{ secrets.GKE_SA_KEY }}
+        project_id: ${{ secrets.GKE_PROJECT }}
+
+    # Configure Docker to use the gcloud command-line tool as a credential
+    # helper for authentication
+    - run: |-
+        gcloud --quiet auth configure-docker
+
+    # Get the GKE credentials so we can deploy to the cluster
+    - uses: google-github-actions/get-gke-credentials@v0.2.1
+      with:
+        cluster_name: ${{ secrets.GKE_CLUSTER }}  
+        location: ${{ secrets.GKE_ZONE }}  
+        credentials: ${{ secrets.GKE_SA_KEY }}
+
+    - name: Build-ika-web
+      run: |-
+        docker build \
+          --tag "gcr.io/$PROJECT_ID/$IMAGE_1:latest" \
+          --build-arg GITHUB_SHA="latest" \
+          --build-arg GITHUB_REF="$GITHUB_REF" \
+          . -f ika_web/Dockerfile.production
+
+    - name: Build-ika-streamer
+      run: |-
+        docker build \
+          --tag "gcr.io/$PROJECT_ID/$IMAGE_2:latest" \
+          --build-arg GITHUB_SHA="latest" \
+          --build-arg GITHUB_REF="$GITHUB_REF" \
+          . -f ika_streamer/Dockerfile.production
+
+    - name: Build-ika-classifier
+      run: |-
+        docker build \
+          --tag "gcr.io/$PROJECT_ID/$IMAGE_3:latest" \
+          --build-arg GITHUB_SHA="latest" \
+          --build-arg GITHUB_REF="$GITHUB_REF" \
+          . -f ika_classifier/Dockerfile.production
+
+    - name: Build-mongodb
+      run: |-
+        docker build \
+          --tag "gcr.io/$PROJECT_ID/$IMAGE_4:latest" \
+          --build-arg GITHUB_SHA="latest" \
+          --build-arg GITHUB_REF="$GITHUB_REF" \
+          . -f mongodb/Dockerfile.production
+
+    - name: Build-smtpd
+      run: |-
+        docker build \
+          --tag "gcr.io/$PROJECT_ID/$IMAGE_6:latest" \
+          --build-arg GITHUB_SHA="latest" \
+          --build-arg GITHUB_REF="$GITHUB_REF" \
+          . -f smtpd/Dockerfile.production
+
+    # Push the Docker image to Google Container Registry
+    - name: Publish
+      run: |-
+        docker push "gcr.io/$PROJECT_ID/$IMAGE_1:latest"
+        docker push "gcr.io/$PROJECT_ID/$IMAGE_2:latest"
+        docker push "gcr.io/$PROJECT_ID/$IMAGE_3:latest"
+        docker push "gcr.io/$PROJECT_ID/$IMAGE_4:latest"
+        docker push "gcr.io/$PROJECT_ID/$IMAGE_6:latest"
+    # Set up kustomize
+    - name: Set up Kustomize
+      run: |-
+        curl -sfLo kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
+        chmod u+x ./kustomize
+
+    # Deploy the Docker image to the GKE cluster
+    - name: Deploy
+      run: |
+        gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $PROJECT_ID
+        ./kustomize edit set image gcr.io/$GKE_PROJECT/$IMAGE_1:latest
+        ./kustomize build . | kubectl apply -f -
+        kubectl rollout status deployment/$IMAGE_1
+        ./kustomize edit set image gcr.io/$GKE_PROJECT/$IMAGE_2:latest
+        ./kustomize build . | kubectl apply -f -
+        kubectl rollout status deployment/$IMAGE_2
+        ./kustomize edit set image gcr.io/$GKE_PROJECT/$IMAGE_3:latest
+        ./kustomize build . | kubectl apply -f -
+        kubectl rollout status deployment/$IMAGE_3
+        ./kustomize edit set image gcr.io/$GKE_PROJECT/$IMAGE_4:latest
+        ./kustomize build . | kubectl apply -f -
+        kubectl rollout status deployment/$IMAGE_5
+        ./kustomize edit set image gcr.io/$GKE_PROJECT/$IMAGE_6:latest
+        ./kustomize build . | kubectl apply -f -
+        kubectl rollout status deployment/$IMAGE_6
+        kubectl get services -o wide

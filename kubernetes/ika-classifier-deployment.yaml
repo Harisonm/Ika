@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ika-classifier
+spec:
+  selector:
+    matchLabels:
+      app: ika-classifier
+  template:
+    metadata:
+      labels:
+        app: ika-classifier
+    spec:
+      containers:
+        - name: ika-classifier
+          image: gcr.io/formation-mac-298810/ika-classifier:latest
+          ports:
+            - containerPort: 8000

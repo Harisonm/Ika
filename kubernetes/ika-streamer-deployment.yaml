@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ika-streamer
+spec:
+  selector:
+    matchLabels:
+      app: ika-streamer
+  template:
+    metadata:
+      labels:
+        app: ika-streamer
+    spec:
+      containers:
+        - name: ika-streamer
+          image: gcr.io/formation-mac-298810/ika-streamer:latest
+          ports:
+            - containerPort: 8000

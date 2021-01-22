@@ -3,7 +3,8 @@ FROM python:3.8-slim
 WORKDIR /ika_web
 
 COPY requirements.txt /ika_web/requirements.txt
-
+# COPY /ika_web/requirements.txt ./
+    
 RUN apt-get update \
     && apt-get install gcc -y \
     && apt-get clean

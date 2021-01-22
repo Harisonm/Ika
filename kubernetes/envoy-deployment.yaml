@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ika-web
+  name: ika-web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ika-web
+  template:
+    metadata:
+      labels:
+        app: ika-web
+    spec:
+      terminationGracePeriodSeconds: 60
+      containers:
+      - image: gcr.io/formation-mac-298810/ika-web:latest
+        name: ika-web
+        env:
+        - name: FN_AUTH_REDIRECT_URI
+          value: "http://0.0.0.0:8000/google/auth"
+        - name: FN_BASE_URI
+          value: "0.0.0.0:8000"
+        - name: MONGO_URI
+          value: "ika_db:27017"
+        - name: PORT_APP
+          value: "8000"
+        - name: OAUTHLIB_INSECURE_TRANSPORT
+          value: "1"
+        - name: FLASK_APP
+          value: "ika_web/app/app.py"
+        - name: CLIENT_SECRET
+          value: "resources/client_secret_localhost.json"
+        - name: PATH_FILE
+          value: "temp/"
+        - name: HOME_URI
+          value: "/home" 
+        - name : ENV_FILE_LOCATION
+          value : "./.env"                  
+        # Change to development to enable debug mode
+        - name: FLASK_ENV
+          value: "development"
+        ports:
+        - containerPort: 8000
+        resources:
+          requests:
+            cpu: 50m
+            memory: 128Mi
+          limits:
+            cpu: 100m
+            memory: 256Mi
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 5001
+          initialDelaySeconds: 15
+          periodSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /alive
+            port: 5001
+          initialDelaySeconds: 20
+          periodSeconds: 5
+      - name: envoy
+        image: envoyproxy/envoy:v1.16-latest
+        command: ["envoy"]
+        args: ["-c", "/etc/envoy.yaml", "--service-cluster", "$(POD_NAME)"]
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        volumeMounts:
+        - name: envoy-yaml
+          mountPath: /etc/envoy.yaml
+          subPath: envoy.yaml
+      volumes:
+      - name: envoy-yaml
+        configMap:
+          name: flask-envoy
+      restartPolicy: Always

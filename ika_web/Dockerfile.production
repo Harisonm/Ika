@@ -1,0 +1,24 @@
+FROM python:3.8-slim
+
+# Install c Compiler
+RUN apt-get update \
+    && apt-get install gcc -y \
+    && apt-get clean
+
+# copy over and install packages
+COPY /ika_web/requirements.txt ./
+
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt \
+    && rm -rf /root/.cache/pip
+
+COPY . /ika_web/
+
+WORKDIR /ika_web
+
+EXPOSE 27017
+EXPOSE 8000
+
+RUN python -m unittest --buffer
+
+CMD  python -m flask run -p 8000 --host=0.0.0.0

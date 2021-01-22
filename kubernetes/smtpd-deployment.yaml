@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: smtpd
+spec:
+  selector:
+    matchLabels:
+      app: smtpd
+  template:
+    metadata:
+      labels:
+        app: smtpd
+    spec:
+      containers:
+        - name: smtpd
+          image: gcr.io/formation-mac-298810/smtpd:latest
+          ports:
+            - containerPort: 1025

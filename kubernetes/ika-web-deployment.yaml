@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ika-web
+  name: ika-web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ika-web
+  template:
+    metadata:
+      labels:
+        app: ika-web
+    spec:
+      terminationGracePeriodSeconds: 60
+      containers:
+      - image: gcr.io/formation-mac-298810/ika-web:latest
+        name: ika-web
+        ports:
+        - containerPort: 8000
+        resources:
+          requests:
+            cpu: 50m
+            memory: 128Mi
+          limits:
+            cpu: 100m
+            memory: 256Mi
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8000
+          initialDelaySeconds: 15
+          periodSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /alive
+            port: 8000
+          initialDelaySeconds: 20
+          periodSeconds: 5
+
