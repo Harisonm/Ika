@@ -4,7 +4,6 @@ from fastapi import FastAPI, File, UploadFile
 from starlette.responses import FileResponse
 from ikamail.GmailHelper import GmailHelper
 from app.api.models.Gmail.GmailCollecterModel import GmailCollecterModel
-
 from app.api.models.Consumer.IkaConsumer import IkaConsumer
 from app.api.models.Producer.IkaProducer import IkaProducer
 from app.api.models.Gmail.GmailSchema import GmailOut
@@ -27,14 +26,14 @@ KAFKA_URI=os.environ.get("KAFKA_URI", default=False)
 
 GmailStreamersApi = APIRouter()
                 
-@GmailStreamers.get('/getMessageId')
-async def getMessageId(batch_using: bool=True, transform_flag: bool=True, include_spam_trash: bool=False, max_results:int=200, max_workers:int=100, file_return:str=None):
+@GmailStreamersApi.get('/getMessageId', status_code=200)
+async def getMessageId(next_token: bool=False, transform_flag: bool=True, include_spam_trash: bool=False, max_results:int=200, max_workers:int=100, file_return:str=None):
     """
     create_stream: 
 
     Args:
     
-        batch_using (bool, optional): if Flag False -> Take nextPageToken else True -> Take by batch. Defaults to True.
+        next_token (bool, optional): if Flag True -> Take nextPageToken else False -> Take by batch. Defaults to True.
         transform_flag (bool, optional): Using this flag if you want used Transformer Model. Defaults to True.
         include_spam_trash (bool, optional): Include messages from SPAM and TRASH in the results.. Defaults to False.
         max_results (int, optional): Maximum number of messages to return.. Defaults to 25.
@@ -49,13 +48,11 @@ async def getMessageId(batch_using: bool=True, transform_flag: bool=True, includ
     
         API, Json, Csv: Return streaming data from Ika's streamer
     """
-    data = []
-    
     message_id = GmailHelper("prod").get_message_id(
         "me",
         include_spam_trash=include_spam_trash,
         max_results=max_results,
-        batch_using=batch_using
+        batch_using=next_token
     )
     
     topic_name = 'mirana-mail-id'
@@ -85,10 +82,8 @@ async def getMessageId(batch_using: bool=True, transform_flag: bool=True, includ
         
     try:
         for message in consumer:                            # loop over messages
-
-            print("Offset: ",message.offset)
-            x = message.value
-            data.append(x)
+            logging.info('Offset: %s', message.offset)
+            data = message.value
             
         consumer.close()
         

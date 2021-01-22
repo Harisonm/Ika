@@ -2,7 +2,7 @@
 import threading, time
 from kafka import KafkaConsumer, KafkaProducer
 import os,json
-import logging as log
+import logging
 
 KAFKA_URI=os.environ.get("KAFKA_URI", default=False)
 
@@ -22,11 +22,11 @@ class IkaProducer():
     
     @staticmethod
     def on_send_success(record_metadata):
-        print(record_metadata.topic)
-        print(record_metadata.partition)
-        print(record_metadata.offset)
+        logging('topic: %s',record_metadata.topic)
+        logging('partition: %s',record_metadata.partition)
+        logging('offset: %s',record_metadata.offset)
     
     @staticmethod
     def on_send_error(excp):
-        log.error('I am an errback', exc_info=excp)
+        logging.error('I am an errback', exc_info=excp)
     # handle exception
