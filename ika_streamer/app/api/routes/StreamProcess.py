@@ -103,6 +103,8 @@ async def BuildMail(next_token: bool=True, transform_flag: bool=True, include_sp
     )
     
     topic_name = 'mirana-mail-id'
+    new_topics_name = 'mirana-mail-decode'
+    
     try:
         admin = KafkaAdminClient(bootstrap_servers=KAFKA_URI)
         
@@ -142,32 +144,30 @@ async def BuildMail(next_token: bool=True, transform_flag: bool=True, include_sp
         mail_df = pd.DataFrame.from_records(GmailCollecterModel("prod",
                                                            transform_flag=transform_flag).collect_mail(user_id="me",
                                                                                                        message_id=messages_id,
-                                                                                                       max_workers=max_workers), columns=["idMail","threadId","historyId","from","to","date","labelIds","spam","body","mimeType"]).to_json(orient="index")
-        
-        new_topics_name = 'mirana-mail-decode'
-        
+                                                                                                       max_workers=max_workers), columns=["idMail","threadId","historyId","from","to","date","labelIds","spam","body","mimeType"]).to_json(orient="index")        
         topic = NewTopic(name=new_topics_name,
                         num_partitions=4,
                         replication_factor=2)
         admin.create_topics(new_topics_name)
         
+        tasks = [
+            Producer(new_topics_name,mail_df),
+            Consumer(new_topics_name)
+        ]
+
+        # Start threads of a publisher/producer and a subscriber/consumer to 'my-topic' Kafka topic
+        for t in tasks:
+            t.start()
+
+        time.sleep(10)
+
+        # Stop threads
+        for task in tasks:
+            task.stop()
+
+        for task in tasks:
+            task.join()
+        
     except Exception as e:
         logging.error('Error: %s',e)
         
-    tasks = [
-        Producer(new_topics_name,mail_df),
-        Consumer(new_topics_name)
-    ]
-
-    # Start threads of a publisher/producer and a subscriber/consumer to 'my-topic' Kafka topic
-    for t in tasks:
-        t.start()
-
-    time.sleep(10)
-
-    # Stop threads
-    for task in tasks:
-        task.stop()
-
-    for task in tasks:
-        task.join()
