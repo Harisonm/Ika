@@ -37,3 +37,4 @@ python_37_classifier/*
 python_37_stream/*
 *.tfstate*
 .terraform/
+data/*
