@@ -21,8 +21,10 @@ import os
 from fastapi.responses import HTMLResponse,JSONResponse
 from json import loads
 
-
-KAFKA_URI=os.environ.get("KAFKA_URI", default=False)
+KAFKA_URI_1=os.environ.get("KAFKA_URI_1", default=False)
+KAFKA_URI_2=os.environ.get("KAFKA_URI_2", default=False)
+KAFKA_URI_3=os.environ.get("KAFKA_URI_3", default=False)
+bootstrap_servers = [KAFKA_URI_1,KAFKA_URI_2,KAFKA_URI_3]
 
 GmailStreamersApi = APIRouter()
                 
@@ -57,7 +59,7 @@ async def getMessageId(next_token: bool=False, transform_flag: bool=True, includ
     
     topic_name = 'mirana-mail-id'
     try:
-        admin = KafkaAdminClient(bootstrap_servers=KAFKA_URI)
+        admin = KafkaAdminClient(bootstrap_servers=bootstrap_servers)
         
         # Remplacer le name de new topcis par adresse email ou ID unique
         topic = NewTopic(name=topic_name,num_partitions=4,replication_factor=2)
@@ -71,7 +73,7 @@ async def getMessageId(next_token: bool=False, transform_flag: bool=True, includ
     
     consumer = KafkaConsumer(
         topic_name,                                # specify topic to consume from
-        bootstrap_servers=KAFKA_URI,
+        bootstrap_servers=bootstrap_servers,
         consumer_timeout_ms=3000,                       # break connection if the consumer has fetched anything for 3 secs (e.g. in case of an empty topic)
         auto_offset_reset='earliest',                   # automatically reset the offset to the earliest offset (should the current offset be deleted or anything)
         enable_auto_commit=False,                        # offsets are committed automatically by the consumer

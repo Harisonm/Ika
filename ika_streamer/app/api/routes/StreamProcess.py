@@ -7,6 +7,8 @@ from app.api.models.Gmail.GmailCollecterModel import GmailCollecterModel
 from app.api.models.Consumer.IkaConsumer import IkaConsumer
 from app.api.models.Producer.IkaProducer import IkaProducer
 from app.api.models.Gmail.GmailSchema import GmailOut
+from app.api.models.Consumer.ConsumerGmail import ConsumerGmail
+from app.api.models.Producer.ProducerGmail import ProducerGmail
 from kafka import KafkaConsumer, TopicPartition
 from bson.json_util import dumps
 from typing import List
@@ -14,6 +16,7 @@ from pandas.io.json import json_normalize
 from pandas import DataFrame
 from kafka.admin import NewTopic
 from kafka import KafkaAdminClient
+
 import pandas as pd
 import json, time
 import logging
@@ -25,54 +28,13 @@ import threading, time
 from kafka import KafkaAdminClient, KafkaConsumer, KafkaProducer
 from kafka.admin import NewTopic
 
-KAFKA_URI=os.environ.get("KAFKA_URI", default=False)
+KAFKA_URI_1=os.environ.get("KAFKA_URI_1", default=False)
+KAFKA_URI_2=os.environ.get("KAFKA_URI_2", default=False)
+KAFKA_URI_3=os.environ.get("KAFKA_URI_3", default=False)
+bootstrap_servers = [KAFKA_URI_1,KAFKA_URI_2,KAFKA_URI_3]
 
 StreamProcess = APIRouter()
 
-class Producer(threading.Thread):
-    def __init__(self,topic_name,data):
-        threading.Thread.__init__(self)
-        self.stop_event = threading.Event()
-        self.topic_name = topic_name
-        self.data = data
-
-    def stop(self):
-        self.stop_event.set()
-
-    def run(self):
-        producer = KafkaProducer(bootstrap_servers=KAFKA_URI,
-                                 value_serializer=lambda v: json.dumps(v).encode('utf-8'))
-
-        while not self.stop_event.is_set():
-            producer.send(self.topic_name, self.data)
-            time.sleep(1)
-
-        producer.close()
-
-
-class Consumer(threading.Thread):
-    def __init__(self,topic_name):
-        threading.Thread.__init__(self)
-        self.stop_event = threading.Event()
-        self.topic_name = topic_name
-
-    def stop(self):
-        self.stop_event.set()
-
-    def run(self):
-        consumer = KafkaConsumer(bootstrap_servers=KAFKA_URI,
-                                 auto_offset_reset='earliest',
-                                 consumer_timeout_ms=1000)
-        consumer.subscribe([self.topic_name])
-
-        while not self.stop_event.is_set():
-            for message in consumer:
-                print(message)
-                if self.stop_event.is_set():
-                    break
-
-        consumer.close()
-        
 @StreamProcess.get('/BuildMail')
 async def BuildMail(next_token: bool=True, transform_flag: bool=True, include_spam_trash: bool=False, max_results:int=200, max_workers:int=100, file_return:str=None):
     """
@@ -106,7 +68,7 @@ async def BuildMail(next_token: bool=True, transform_flag: bool=True, include_sp
     new_topics_name = 'mirana-mail-decode'
     
     try:
-        admin = KafkaAdminClient(bootstrap_servers=KAFKA_URI)
+        admin = KafkaAdminClient(bootstrap_servers=bootstrap_servers)
         
         # Remplacer le name de new topcis par adresse email ou ID unique
         topic = NewTopic(name=topic_name,num_partitions=4,replication_factor=2)
@@ -120,7 +82,7 @@ async def BuildMail(next_token: bool=True, transform_flag: bool=True, include_sp
     
     consumer = KafkaConsumer(
         topic_name,                                # specify topic to consume from
-        bootstrap_servers=KAFKA_URI,
+        bootstrap_servers=bootstrap_servers,
         consumer_timeout_ms=3000,                       # break connection if the consumer has fetched anything for 3 secs (e.g. in case of an empty topic)
         auto_offset_reset='earliest',                   # automatically reset the offset to the earliest offset (should the current offset be deleted or anything)
         enable_auto_commit=False,                        # offsets are committed automatically by the consumer
@@ -136,11 +98,6 @@ async def BuildMail(next_token: bool=True, transform_flag: bool=True, include_sp
         
         consumer.close()
         
-    except Exception as e:
-        logging.error('Error: %s',e)
-        
-    
-    try:
         mail_df = pd.DataFrame.from_records(GmailCollecterModel("prod",
                                                            transform_flag=transform_flag).collect_mail(user_id="me",
                                                                                                        message_id=messages_id,
@@ -151,8 +108,8 @@ async def BuildMail(next_token: bool=True, transform_flag: bool=True, include_sp
         admin.create_topics(new_topics_name)
         
         tasks = [
-            Producer(new_topics_name,mail_df),
-            Consumer(new_topics_name)
+            ProducerGmail(new_topics_name,mail_df),
+            ConsumerGmail(new_topics_name)
         ]
 
         # Start threads of a publisher/producer and a subscriber/consumer to 'my-topic' Kafka topic

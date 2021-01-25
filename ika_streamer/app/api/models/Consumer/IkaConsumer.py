@@ -4,7 +4,10 @@ import threading, time
 from kafka import KafkaConsumer, KafkaProducer
 import os
 
-KAFKA_URI=os.environ.get("KAFKA_URI", default=False)
+KAFKA_URI_1=os.environ.get("KAFKA_URI_1", default=False)
+KAFKA_URI_2=os.environ.get("KAFKA_URI_2", default=False)
+KAFKA_URI_3=os.environ.get("KAFKA_URI_3", default=False)
+bootstrap_servers = [KAFKA_URI_1,KAFKA_URI_2,KAFKA_URI_3]
 
 class IkaConsumer(threading.Thread):
     def __init__(self,topic_name):
@@ -16,7 +19,7 @@ class IkaConsumer(threading.Thread):
         self.stop_event.set()
 
     def run(self):
-        consumer = KafkaConsumer(bootstrap_servers=KAFKA_URI,
+        consumer = KafkaConsumer(bootstrap_servers=bootstrap_servers,
                                  auto_offset_reset='earliest',
                                  consumer_timeout_ms=1000)
         consumer.subscribe([self.topic_name])

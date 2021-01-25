@@ -14,4 +14,6 @@ RUN pip install -r /app/requirements.txt \
 
 COPY . /app/
 
+EXPOSE 9093
 EXPOSE 9092
+EXPOSE 9091

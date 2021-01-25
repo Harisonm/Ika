@@ -1,0 +1,101 @@
+version: '3.7'
+
+services:
+  ika_classifier:
+    build: ./ika_classifier
+    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000 --workers 16
+    volumes:
+      - ./ika_classifier/:/app/
+    ports:
+      - 8004:8000
+    environment:
+      - MONGO_URI=ika_db:27017
+      - PATH_FILE=temp/
+      - HOME_URI=/home
+      - GOOGLE_GMAIL_URI=https://mail.google.com/mail/u/0/#inbox
+      - ENV=localhost
+    depends_on:
+      - ika_db
+
+  ika_streamer:
+    build: ./ika_streamer
+    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000 --workers 16
+    volumes:
+      - ./ika_streamer/:/app/
+    ports:
+      - 8002:8000
+    environment:
+      - MONGO_URI=ika_db:27017
+      - KAFKA_URI=kafka:9092
+    depends_on:
+      - ika_db
+      - kafka
+      - zookeeper
+
+  ika_web:
+    build: ./ika_web
+    volumes:
+      - ./ika_web/:/ika_web/
+    ports:
+      - "8000:8000"
+    environment:
+      - FN_AUTH_REDIRECT_URI=http://127.0.0.1:8000/google/auth
+      - FN_BASE_URI=http://127.0.0.1:8000
+      - MONGO_URI=ika_db:27017
+      - PORT_APP=8000
+      - OAUTHLIB_INSECURE_TRANSPORT=1
+      - FLASK_APP=app/app.py
+      - FLASK_DEBUG=1
+      - FLASK_ENV=development
+      - CLIENT_SECRET=resources/client_secret_localhost.json
+      - PATH_FILE=temp/
+      - HOME_URI=/home
+      - ENV_FILE_LOCATION=./.env
+    command: python -m flask run -p 8000 --host=0.0.0.0
+    depends_on:
+      - ika_db
+
+  smtpd:
+    build:
+      context: ./smtpd
+      dockerfile: Dockerfile
+    ports:
+     - "1025:1025"
+    command: python -m smtpd -n -c DebuggingServer localhost:1025 
+
+  ika_db:
+    build:
+      context: ./mongodb
+      dockerfile: Dockerfile
+    image : mongo:latest
+    ports :
+        - "27017:27017"
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - ika_streamer
+      - ika_web
+
+  zookeeper:                                          # create zookeeper container
+      image: wurstmeister/zookeeper
+      container_name: zookeeper_container
+      ports:
+          - "2181:2181"                               # expose port
+
+  kafka:                                              # create an instance of a Kafka broker in a container
+      image: wurstmeister/kafka
+      container_name: kafka_container
+      ports:
+          - "9092:9092"                               # expose port
+      environment:
+          KAFKA_ADVERTISED_HOST_NAME: kafka           # specify the docker host IP at which other containers can reach the broker
+          KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181     # specify where the broker can reach Zookeeper
+          KAFKA_LISTENERS: PLAINTEXT://:9092          # the list of addresses on which the Kafka broker will listen on for incoming connections.
+          KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092  # Kafka sends the value of this variable to clients during their connection. After receiving that value, the clients use it for sending/consuming records to/from the Kafka broker.y connect to it.
+      volumes:
+          - /var/run/docker.sock:/var/run/docker.sock

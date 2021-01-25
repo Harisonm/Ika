@@ -4,15 +4,17 @@ from kafka import KafkaConsumer, KafkaProducer
 import os,json
 import logging
 
-KAFKA_URI=os.environ.get("KAFKA_URI", default=False)
-
+KAFKA_URI_1=os.environ.get("KAFKA_URI_1", default=False)
+KAFKA_URI_2=os.environ.get("KAFKA_URI_2", default=False)
+KAFKA_URI_3=os.environ.get("KAFKA_URI_3", default=False)
+bootstrap_servers = [KAFKA_URI_1,KAFKA_URI_2,KAFKA_URI_3]
 class IkaProducer():
     def __init__(self,topic_name,data):
         self.topic_name = topic_name
         self.data = data
 
     def run(self):
-        producer = KafkaProducer(bootstrap_servers=KAFKA_URI,value_serializer=lambda v: json.dumps(v).encode('utf-8'))
+        producer = KafkaProducer(bootstrap_servers=bootstrap_servers,value_serializer=lambda v: json.dumps(v).encode('utf-8'))
         # produce asynchronously with callbacks
         producer.send(self.topic_name, self.data).add_callback(self.on_send_success).add_errback(self.on_send_error)
         time.sleep(1)
