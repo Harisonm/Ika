@@ -36,7 +36,7 @@ bootstrap_servers = [KAFKA_URI_1,KAFKA_URI_2,KAFKA_URI_3]
 StreamProcess = APIRouter()
 
 @StreamProcess.get('/BuildMail')
-async def BuildMail(next_token: bool=True, transform_flag: bool=True, include_spam_trash: bool=False, max_results:int=200, max_workers:int=100, file_return:str=None):
+async def BuildMail(next_token: bool=False, transform_flag: bool=True, include_spam_trash: bool=False, max_results:int=10, max_workers:int=100, file_return:str=None):
     """
     create_stream: 
 
@@ -66,6 +66,7 @@ async def BuildMail(next_token: bool=True, transform_flag: bool=True, include_sp
     
     topic_name = 'mirana-mail-id'
     new_topics_name = 'mirana-mail-decode'
+    acks='all'
     
     try:
         admin = KafkaAdminClient(bootstrap_servers=bootstrap_servers)
@@ -77,13 +78,15 @@ async def BuildMail(next_token: bool=True, transform_flag: bool=True, include_sp
     except Exception:
         pass
     
-
-    IkaProducer(topic_name, message_id).run()
+    try:
+        IkaProducer(topic_name=topic_name, data=message_id,acks=acks).run()
+    except Exception:
+        pass
     
     consumer = KafkaConsumer(
         topic_name,                                # specify topic to consume from
         bootstrap_servers=bootstrap_servers,
-        consumer_timeout_ms=3000,                       # break connection if the consumer has fetched anything for 3 secs (e.g. in case of an empty topic)
+        # consumer_timeout_ms=3000,                       # break connection if the consumer has fetched anything for 3 secs (e.g. in case of an empty topic)
         auto_offset_reset='earliest',                   # automatically reset the offset to the earliest offset (should the current offset be deleted or anything)
         enable_auto_commit=False,                        # offsets are committed automatically by the consumer
         group_id='my-group',
@@ -92,39 +95,24 @@ async def BuildMail(next_token: bool=True, transform_flag: bool=True, include_sp
     logging.info('Consumer constructed')
         
     try:
-        for message in consumer:                            # loop over messages
-            logging.info('Offset: %s', message.offset)
-            messages_id = message.value
-        
+        while True:
+            logging.info("About to call consumer.poll for new messages")
+            # messages = consumer.poll()
+            logging.info("Finished consumer.poll, now process_messages")
+            for message in consumer:                            # loop over messages
+                logging.info('Offset: %s', message.offset)
+                messages_id = message.value
+                print(messages_id)
+                mail_df = pd.DataFrame.from_records(GmailCollecterModel("prod",transform_flag=transform_flag).collect_mail(user_id="me",
+                                                                                                                    message_id=messages_id,
+                                                                                                                    max_workers=max_workers),columns=["idMail","threadId","historyId","from","to","date","labelIds","spam","body","mimeType"]).to_json(orient="index")
+                print(mail_df)
+            logging.info("Finished process_messages, now committing new offsets")
+            consumer.commit()
+    
         consumer.close()
-        
-        mail_df = pd.DataFrame.from_records(GmailCollecterModel("prod",
-                                                           transform_flag=transform_flag).collect_mail(user_id="me",
-                                                                                                       message_id=messages_id,
-                                                                                                       max_workers=max_workers), columns=["idMail","threadId","historyId","from","to","date","labelIds","spam","body","mimeType"]).to_json(orient="index")        
-        topic = NewTopic(name=new_topics_name,
-                        num_partitions=4,
-                        replication_factor=2)
-        admin.create_topics(new_topics_name)
-        
-        tasks = [
-            ProducerGmail(new_topics_name,mail_df),
-            ConsumerGmail(new_topics_name)
-        ]
-
-        # Start threads of a publisher/producer and a subscriber/consumer to 'my-topic' Kafka topic
-        for t in tasks:
-            t.start()
-
-        time.sleep(10)
-
-        # Stop threads
-        for task in tasks:
-            task.stop()
-
-        for task in tasks:
-            task.join()
         
     except Exception as e:
         logging.error('Error: %s',e)
+
         
