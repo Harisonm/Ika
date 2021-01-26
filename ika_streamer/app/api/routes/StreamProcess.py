@@ -110,10 +110,24 @@ async def BuildMail(next_token: bool=False, transform_flag: bool=True, include_s
                 mail_df = pd.DataFrame.from_records(GmailCollecterModel("prod",transform_flag=transform_flag).collect_mail(user_id="me",
                                                                                                     message_id=messages_id,
                                                                                                     max_workers=max_workers),columns=["idMail","threadId","historyId","from","to","date","labelIds","spam","body","mimeType"]).to_json(orient="index")
-                return JSONResponse(content=mail_df)
+                # return JSONResponse(content=mail_df)
+                response = RedirectResponse(url='/redirected',data=mail_df)
+                return response
         
         consumer.commit()
         logger.info("Offsets have been committed");
     
     except Exception:
         pass
+
+
+@StreamProcess.get("/redirected")
+async def redirected(data=None):
+    logger.debug("debug message")
+    Second_topic = 'gmail_corps'
+    
+    try:
+        IkaProducer(topic_name=Second_topic, data=data,acks='all').run()
+    except Exception:
+        pass
+    return {"message": "you've been redirected"}

@@ -23,7 +23,7 @@ class IkaProducer():
         producer.send(self.topic_name, value=self.data).add_callback(self.on_send_success).add_errback(self.on_send_error)
         time.sleep(1)
 
-        # block until all async messages are sent
+        # bloquer jusqu'à ce que tous les messages asynchrones soient envoyés
         producer.flush()
     
     @staticmethod
@@ -35,4 +35,3 @@ class IkaProducer():
     @staticmethod
     def on_send_error(excp):
         logger.error('I am an errback', exc_info=excp)
-    # handle exception
