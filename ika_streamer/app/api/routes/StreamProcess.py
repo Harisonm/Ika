@@ -36,7 +36,7 @@ bootstrap_servers = [KAFKA_URI_1,KAFKA_URI_2,KAFKA_URI_3]
 StreamProcess = APIRouter()
 
 @StreamProcess.get('/BuildMail')
-async def BuildMail(next_token: bool=False, transform_flag: bool=True, include_spam_trash: bool=False, max_results:int=10, max_workers:int=100, file_return:str=None):
+async def BuildMail(next_token: bool=True, transform_flag: bool=True, include_spam_trash: bool=False, max_results:int=200, max_workers:int=100, file_return:str=None):
     """
     create_stream: 
 
@@ -64,27 +64,32 @@ async def BuildMail(next_token: bool=False, transform_flag: bool=True, include_s
         batch_using=next_token
     )
     
-    topic_name = 'mirana-mail-id'
-    new_topics_name = 'mirana-mail-decode'
+    first_topic = 'gmail_message_id'
+    Second_topic = 'gmail_corps'
     acks='all'
     
     try:
-        admin = KafkaAdminClient(bootstrap_servers=bootstrap_servers)
-        
         # Remplacer le name de new topcis par adresse email ou ID unique
-        topic = NewTopic(name=topic_name,num_partitions=4,replication_factor=2)
-        admin.create_topics(topic_name)
+        # Création du premier Topic -> Message_id
+        admin = KafkaAdminClient(bootstrap_servers=bootstrap_servers)
+        topic = NewTopic(name=first_topic,num_partitions=4,replication_factor=2)
+        admin.create_topics(first_topic)
+        
+        # Création du deuxième Topic -> Gmail_corp
+        admin = KafkaAdminClient(bootstrap_servers=bootstrap_servers)
+        topic = NewTopic(name=Second_topic,num_partitions=4,replication_factor=2)
+        admin.create_topics(Second_topic)
         
     except Exception:
         pass
     
     try:
-        IkaProducer(topic_name=topic_name, data=message_id,acks=acks).run()
+        IkaProducer(topic_name=first_topic, data=message_id,acks=acks).run()
     except Exception:
         pass
     
     consumer = KafkaConsumer(
-        topic_name,                                # specify topic to consume from
+        first_topic,                                # specify topic to consume from
         bootstrap_servers=bootstrap_servers,
         # consumer_timeout_ms=3000,                       # break connection if the consumer has fetched anything for 3 secs (e.g. in case of an empty topic)
         auto_offset_reset='earliest',                   # automatically reset the offset to the earliest offset (should the current offset be deleted or anything)
@@ -103,16 +108,24 @@ async def BuildMail(next_token: bool=False, transform_flag: bool=True, include_s
                 logging.info('Offset: %s', message.offset)
                 messages_id = message.value
                 print(messages_id)
+                
                 mail_df = pd.DataFrame.from_records(GmailCollecterModel("prod",transform_flag=transform_flag).collect_mail(user_id="me",
-                                                                                                                    message_id=messages_id,
-                                                                                                                    max_workers=max_workers),columns=["idMail","threadId","historyId","from","to","date","labelIds","spam","body","mimeType"]).to_json(orient="index")
+                                                                                                    message_id=messages_id,
+                                                                                                    max_workers=max_workers),columns=["idMail","threadId","historyId","from","to","date","labelIds","spam","body","mimeType"]).to_json(orient="index")
                 print(mail_df)
+                return JSONResponse(content=mail_df)
             logging.info("Finished process_messages, now committing new offsets")
             consumer.commit()
-    
+        
         consumer.close()
+    
+    except Exception:
+        pass
         
-    except Exception as e:
-        logging.error('Error: %s',e)
-
+  
+    # try:
         
+    #     IkaProducer(topic_name=Second_topic, data=mail_df,acks=acks).run()
+        
+    # except Exception as e:
+    #     logging.error('Error: %s',e)

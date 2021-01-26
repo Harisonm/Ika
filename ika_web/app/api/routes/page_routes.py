@@ -21,30 +21,32 @@ SCOPES = [
     "https://www.googleapis.com/auth/gmail.settings.sharing",
 ]
 
-
 @app.route("/", methods=['GET', 'POST'])
 def login_ika():
-    """
-    login_ika [summary]
+    return flask.redirect("http://127.0.0.1:8080/api/v1/google/authorize")
+# @app.route("/", methods=['GET', 'POST'])
+# def login_ika():
+#     """
+#     login_ika [summary]
 
-    Returns:
-        [type]: [description]
-    """
-    url = os.environ.get("FN_BASE_URI", default=False) + "/api/v1/auth/login"
-    url_test = os.environ.get("FN_BASE_URI", default=False) + "/loading_page"
+#     Returns:
+#         [type]: [description]
+#     """
+#     url = os.environ.get("FN_BASE_URI", default=False) + "/api/v1/auth/login"
+#     url_test = os.environ.get("FN_BASE_URI", default=False) + "/loading_page"
 
-    if request.method == 'POST':
-        myobj = {
-            'email': request.form['email'],
-            'password': request.form['pass'],
-        }
-        r = requests.post(url, json=myobj)
-        data = r.json()
-        if r.status_code == 200:
-            return flask.redirect(flask.url_for('page.login_google'))
+#     if request.method == 'POST':
+#         myobj = {
+#             'email': request.form['email'],
+#             'password': request.form['pass'],
+#         }
+#         r = requests.post(url, json=myobj)
+#         data = r.json()
+#         if r.status_code == 200:
+#             return flask.redirect(flask.url_for('page.login_google'))
 
-    elif request.method == 'GET':
-        return flask.render_template('login_ika.html')
+#     elif request.method == 'GET':
+#         return flask.render_template('login_ika.html')
 
 # Liveliness check
 @app.route("/alive")
