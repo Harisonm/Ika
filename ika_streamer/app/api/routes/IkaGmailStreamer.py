@@ -16,7 +16,7 @@ from kafka.admin import NewTopic
 from kafka import KafkaAdminClient
 import pandas as pd
 import json, time
-import logging
+from loguru import logger
 import os 
 from fastapi.responses import HTMLResponse,JSONResponse
 from json import loads
@@ -80,11 +80,11 @@ async def getMessageId(next_token: bool=False, transform_flag: bool=True, includ
         group_id='my-group',
         value_deserializer=lambda x: loads(x.decode('utf-8'))
     )
-    logging.info('Consumer constructed')
+    logger.info('Consumer constructed')
         
     try:
         for message in consumer:                            # loop over messages
-            logging.info('Offset: %s', message.offset)
+            logger.info('Offset: %s', message.offset)
             data = message.value
             
         consumer.close()
@@ -93,4 +93,4 @@ async def getMessageId(next_token: bool=False, transform_flag: bool=True, includ
     
     except Exception as e:
         print(e)
-        logging.info('Error: '+e)
+        logger.info('Error: '+e)

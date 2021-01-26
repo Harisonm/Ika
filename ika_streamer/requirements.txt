@@ -47,3 +47,4 @@ Werkzeug==1.0.1
 kafka-python
 genson
 msgpack
+loguru
