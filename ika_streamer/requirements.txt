@@ -18,7 +18,7 @@ httptools==0.1.1
 idna==2.9
 ikamail==0.0.6
 itsdangerous==1.1.0
-Jinja2==2.11.2
+Jinja2==2.11.3
 MarkupSafe==1.1.1
 numpy==1.19.4
 oauthlib==3.1.0
